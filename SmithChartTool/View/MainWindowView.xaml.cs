@@ -13,21 +13,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 using SmithChartTool.ViewModel;
 
-namespace SmithChartTool
+namespace SmithChartTool.View
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindowView : Window
     {
         public MainWindowViewModel VM { get; set; } = new MainWindowViewModel();
 
-        public MainWindow()
+        public MainWindowView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.DataContext = VM;
             CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunCommandXYAsync(); }, (s, e) => { Debug.Print("Blub"); })); //e.CanExecute = bli; }));
         }

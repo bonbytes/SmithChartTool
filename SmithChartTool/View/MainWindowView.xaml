@@ -1,17 +1,21 @@
-﻿<Window x:Class="SmithChartTool.MainWindow"
+﻿<Window x:Class="SmithChartTool.View.MainWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:oxy="http://oxyplot.org/wpf"
-        xmlns:local="clr-namespace:SmithChartTool"
+        xmlns:local="clr-namespace:SmithChartTool.View"
+        xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
         Title="MainWindow" Height="450" Width="800">
-
+    
+    <Window.DataContext>
+        <vm:MainWindowViewModel></vm:MainWindowViewModel>
+    </Window.DataContext>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_Save">
-                    <MenuItem Header="_All" Command="local:ViewModel.MainWindowViewModel.CommandXYAsync">
+                    <MenuItem Header="_All" Command="vm:MainWindowViewModel.CommandXYAsync">
 
+                     
                     </MenuItem>
                 </MenuItem>
 
@@ -35,35 +39,36 @@
             <TextBlock Grid.Row="1" Margin="10 0" FontSize="28">
             Simple Async Demo App
             </TextBlock>
-            <Button x:Name="executeSync" Grid.Row="2" Margin="10" Padding="10" Click="executeSync_Click">
+            <Button x:Name="executeSync" Grid.Row="2" Margin="10" Padding="10">
                 <Button.IsEnabled>
                     <Binding Path="bli" ConverterParameter="22">
                         <Binding.Converter>
-                            <local:ViewModel.BooleanInvertConverter>
+                            <vm:BooleanInvertConverter>
 
-                            </local:ViewModel.BooleanInvertConverter>
+                            </vm:BooleanInvertConverter>
                         </Binding.Converter>
                     </Binding>
                 </Button.IsEnabled>
-                Normal (Sync) Execute
+                Normal Execute
             </Button>
-            <Button x:Name="executeAsync" Grid.Row="3" Margin="10" Padding="10" Click="executeAsync_Click" IsEnabled="{Binding Path=bli}">Async Execute</Button>
-            <Button x:Name="executeParallelAsync" Grid.Row="4" Margin="10" Padding="10" Command="local:ViewModel.MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
-            <TextBlock x:Name="resultsWindow" Grid.Row="5" Margin="10"/>
-            <ScrollViewer Grid.Row="6">
+            <Button x:Name="executeAsync" Grid.Row="3" Margin="10" Padding="10" IsEnabled="{Binding Path=bli}">Async Execute</Button>
+            <Button x:Name="executeParallelAsync" Grid.Row="4" Margin="10" Padding="10" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
+            
+            <ScrollViewer Grid.Row="5">
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style TargetType="Button">
                             <Setter Property="Margin" Value="0,0,0,10"></Setter>
                         </Style>
                     </StackPanel.Resources>
+                    <oxy:PlotView Model="{Binding MyFirstPlot}" Height="113"/>
                     <CheckBox>
                         <CheckBox.IsChecked>
                             <Binding Path="bli" ConverterParameter="21">
                                 <Binding.Converter>
-                                    <local:BooleanInvertConverter>
+                                    <vm:BooleanInvertConverter>
 
-                                    </local:BooleanInvertConverter>
+                                    </vm:BooleanInvertConverter>
                                 </Binding.Converter>
                             </Binding>
                         </CheckBox.IsChecked>

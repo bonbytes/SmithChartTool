@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using OxyPlot;
 using OxyPlot.Series;
+using SmithChartTool.View;
 
 namespace SmithChartTool.ViewModel
 {
@@ -17,7 +18,7 @@ namespace SmithChartTool.ViewModel
             this.MyFirstPlot.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
         }
 
-        public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.R, ModifierKeys.Control) });
+        public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindowView), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.R, ModifierKeys.Control) });
 
         public async void RunCommandXYAsync()
         {
