@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics;
 
 
-namespace SmithChartTool
+namespace SmithChartTool.Model
 {
-    class ImpedanceElement
+    public class ImpedanceElement: INotifyPropertyChanged
     {
         private MathNet.Numerics.Complex32 _impedance;
-        private string _portName;
-        private bool _normalized;
+
+        public ImpedanceElement()
+        {
+            this.Impedance = new MathNet.Numerics.Complex32(50, 0);
+            this.isNormalized = true;
+        }
 
         public ImpedanceElement(MathNet.Numerics.Complex32 impedance)
         {
-            this.Impedance = impedance;
+            this.Impedance = _impedance;
+            this.isNormalized = true;
         }
+
+        public bool isNormalized { get; private set; }
 
         public MathNet.Numerics.Complex32 Impedance
         {
@@ -30,23 +38,20 @@ namespace SmithChartTool
                 if(value.Real >= 0)
                 {
                     this._impedance = value;
+                    OnPropertyChanged("Impedance");
                 }
                 else
                     throw new Exception("Given impedance has negative real part.");
             }
         }
 
-        public string PortName
-        {
-            get
-            {
-                return this._portName;
-            }
-            set
-            {
-                this._portName = value;
-            }
-        }
-
+        #region INotifyPropertyChanged Members  
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		private void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion
     }
 }
