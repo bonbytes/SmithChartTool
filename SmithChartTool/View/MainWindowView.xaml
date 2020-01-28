@@ -4,7 +4,7 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:SmithChartTool.View"
         xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="800" MinWidth="800" MinHeight="600">
     
     <Window.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
@@ -12,47 +12,47 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Save">
-                    <MenuItem Header="_All" Command="vm:MainWindowViewModel.CommandXYAsync">
-
-                     
-                    </MenuItem>
-                </MenuItem>
-
-                <MenuItem Header="Open"></MenuItem>
+				<MenuItem Header="_Save project"></MenuItem>
+				<MenuItem Header="_Open project" Command="vm:MainWindowViewModel.CommandXYAsync"></MenuItem>
+				<MenuItem Header="_Exit"></MenuItem>
             </MenuItem>
+			<MenuItem Header="_Insert"></MenuItem>
+			<MenuItem Header="_View"></MenuItem>
             <MenuItem Header="_Help"></MenuItem>
         </Menu>
         <ToolBar DockPanel.Dock="Top">
-            <Button>Blub</Button>
+            <Button>A</Button>
         </ToolBar>
         <Grid Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="50" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="1" Margin="10 0" FontSize="28">
-            Simple Async Demo App
-            </TextBlock>
-            <Button x:Name="executeSync" Grid.Row="2" Margin="10" Padding="10">
-                <Button.IsEnabled>
-                    <Binding Path="bli" ConverterParameter="22">
-                        <Binding.Converter>
-                            <vm:BooleanInvertConverter>
-
-                            </vm:BooleanInvertConverter>
-                        </Binding.Converter>
-                    </Binding>
-                </Button.IsEnabled>
-                Normal Execute
-            </Button>
-            <Button x:Name="executeAsync" Grid.Row="3" Margin="10" Padding="10" IsEnabled="{Binding Path=bli}">Async Execute</Button>
-            <Button x:Name="executeParallelAsync" Grid.Row="4" Margin="10" Padding="10" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="50" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="200" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="auto" />
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0">
+				<Button x:Name="executeSync" Margin="10" Padding="10" Content="Normal Execute">
+					<Button.IsEnabled>
+						<Binding Path="bli" ConverterParameter="22">
+							<Binding.Converter>
+								<vm:BooleanInvertConverter>
+								</vm:BooleanInvertConverter>
+							</Binding.Converter>
+						</Binding>
+					</Button.IsEnabled>
+				</Button>
+				<Button x:Name="executeAsync" Margin="10" Padding="10" IsEnabled="{Binding Path=bli}">Async Execute</Button>
+				<Button x:Name="executeParallelAsync" Margin="10" Padding="10" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
+			</StackPanel>
+			<oxy:PlotView Grid.Column="1" Model="{Binding MyFirstPlot}" Height="116"/>
             
             <ScrollViewer Grid.Row="5">
                 <StackPanel>
@@ -61,7 +61,7 @@
                             <Setter Property="Margin" Value="0,0,0,10"></Setter>
                         </Style>
                     </StackPanel.Resources>
-                    <oxy:PlotView Model="{Binding MyFirstPlot}" Height="113"/>
+                    
                     <CheckBox>
                         <CheckBox.IsChecked>
                             <Binding Path="bli" ConverterParameter="21">

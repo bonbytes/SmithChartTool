@@ -14,7 +14,7 @@ namespace SmithChartTool.ViewModel
 
         public MainWindowViewModel()
         {
-            this.MyFirstPlot = new PlotModel { Title = "My cool plot" };
+            this.MyFirstPlot = new PlotModel { Title = "Plot" };
             this.MyFirstPlot.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
         }
 
