@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ namespace SmithChartTool.ViewModel
     public class MainWindowViewModel
     {
         public PlotModel MyFirstPlot { get; private set; }
+        
 
         public MainWindowViewModel()
         {

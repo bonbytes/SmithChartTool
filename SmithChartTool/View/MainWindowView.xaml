@@ -4,7 +4,7 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:SmithChartTool.View"
         xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
-        Title="MainWindow" Height="600" Width="800" MinWidth="800" MinHeight="600">
+        Title="SmithChartTool PREVIEW! NOT FOR DISTRIBUTION!" Height="600" Width="800" MinWidth="800" MinHeight="600">
     
     <Window.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
@@ -24,22 +24,25 @@
             <Button>A</Button>
         </ToolBar>
         <Grid Margin="20">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="auto" />
-				<RowDefinition Height="*" />
-				<RowDefinition Height="50" />
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
 				<ColumnDefinition Width="200" />
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="auto" />
+				<ColumnDefinition Width="200" />
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="0">
-				<Button x:Name="executeSync" Margin="10" Padding="10" Content="Normal Execute">
+                <TextBox x:Name="tbFrequency"></TextBox>
+                <CheckBox>
+                    <CheckBox.IsChecked>
+                        <Binding Path="bli" ConverterParameter="21">
+                            <Binding.Converter>
+                                <vm:BooleanInvertConverter>
+
+                                </vm:BooleanInvertConverter>
+                            </Binding.Converter>
+                        </Binding>
+                    </CheckBox.IsChecked>
+                </CheckBox>
+                <Button x:Name="executeSync" Margin="10" Padding="10" Content="Normal Execute">
 					<Button.IsEnabled>
 						<Binding Path="bli" ConverterParameter="22">
 							<Binding.Converter>
@@ -53,35 +56,30 @@
 				<Button x:Name="executeParallelAsync" Margin="10" Padding="10" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
 			</StackPanel>
 			<oxy:PlotView Grid.Column="1" Model="{Binding MyFirstPlot}" Height="116"/>
+            <Expander IsExpanded="True" Grid.Column="2" ExpandDirection="Left">
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Margin" Value="0,0,0,10"></Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Value"></Label>
+                            <TextBox Grid.Column="1"  x:Name="tbValue"></TextBox> 
+                            <Button Grid.Column="0" Content="Apply"></Button>
+                            <Button Grid.Column="0" Content="Apply"></Button>
+                            <Button Grid.Column="0" Content="Apply"></Button>
+                        </Grid>
+                        
+                    </StackPanel>
+                </ScrollViewer>
+            </Expander>
             
-            <ScrollViewer Grid.Row="5">
-                <StackPanel>
-                    <StackPanel.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Margin" Value="0,0,0,10"></Setter>
-                        </Style>
-                    </StackPanel.Resources>
-                    
-                    <CheckBox>
-                        <CheckBox.IsChecked>
-                            <Binding Path="bli" ConverterParameter="21">
-                                <Binding.Converter>
-                                    <vm:BooleanInvertConverter>
-
-                                    </vm:BooleanInvertConverter>
-                                </Binding.Converter>
-                            </Binding>
-                        </CheckBox.IsChecked>
-                    </CheckBox>
-                    <RadioButton x:Name="rbArsch" />
-                    <oxy:Plot Title="{Binding Title}">
-                        <oxy:Plot.Series>
-                            <oxy:LineSeries ItemsSource="{Binding Points}"/>
-                        </oxy:Plot.Series>
-                    </oxy:Plot>
-
-                </StackPanel>
-            </ScrollViewer>
 
         </Grid>
     </DockPanel>

@@ -16,16 +16,13 @@ namespace SmithChartTool.Model
         public ImpedanceElement()
         {
             this.Impedance = new MathNet.Numerics.Complex32(50, 0);
-            this.isNormalized = true;
         }
 
         public ImpedanceElement(MathNet.Numerics.Complex32 impedance)
         {
             this.Impedance = _impedance;
-            this.isNormalized = true;
         }
 
-        public bool isNormalized { get; private set; }
 
         public MathNet.Numerics.Complex32 Impedance
         {
