@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +9,70 @@ namespace SmithChartTool.Model
 {
     public class SchematicElement : ImpedanceElement
     {
-        public int Id { get; set; }
-        public double Value { get; set; }
-        public double Length { get; set; }
-        public ESchematicElementType Type {get; set; }
+        private int _id;
+        public int Id 
+        {
+            get
+            {
+                return this._id;
+            }
+            set
+            {
+                if (this._id != value)
+                {
+                    this._id = value;
+                    OnPropertyChanged("Id");
+                }
+            }
+        }
+        private double _value;
+        public double Value
+        {
+            get
+            {
+                return this._value;
+            }
+            set
+            {
+                if (this._value != value)
+                {
+                    this._value = value;
+                    OnPropertyChanged("Value");
+                }
+            }
+        }
+        private double _length;
+        public double Length
+        {
+            get
+            {
+                return this._length;
+            }
+            set
+            {
+                if (this._length != value)
+                {
+                    this._length = value;
+                    OnPropertyChanged("Length");
+                }
+            }
+        }
+        private SchematicElementType _type;
+        public SchematicElementType Type
+        {
+            get
+            {
+                return this._type;
+            }
+            set
+            {
+                if (this._type != value)
+                {
+                    this._type = value;
+                    OnPropertyChanged("Type");
+                }
+            }
+        }
+
     }
 }

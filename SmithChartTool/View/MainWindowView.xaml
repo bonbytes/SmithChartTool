@@ -21,7 +21,21 @@
             <MenuItem Header="_Help"></MenuItem>
         </Menu>
         <ToolBar DockPanel.Dock="Top">
-            <Button>A</Button>
+            <ToolBar.Resources>
+                <Style TargetType="Image">
+                    <Setter Property="Width" Value="16"></Setter>
+                    <Setter Property="Height" Value="16"></Setter>
+                </Style>
+            </ToolBar.Resources>
+            <!--<Button FontFamily="Segoe MDL2 Assets" FontSize="14" Height="20" Width="20" Content="&#xE74E;"></Button>-->
+            <Button>
+                <Image Source="pack://application:,,,/Images/Icons/Save_16x.png"></Image>
+            </Button>
+            <Button>
+                <Image Source="pack://application:,,,/Images/Icons/Save_16x.png"></Image>
+            </Button>
+            
+            
         </ToolBar>
         <Grid Margin="20">
             <Grid.ColumnDefinitions>
@@ -42,7 +56,7 @@
                         </Binding>
                     </CheckBox.IsChecked>
                 </CheckBox>
-                <Button x:Name="executeSync" Margin="10" Padding="10" Content="Normal Execute">
+                <Button x:Name="executeSync" Content="Normal Execute">
 					<Button.IsEnabled>
 						<Binding Path="bli" ConverterParameter="22">
 							<Binding.Converter>
@@ -52,30 +66,27 @@
 						</Binding>
 					</Button.IsEnabled>
 				</Button>
-				<Button x:Name="executeAsync" Margin="10" Padding="10" IsEnabled="{Binding Path=bli}">Async Execute</Button>
-				<Button x:Name="executeParallelAsync" Margin="10" Padding="10" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
+				<Button x:Name="executeAsync" IsEnabled="{Binding Path=bli}">Async Execute</Button>
+				<Button x:Name="executeParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
 			</StackPanel>
 			<oxy:PlotView Grid.Column="1" Model="{Binding MyFirstPlot}" Height="116"/>
             <Expander IsExpanded="True" Grid.Column="2" ExpandDirection="Left">
                 <ScrollViewer>
-                    <StackPanel>
+                    <StackPanel Grid.IsSharedSizeScope="True">
                         <StackPanel.Resources>
                             <Style TargetType="Button">
                                 <Setter Property="Margin" Value="0,0,0,10"></Setter>
                             </Style>
                         </StackPanel.Resources>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="Value"></Label>
-                            <TextBox Grid.Column="1"  x:Name="tbValue"></TextBox> 
-                            <Button Grid.Column="0" Content="Apply"></Button>
-                            <Button Grid.Column="0" Content="Apply"></Button>
-                            <Button Grid.Column="0" Content="Apply"></Button>
-                        </Grid>
-                        
+                        <local:MyLabeledControl Header="Blub">
+                            <TextBox x:Name="tbCustomControl"></TextBox>
+                        </local:MyLabeledControl>
+                        <local:MyLabeledControl Orientation="Vertical"  Header="BlubBlubBlubBlub">
+                            <TextBox x:Name="tbCustomControl2"></TextBox>
+                        </local:MyLabeledControl>
+                        <Button Content="Apply"></Button>
+                       
+
                     </StackPanel>
                 </ScrollViewer>
             </Expander>

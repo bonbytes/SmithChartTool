@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace SmithChartTool.Model
 {
-    public enum ESchematicElementType
+    public enum SchematicElementType
     {
-        RESISTOR_SERIAL = 0,
-        CAPACITOR_SERIAL,
-        INDUCTOR_SERIAL,
-        TLINE_SERIAL,
-        RESISTOR_PARALLEL,
-        CAPACITOR_PARALLEL,
-        INDUCTOR_PARALLEL,
-        TLINE_PARALLEL_OPEN,
-        TLINE_PARALLEL,SHORT
+        ResistorSerial = 0,
+        CapacitorSerial,
+        InductorSerial,
+        ResistorParallel = 10,
+        CapacitorParallel,
+        InductorParallel,
+        TransLineSerial = 20,
+        TransLineParallelOpen,
+        TransLineParallelShort
     }
 
     public class Schematic
@@ -25,7 +25,7 @@ namespace SmithChartTool.Model
         public Port P1 { get; private set; }
         public Port P2 { get; private set; }
 
-        public IList<SchematicElement> SchematicElements { get; set; }
+        public IList<SchematicElement> SchematicElements { get; private set; }
 
         public Schematic()
         {
@@ -34,13 +34,17 @@ namespace SmithChartTool.Model
             this.P2 = new Port("P2");   // create port 2
         }
 
-        public void AddElement(ESchematicElementType eSchematicElement)
+        public void AddElement(SchematicElementType schematicElement)
         {
             this.SchematicElements.Add(new SchematicElement 
             {
                     Id = this.SchematicElements.Count + 1, 
-                    Type = eSchematicElement 
+                    Type = schematicElement 
             });
+        }
+        public void ChangeValue()
+        {
+
         }
     }
 }

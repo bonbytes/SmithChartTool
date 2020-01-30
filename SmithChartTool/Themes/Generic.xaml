@@ -1,19 +1,51 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:v="clr-namespace:SmithChartTool.View"
-    xmlns:vm="clr-namespace:SmithChartTool.ViewModel">
+    xmlns:v="clr-namespace:SmithChartTool.View" >
 
-    <Style TargetType="{x:Type v:MyTextBox}">
+    <Style TargetType="{x:Type v:MyLabeledControl}">
+        <Setter Property="Margin" Value="0,0,0,5"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type v:MyTextBox}">
-                    <Border Background="{TemplateBinding Background}"
+                <ControlTemplate TargetType="{x:Type v:MyLabeledControl}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" SharedSizeGroup="HeaderColumn"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="0,0,5,0" >
+                            <Run Text="{TemplateBinding Header}"/>:
+                        </TextBlock>
+                        <ContentPresenter Grid.Column="1"/>
+                    </Grid>
+                    <!--<Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                     </Border>
+                -->
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="v:MyLabeledControl">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Margin="0,0,0,2" >
+                                    <Run Text="{TemplateBinding Header}"/>:
+                                </TextBlock>
+                                <ContentPresenter Grid.Row="1"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

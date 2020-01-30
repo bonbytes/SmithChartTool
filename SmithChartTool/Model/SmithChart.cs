@@ -11,7 +11,6 @@ namespace SmithChartTool.Model
         public double Frequency { get; private set; }
         public ImpedanceElement ReferenceImpedance { get; private set; }
         public bool IsNormalized { get; private set; }
-
         public Schematic Schematic { get; private set; }
 
         public SmithChart()

@@ -8,7 +8,7 @@ namespace SmithChartTool.Model
 {
 	public class Port : ImpedanceElement
 	{
-		public string Name { get; set; }
+		public string Name { get; private set; }
 
 		public Port(string name)
 		{

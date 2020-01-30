@@ -30,7 +30,7 @@ namespace SmithChartTool.Model
             {
                 return this._impedance;
             }
-            set
+            private set
             {
                 if(value.Real >= 0)
                 {
@@ -45,7 +45,7 @@ namespace SmithChartTool.Model
         #region INotifyPropertyChanged Members  
 		
 		public event PropertyChangedEventHandler PropertyChanged;
-		private void OnPropertyChanged(string propertyName)
+		protected void OnPropertyChanged(string propertyName)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
