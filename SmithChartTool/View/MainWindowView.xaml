@@ -85,12 +85,9 @@
                             <TextBox x:Name="tbCustomControl2"></TextBox>
                         </local:MyLabeledControl>
                         <Button Content="Apply"></Button>
-                       
-
                     </StackPanel>
                 </ScrollViewer>
             </Expander>
-            
 
         </Grid>
     </DockPanel>
