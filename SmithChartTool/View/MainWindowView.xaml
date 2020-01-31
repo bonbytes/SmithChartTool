@@ -37,56 +37,113 @@
             
             
         </ToolBar>
-        <Grid Margin="20">
-            <Grid.ColumnDefinitions>
-				<ColumnDefinition Width="200" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="200" />
-			</Grid.ColumnDefinitions>
-			<StackPanel Grid.Column="0">
-                <TextBox x:Name="tbFrequency"></TextBox>
-                <CheckBox>
-                    <CheckBox.IsChecked>
-                        <Binding Path="bli" ConverterParameter="21">
-                            <Binding.Converter>
-                                <vm:BooleanInvertConverter>
 
-                                </vm:BooleanInvertConverter>
-                            </Binding.Converter>
-                        </Binding>
-                    </CheckBox.IsChecked>
-                </CheckBox>
-                <Button x:Name="executeSync" Content="Normal Execute">
-					<Button.IsEnabled>
-						<Binding Path="bli" ConverterParameter="22">
-							<Binding.Converter>
-								<vm:BooleanInvertConverter>
-								</vm:BooleanInvertConverter>
-							</Binding.Converter>
-						</Binding>
-					</Button.IsEnabled>
-				</Button>
-				<Button x:Name="executeAsync" IsEnabled="{Binding Path=bli}">Async Execute</Button>
-				<Button x:Name="executeParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
-			</StackPanel>
-			<oxy:PlotView Grid.Column="1" Model="{Binding MyFirstPlot}" Height="116"/>
-            <Expander IsExpanded="True" Grid.Column="2" ExpandDirection="Left">
-                <ScrollViewer>
-                    <StackPanel Grid.IsSharedSizeScope="True">
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem >
+                <ProgressBar Width="200"></ProgressBar>
+            </StatusBarItem>
+            <Separator></Separator>
+            <StatusBarItem>
+                <TextBlock>Blub</TextBlock>
+            </StatusBarItem>
+        </StatusBar >
+
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Header="Smith Chart settings">
+                    <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
+                        <local:MyLabeledControl Header="Frequency">
+                            <TextBox x:Name="tbFrequency"></TextBox>
+                        </local:MyLabeledControl>
+                        <local:MyLabeledControl Header="Ref. Impedance">
+                            <TextBox x:Name="tbRefImpedance"></TextBox>
+                        </local:MyLabeledControl>
+                        <local:MyLabeledControl Header="Normalized">
+                            <CheckBox x:Name="chkIsNormalized">
+                                <CheckBox.IsChecked>
+                                    <Binding Path="bli" ConverterParameter="21">
+                                        <Binding.Converter>
+                                            <vm:BooleanInvertConverter></vm:BooleanInvertConverter>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </CheckBox.IsChecked>
+                            </CheckBox>
+                        </local:MyLabeledControl>
+
+                        <Button x:Name="executeSync" Content="Normal Execute">
+                            <Button.IsEnabled>
+                                <Binding Path="bli" ConverterParameter="22">
+                                    <Binding.Converter>
+                                        <vm:BooleanInvertConverter>
+                                        </vm:BooleanInvertConverter>
+                                    </Binding.Converter>
+                                </Binding>
+                            </Button.IsEnabled>
+                        </Button>
+                        <Button x:Name="executeAsync" IsEnabled="{Binding Path=bli}">Async Execute</Button>
+                        <Button x:Name="executeParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="1" Header="Circuit Elements">
+                    <!--Todo-->
+                </GroupBox>
+            </Grid>
+
+            
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="150"/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Header="Smith Chart">
+                    <oxy:PlotView  Model="{Binding MyFirstPlot}"/>
+                </GroupBox>
+                <GroupBox  Grid.Row="1" Header="Schematic">
+                    <StackPanel Orientation="Horizontal">
                         <StackPanel.Resources>
-                            <Style TargetType="Button">
-                                <Setter Property="Margin" Value="0,0,0,10"></Setter>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="0,0,20,0"></Setter>
                             </Style>
                         </StackPanel.Resources>
-                        <local:MyLabeledControl Header="Blub">
-                            <TextBox x:Name="tbCustomControl"></TextBox>
-                        </local:MyLabeledControl>
-                        <local:MyLabeledControl Orientation="Vertical"  Header="BlubBlubBlubBlub">
-                            <TextBox x:Name="tbCustomControl2"></TextBox>
-                        </local:MyLabeledControl>
-                        <Button Content="Apply"></Button>
+                        <TextBlock Text="Bla"></TextBlock>
+                        <TextBlock Text="Blub"></TextBlock>
                     </StackPanel>
-                </ScrollViewer>
+                </GroupBox>
+                
+
+            </Grid>
+            <GridSplitter >
+                
+            </GridSplitter>
+            <Expander IsExpanded="True" Grid.Column="2" ExpandDirection="Left">
+                <GroupBox Header="Properties">
+                    <ScrollViewer>
+                        <StackPanel Grid.IsSharedSizeScope="True">
+                            <StackPanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="Margin" Value="0,0,0,10"></Setter>
+                                </Style>
+                            </StackPanel.Resources>
+                            <local:MyLabeledControl Header="Blub">
+                                <TextBox x:Name="tbCustomControl"></TextBox>
+                            </local:MyLabeledControl>
+                            <local:MyLabeledControl Orientation="Vertical"  Header="BlubBlubBlubBlub">
+                                <TextBox x:Name="tbCustomControl2"></TextBox>
+                            </local:MyLabeledControl>
+                            <Button Content="Apply"></Button>
+                        </StackPanel>
+                    </ScrollViewer>
+                </GroupBox>
+                
             </Expander>
 
         </Grid>
