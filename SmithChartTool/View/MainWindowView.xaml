@@ -6,9 +6,9 @@
         xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
         Title="SmithChartTool PREVIEW! NOT FOR DISTRIBUTION!" Height="600" Width="800" MinWidth="800" MinHeight="600">
     
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -105,7 +105,7 @@
                     <RowDefinition Height="150"/>
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Smith Chart">
-                    <oxy:PlotView  Model="{Binding MyFirstPlot}"/>
+                    <oxy:PlotView  Model="{Binding SmithChart}"/>
                 </GroupBox>
                 <GroupBox  Grid.Row="1" Header="Schematic">
                     <StackPanel Orientation="Horizontal">
