@@ -74,5 +74,10 @@ namespace SmithChartTool.Model
             }
         }
 
+        public SchematicElement()
+        {
+
+        }
+
     }
 }
