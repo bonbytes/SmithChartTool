@@ -105,7 +105,7 @@
                     <RowDefinition Height="150"/>
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Smith Chart">
-                    <oxy:PlotView  Model="{Binding SmithChart}"/>
+                    <oxy:PlotView  Model="{Binding SmithChart}"  />
                 </GroupBox>
                 <GroupBox  Grid.Row="1" Header="Schematic">
                     <StackPanel Orientation="Horizontal">

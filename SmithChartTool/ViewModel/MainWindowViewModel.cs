@@ -75,18 +75,17 @@ namespace SmithChartTool.ViewModel
             jrangeFull.Add(1e-20);
             jrangeFull.AddRange(jrange);
 
+            //List<List<MathNet.Numerics.Complex32>> imagConstValues = new List<List<MathNet.Numerics.Complex32>>();
+            //List<List<DataPoint>> imagCurves = new List<List<DataPoint>>();
             
-            List<List<MathNet.Numerics.Complex32>> imagConstValues = new List<List<MathNet.Numerics.Complex32>>();
-            List<List<DataPoint>> imagCurves = new List<List<DataPoint>>();
-            List<List<DataPoint>> realCurves = new List<List<DataPoint>>();
             List<LineSeries> series = new List<LineSeries>();
 
             int i = 0;
             foreach (var im in jrangeFull)
             {
-                series.Add(new LineSeries());
-                imagConstValues.Add(new List<MathNet.Numerics.Complex32>());
-                imagCurves.Add(new List<DataPoint>());
+                series.Add(new LineSeries { LineStyle = LineStyle.Dot });
+                //imagConstValues.Add(new List<MathNet.Numerics.Complex32>());
+                //imagCurves.Add(new List<DataPoint>());
                 foreach (var re in y)
                 {
                     MathNet.Numerics.Complex32 _z = GetConformalValue(new MathNet.Numerics.Complex32((float)re, (float)im));
@@ -97,19 +96,20 @@ namespace SmithChartTool.ViewModel
                 i++;
             }
 
-            List<double> rrangeFull = new List<double> {0, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100};
+            List<double> rrangeFull = new List<double> {0, 0.2, 0.5, 1, 2, 5, 10};
             List<double> x = GetLogRange(-10, Math.Log(100,10), 1000);//GetRange(-100, 100, 4000);
             x.AddRange(x.Invert());
-            List<List<MathNet.Numerics.Complex32>> realConstValues = new List<List<MathNet.Numerics.Complex32>>();
+            //List<List<MathNet.Numerics.Complex32>> realConstValues = new List<List<MathNet.Numerics.Complex32>>();
+            //List<List<DataPoint>> realCurves = new List<List<DataPoint>>();
 
             i = 0;
             foreach (var re in rrangeFull)
             {
-                realConstValues.Add(new List<MathNet.Numerics.Complex32>());
-                realCurves.Add(new List<DataPoint>());
+                series.Add(new LineSeries { LineStyle = LineStyle.Solid });
+                //realConstValues.Add(new List<MathNet.Numerics.Complex32>());
+                //realCurves.Add(new List<DataPoint>());
                 foreach (var im in x)
                 {
-                    series.Add(new LineSeries());
                     MathNet.Numerics.Complex32 _z = GetConformalValue(new MathNet.Numerics.Complex32((float)re, (float)im));
                     //_z = GetConformalValue(_z);
                     //realConstValues[i].Add(_z);  // every i represents one circle with constant real part
@@ -126,17 +126,21 @@ namespace SmithChartTool.ViewModel
         {
             this.SmithChart = new PlotModel();
             //this.SmithChart.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
-            SmithChart.LegendPosition = LegendPosition.RightBottom;
-            SmithChart.LegendPlacement = LegendPlacement.Outside;
-            SmithChart.LegendOrientation = LegendOrientation.Horizontal;
-            OxyPlot.Axes.LinearAxis XAxis = new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = -1, Maximum = 1 };
-            OxyPlot.Axes.LinearAxis YAxis = new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = -1, Maximum = 1 };
+            //SmithChart.LegendPosition = LegendPosition.RightBottom;
+            //SmithChart.LegendPlacement = LegendPlacement.Outside;
+            //SmithChart.LegendOrientation = LegendOrientation.Horizontal;
+            SmithChart.IsLegendVisible = false;
+            OxyPlot.Axes.LinearAxis XAxis = new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = -1, Maximum = 1, IsZoomEnabled = false};
+            OxyPlot.Axes.LinearAxis YAxis = new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = -1, Maximum = 1, IsZoomEnabled = false };
             //var YAxis = new OxyPlot.Axes.LinearAxis();
             XAxis.Title = "Real";
             YAxis.Title = "Imaginary";
             SmithChart.Axes.Add(YAxis);
             SmithChart.Axes.Add(XAxis);
-
+            SmithChart.DefaultColors = new List<OxyColor>
+            {
+                (OxyColors.Black)
+            };
 
             List<LineSeries> series = DrawSmithChart();
             foreach (var item in series)
