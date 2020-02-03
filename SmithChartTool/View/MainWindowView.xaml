@@ -138,7 +138,7 @@
                                 <TextBox x:Name="tbCustomControl2"></TextBox>
                             </local:MyLabeledControl>
                             <Button Content="Apply"></Button>
-                            <ListView x:Name="lvSource" PreviewMouseLeftButtonDown="lvSourceMouseButtonDown" PreviewMouseMove="lvSourceMouseMove" ItemsSource="{Binding}">
+                            <ListView x:Name="lvSource" PreviewMouseLeftButtonDown="lvSourceMouseButtonDown" PreviewMouseMove="lvSourceMouseMove" ItemsSource="{Binding ArschBlubSource}">
                             </ListView>
                             <ListView MinHeight="200" x:Name="lvDest" DragEnter="lvDestDragEnter" Drop="lvDestDrop" AllowDrop="True">
                                 <ListView.ItemTemplate>
@@ -147,6 +147,9 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
+							<ListView MinHeight="100" AllowDrop="True" vm:DragDropHelper.CanDragDrop ="true" ItemsSource="{Binding ArschBlubDest}">
+
+							</ListView>
                         </StackPanel>
                     </ScrollViewer>
                 </GroupBox>

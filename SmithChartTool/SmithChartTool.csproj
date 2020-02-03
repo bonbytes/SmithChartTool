@@ -90,6 +90,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Model\SchematicElement.cs" />
     <Compile Include="ViewModel\BooleanInvertConverter.cs" />
+    <Compile Include="ViewModel\DragDropHelper.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MyLabeledControl.cs" />
     <Compile Include="View\SmithChartControl.xaml.cs">

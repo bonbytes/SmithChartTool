@@ -31,10 +31,7 @@ namespace SmithChartTool.View
             this.InitializeComponent();
             this.DataContext = VM;
             CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunCommandXYAsync(); }, (s, e) => { Debug.Print("Blub"); })); //e.CanExecute = bli; }));
-            List<SchematicElement> elements = new List<SchematicElement>();
-            elements.Add(new SchematicElement() { Id = 1 });
-            elements.Add(new SchematicElement() { Id = 2 });
-            lvSource.DataContext = elements;
+            
         }
 
         private Point startPoint;
@@ -48,6 +45,7 @@ namespace SmithChartTool.View
             Point mousePos = e.GetPosition(null);
             Vector diff = startPoint - mousePos;
 
+            // fix dragdrop distance to parent 
             if (e.LeftButton == MouseButtonState.Pressed &&
                 (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance
                 ||
@@ -57,10 +55,13 @@ namespace SmithChartTool.View
                 ListView lv = sender as ListView;
                 ListViewItem lvitem = FindAnchestor<ListViewItem>((DependencyObject)e.OriginalSource);
 
-                SchematicElement element = (SchematicElement)lv.ItemContainerGenerator.ItemFromContainer(lvitem);
+                if(lvitem != null)
+                {
+                    SchematicElement element = (SchematicElement)lv.ItemContainerGenerator.ItemFromContainer(lvitem);
 
-                DataObject dragData = new DataObject("myFormat", element);
-                DragDrop.DoDragDrop(lvitem, dragData, DragDropEffects.Move);
+                    DataObject dragData = new DataObject("myFormat", element);
+                    DragDrop.DoDragDrop(lvitem, dragData, DragDropEffects.Move);
+                }
             }
         }
 

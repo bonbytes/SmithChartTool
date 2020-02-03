@@ -8,10 +8,12 @@ using OxyPlot;
 using OxyPlot.Series;
 using SmithChartTool.View;
 using SmithChartTool;
+using SmithChartTool.Model;
+using System.Collections.ObjectModel;
 
 namespace SmithChartTool.ViewModel
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : IDragDrop
     {
     
         /*
@@ -125,31 +127,33 @@ namespace SmithChartTool.ViewModel
         public MainWindowViewModel()
         {
             this.SmithChart = new PlotModel();
-            //this.SmithChart.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
-            //SmithChart.LegendPosition = LegendPosition.RightBottom;
-            //SmithChart.LegendPlacement = LegendPlacement.Outside;
-            //SmithChart.LegendOrientation = LegendOrientation.Horizontal;
-            SmithChart.IsLegendVisible = false;
+            //this.SmithChart.LegendPosition = LegendPosition.RightBottom;
+            //this.SmithChart.LegendPlacement = LegendPlacement.Outside;
+            //this.SmithChart.LegendOrientation = LegendOrientation.Horizontal;
+            this.SmithChart.IsLegendVisible = false;
             OxyPlot.Axes.LinearAxis XAxis = new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = -1, Maximum = 1, IsZoomEnabled = false};
             OxyPlot.Axes.LinearAxis YAxis = new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = -1, Maximum = 1, IsZoomEnabled = false };
-            //var YAxis = new OxyPlot.Axes.LinearAxis();
             XAxis.Title = "Real";
             YAxis.Title = "Imaginary";
-            SmithChart.Axes.Add(YAxis);
-            SmithChart.Axes.Add(XAxis);
-            SmithChart.DefaultColors = new List<OxyColor>
-            {
-                (OxyColors.Black)
-            };
+            this.SmithChart.Axes.Add(YAxis);
+            this.SmithChart.Axes.Add(XAxis);
+            this.SmithChart.DefaultColors = new List<OxyColor> {(OxyColors.Black)};
 
             List<LineSeries> series = DrawSmithChart();
             foreach (var item in series)
             {
                 this.SmithChart.Series.Add(item);
             }
-
             this.SmithChart.InvalidatePlot(true);
+
+            ArschBlubSource.Add(new SchematicElement() { Id = 1 });
+            ArschBlubSource.Add(new SchematicElement() { Id = 2 });
+            ArschBlubSource.Add(new SchematicElement() { Id = 3 });
         }
+
+        public ObservableCollection<SchematicElement> ArschBlubSource { get; private set; } = new ObservableCollection<SchematicElement>();
+        public ObservableCollection<SchematicElement> ArschBlubDest { get; private set; } = new ObservableCollection<SchematicElement>();
+
 
         public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindowView), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.R, ModifierKeys.Control) });
 
@@ -175,6 +179,14 @@ namespace SmithChartTool.ViewModel
             //var results = await Task.WhenAll(tasks);
         }
 
+        public void Drop(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("myFormat"))
+            {
+                SchematicElement element = e.Data.GetData("myFormat") as SchematicElement;
+                ArschBlubDest.Add(element);
+            }
+        }
     }
 
 }
