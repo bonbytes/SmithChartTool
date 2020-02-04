@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics;
 
 namespace SmithChartTool.Model
 {
@@ -28,34 +29,34 @@ namespace SmithChartTool.Model
         public Schematic()
         {
             SchematicElements = new ObservableCollection<SchematicElement> { }; // create empty schematic
-            SchematicElements.Add(new Port(1, new MathNet.Numerics.Complex32(50, 0)));
-            SchematicElements.Add(new Port(2, new MathNet.Numerics.Complex32(50, 0)));
+            SchematicElements.Add(new Port(1, new Complex32(50, 0)));
+            SchematicElements.Add(new Port(2, new Complex32(50, 0)));
         }
 
         public void AddElement(SchematicElementType schematicElement)
         {
-            this.SchematicElements.Add(new SchematicElement 
+            SchematicElements.Add(new SchematicElement 
             {
-                    Id = this.SchematicElements.Count + 1, 
+                    Id = SchematicElements.Count + 1, 
                     Type = schematicElement 
             });
         }
-        public void ChangePortImpedance(int name, MathNet.Numerics.Complex32 impedance)
+        public void ChangePortImpedance(int name, Complex32 impedance)
         {
             if(name == 1)
             {
-                this.SchematicElements.First().Impedance = impedance;
+                SchematicElements.First().Impedance = impedance;
             }
             else
             {
-                this.SchematicElements.Last().Impedance = impedance;
+                SchematicElements.Last().Impedance = impedance;
             }
 
         }
 
         public void ChangeElementValue(int index, double value)
         {
-            this.SchematicElements[index + 1].Value = value;
+            SchematicElements[index + 1].Value = value;
         }
     }
 }

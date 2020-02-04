@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics;
 
 namespace SmithChartTool.Model
 {
@@ -15,10 +16,10 @@ namespace SmithChartTool.Model
 
         public SmithChart()
         {
-            this.Frequency = 1.0e9;
-            this.ReferenceImpedance = new ImpedanceElement(new MathNet.Numerics.Complex32(50, 0));
-            this.IsNormalized = true;
-            this.Schematic = new Schematic();
+            Frequency = 1.0e9;
+            ReferenceImpedance = new ImpedanceElement(new Complex32(50, 0));
+            IsNormalized = true;
+            Schematic = new Schematic();
         }
     }
 }

@@ -7,9 +7,6 @@
         xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
         Title="SmithChartTool PREVIEW! NOT FOR DISTRIBUTION!" Height="600" Width="800" MinWidth="800" MinHeight="600">
     
-    <!--<Window.DataContext>
-        <vm:MainWindowViewModel></vm:MainWindowViewModel>
-    </Window.DataContext>-->
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -19,25 +16,26 @@
             </MenuItem>
 			<MenuItem Header="_Insert"></MenuItem>
 			<MenuItem Header="_View"></MenuItem>
-            <MenuItem Header="_Help"></MenuItem>
+            <MenuItem Header="_Help">
+				<MenuItem Header="_About..."></MenuItem>
+			</MenuItem>
+			
         </Menu>
-        <ToolBar DockPanel.Dock="Top">
+        <ToolBar DockPanel.Dock="Top" Background="Transparent">
             <ToolBar.Resources>
                 <Style TargetType="Image">
                     <Setter Property="Width" Value="16"></Setter>
                     <Setter Property="Height" Value="16"></Setter>
                 </Style>
             </ToolBar.Resources>
-            <!--<Button FontFamily="Segoe MDL2 Assets" FontSize="14" Height="20" Width="20" Content="&#xE74E;"></Button>-->
+            <Button FontFamily="Segoe MDL2 Assets" FontSize="14" Height="20" Width="20" Content="&#xE74E;"></Button>
             <Button>
                 <Image Source="pack://application:,,,/Images/Icons/Save_16x.png"></Image>
             </Button>
-            <Button>
-                <Image Source="pack://application:,,,/Images/Icons/Save_16x.png"></Image>
-            </Button>
-            
-            
-        </ToolBar>
+			<Button>
+				<Image Source="pack://application:,,,/Images/Icons/Save_16x.png"></Image>
+			</Button>
+		</ToolBar>
 
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem >
@@ -95,8 +93,26 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements">
-                    <!--Todo-->
-                </GroupBox>
+					<GroupBox Header="Drag-Drop test">
+						<StackPanel>
+							<ListView vm:DragDropHelper.IsDragSource="True"  ItemsSource="{Binding SchematicElementsSource}">
+								<ListView.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Type}"></TextBlock>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+							<ListView MinHeight="100" AllowDrop="True" vm:DragDropHelper.CanDragDrop ="True" ItemsSource="{Binding SchematicElementsDest}">
+								<ListView.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Type}"></TextBlock>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</StackPanel>
+
+					</GroupBox>
+				</GroupBox>
             </Grid>
 
 
@@ -137,18 +153,9 @@
                             <local:MyLabeledControl Orientation="Vertical"  Header="BlubBlubBlubBlub">
                                 <TextBox x:Name="tbCustomControl2"></TextBox>
                             </local:MyLabeledControl>
-                            <Button Content="Apply"></Button>
-                            <ListView x:Name="lvSource" vm:DragDropHelper.IsDragSource="True"  ItemsSource="{Binding ArschBlubSource}">
-                            </ListView>
-                            <!--PreviewMouseLeftButtonDown="{Binding}" PreviewMouseMove="{Binding}"-->
-                            <ListView MinHeight="100" AllowDrop="True" vm:DragDropHelper.CanDragDrop ="true" ItemsSource="{Binding ArschBlubDest}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Id}"></TextBlock>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </StackPanel>
+							<Button Content="Apply"></Button>
+
+						</StackPanel>
                     </ScrollViewer>
                 </GroupBox>
                 

@@ -18,20 +18,15 @@ using SmithChartTool.Model;
 
 namespace SmithChartTool.View
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public partial class MainWindowView : Window
     {
         public MainWindowViewModel VM { get; set; } = new MainWindowViewModel();
 
         public MainWindowView()
         {
-
             this.InitializeComponent();
             this.DataContext = VM;
-            CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunCommandXYAsync(); }, (s, e) => { Debug.Print("Blub"); })); //e.CanExecute = bli; }));
-            
+            CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunCommandXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
         }
     }
 }

@@ -11,39 +11,40 @@ namespace SmithChartTool.Model
 {
     public class ImpedanceElement: INotifyPropertyChanged
     {
-        private MathNet.Numerics.Complex32 _impedance;
+        private Complex32 _impedance;
 
         public ImpedanceElement()
         {
-            this.Impedance = new MathNet.Numerics.Complex32(50, 0);
+            Impedance = new Complex32(50, 0);
         }
 
-        public ImpedanceElement(MathNet.Numerics.Complex32 impedance)
+        public ImpedanceElement(Complex32 impedance)
         {
-            this.Impedance = _impedance;
+            Impedance = impedance;
         }
 
-
-        public MathNet.Numerics.Complex32 Impedance
+        public Complex32 Impedance
         {
             get 
             {
-                return this._impedance;
+                return _impedance;
             }
             set
             {
-                if(value.Real >= 0)// value.IsRealNonNegative()
+                if(value != _impedance)
                 {
-                    this._impedance = value;
-                    OnPropertyChanged("Impedance");
-                }
-                else
-                    throw new Exception("Given impedance has negative real part.");
+                    if (value.Real >= 0) // value.IsRealNonNegative()
+                    {
+                        _impedance = value;
+                        OnPropertyChanged("Impedance");
+                    }
+                    else
+                        throw new Exception("Given impedance has negative real part.");
+                }  
             }
         }
 
         #region INotifyPropertyChanged Members  
-		
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected void OnPropertyChanged(string propertyName)
 		{

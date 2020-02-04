@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics;
 
 namespace SmithChartTool.Model
 {
@@ -10,12 +11,12 @@ namespace SmithChartTool.Model
 	{
 		public string Name { get; private set; }
 
-		public Port(int name, MathNet.Numerics.Complex32 impedance)
+		public Port(int name, Complex32 impedance)
 		{
-			this.Type = SchematicElementType.Port;
-			this.Id = name;
-			this.Name = name.ToString();
-			this.Impedance = impedance;
+			Type = SchematicElementType.Port;
+			Id = name;
+			Name = name.ToString();
+			Impedance = impedance;
 		}
 }
 }

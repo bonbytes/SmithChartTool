@@ -14,29 +14,30 @@ namespace SmithChartTool.Model
         {
             get
             {
-                return this._id;
+                return _id;
             }
             set
             {
-                if (this._id != value)
+                if (_id != value)
                 {
-                    this._id = value;
+                    _id = value;
                     OnPropertyChanged("Id");
                 }
             }
         }
+
         private double _value;
         public double Value
         {
             get
             {
-                return this._value;
+                return _value;
             }
             set
             {
-                if (this._value != value)
+                if (_value != value)
                 {
-                    this._value = value;
+                    _value = value;
                     OnPropertyChanged("Value");
                 }
             }
@@ -47,22 +48,16 @@ namespace SmithChartTool.Model
         {
             get
             {
-                return this._type;
+                return _type;
             }
             set
             {
-                if (this._type != value)
+                if (_type != value)
                 {
-                    this._type = value;
+                    _type = value;
                     OnPropertyChanged("Type");
                 }
             }
         }
-
-        public SchematicElement()
-        {
-
-        }
-
     }
 }

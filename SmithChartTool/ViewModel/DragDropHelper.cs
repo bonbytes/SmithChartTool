@@ -17,7 +17,6 @@ namespace SmithChartTool.ViewModel
 		void Drop(DragEventArgs e);
 	}
 
-
 	public static class DragDropHelper
 	{
 		public static readonly DependencyProperty CanDragDropProperty = DependencyProperty.RegisterAttached("CanDragDrop", typeof(bool), typeof(DragDropHelper), new PropertyMetadata(OnCanDragDropChanged));
@@ -85,7 +84,7 @@ namespace SmithChartTool.ViewModel
 				if (lvitem != null)
 				{
 					SchematicElement element = (SchematicElement)((sender as ListView).ItemContainerGenerator.ItemFromContainer(lvitem));
-					DataObject dragData = new DataObject("myFormat", element);
+					DataObject dragData = new DataObject("SchematicElement", element);
 					DragDrop.DoDragDrop(lvitem, dragData, DragDropEffects.Move);
 				}
 			}
@@ -108,7 +107,7 @@ namespace SmithChartTool.ViewModel
 
 		private static void OnDragEnter(object sender, DragEventArgs e)
 		{
-			if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
+			if (!e.Data.GetDataPresent("SchematicElement") || sender == e.Source)
 			{
 				e.Effects = DragDropEffects.None;
 			}
@@ -116,12 +115,12 @@ namespace SmithChartTool.ViewModel
 
 		private static void OnDrop(object sender, DragEventArgs e)
 		{
-			if (e.Data.GetDataPresent("myFormat"))
+			if (e.Data.GetDataPresent("SchematicElement"))
 			{
-				var blu = FindDragDropAnchestor(sender as DependencyObject);
-				if (blu != null)
+				var dropDest = FindDragDropAnchestor(sender as DependencyObject);
+				if (dropDest != null)
 				{
-					blu.Drop(e);
+					dropDest.Drop(e);
 				}
 			}
 		}
