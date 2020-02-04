@@ -30,9 +30,9 @@ namespace SmithChartTool.Model
             {
                 return this._impedance;
             }
-            private set
+            set
             {
-                if(value.Real >= 0)
+                if(value.Real >= 0)// value.IsRealNonNegative()
                 {
                     this._impedance = value;
                     OnPropertyChanged("Impedance");

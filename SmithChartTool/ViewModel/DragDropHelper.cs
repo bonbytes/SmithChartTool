@@ -7,11 +7,13 @@ using System.Windows;
 using SmithChartTool.View;
 using SmithChartTool.Model;
 using System.Windows.Media;
+using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace SmithChartTool.ViewModel
 {
 	public interface IDragDrop
-	{
+	{	
 		void Drop(DragEventArgs e);
 	}
 
@@ -45,43 +47,62 @@ namespace SmithChartTool.ViewModel
 		{
 			if (e.NewValue == e.OldValue)
 				return;
-			UIElement DenkdirnenNamenausC = sender as UIElement;
-			if(DenkdirnenNamenausC != null)
+			UIElement uI = sender as UIElement;
+			if(uI != null)
 			{
-				DenkdirnenNamenausC.Drop += OnDrop;
-				DenkdirnenNamenausC.DragEnter += OnDragEnter;
+				uI.Drop += OnDrop;
+				uI.DragEnter += OnDragEnter;
 			}
 		}
 
-		private Point startPoint;
+		private static void OnIsDragSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (e.NewValue == e.OldValue)
+				return;
+			var uI = sender as UIElement;
+			if (uI != null)
+			{
+				uI.PreviewMouseLeftButtonDown += OnMouseButtonDown;
+				uI.PreviewMouseMove += OnMouseMove;
+			}
+		}
 
-		private void lvSourceMouseButtonDown(object sender, MouseButtonEventArgs e)
+		private static Point startPoint;
+
+		private static void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			startPoint = e.GetPosition(null);
 		}
-		private void lvSourceMouseMove(object sender, MouseEventArgs e)
+		private static void OnMouseMove(object sender, MouseEventArgs e)
 		{
 			Point mousePos = e.GetPosition(null);
 			Vector diff = startPoint - mousePos;
 
-			// fix dragdrop distance to parent 
 			if (e.LeftButton == MouseButtonState.Pressed &&
-				(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance
-				||
-				Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
-				)
+				(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
 			{
-				ListView lv = sender as ListView;
-				ListViewItem lvitem = FindAnchestor<ListViewItem>((DependencyObject)e.OriginalSource);
-
+				ListViewItem lvitem = FindControlAnchestor<ListViewItem>((DependencyObject)e.OriginalSource);
 				if (lvitem != null)
 				{
-					SchematicElement element = (SchematicElement)lv.ItemContainerGenerator.ItemFromContainer(lvitem);
-
+					SchematicElement element = (SchematicElement)((sender as ListView).ItemContainerGenerator.ItemFromContainer(lvitem));
 					DataObject dragData = new DataObject("myFormat", element);
 					DragDrop.DoDragDrop(lvitem, dragData, DragDropEffects.Move);
 				}
 			}
+		}
+
+		private static T FindControlAnchestor<T>(DependencyObject current) where T : DependencyObject
+		{
+			do
+			{
+				if (current is T)
+				{
+					return (T)current;
+				}
+				current = VisualTreeHelper.GetParent(current);
+			}
+			while (current != null);
+			return null;
 		}
 
 

@@ -93,9 +93,6 @@
     <Compile Include="ViewModel\DragDropHelper.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MyLabeledControl.cs" />
-    <Compile Include="View\SmithChartControl.xaml.cs">
-      <DependentUpon>SmithChartControl.xaml</DependentUpon>
-    </Compile>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -112,10 +109,6 @@
       <DependentUpon>MainWindowView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\SmithChartControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Schematic.cs" />

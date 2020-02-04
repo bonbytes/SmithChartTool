@@ -9,7 +9,8 @@ namespace SmithChartTool.Model
 {
     public enum SchematicElementType
     {
-        ResistorSerial = 0,
+        Port = 0,
+        ResistorSerial = 1,
         CapacitorSerial,
         InductorSerial,
         ResistorParallel = 10,
@@ -22,16 +23,13 @@ namespace SmithChartTool.Model
 
     public class Schematic
     {
-        public Port P1 { get; private set; }
-        public Port P2 { get; private set; }
-
         public IList<SchematicElement> SchematicElements { get; private set; }
 
         public Schematic()
         {
             SchematicElements = new ObservableCollection<SchematicElement> { }; // create empty schematic
-            this.P1 = new Port("P1");   // create port 1
-            this.P2 = new Port("P2");   // create port 2
+            SchematicElements.Add(new Port(1, new MathNet.Numerics.Complex32(50, 0)));
+            SchematicElements.Add(new Port(2, new MathNet.Numerics.Complex32(50, 0)));
         }
 
         public void AddElement(SchematicElementType schematicElement)
@@ -42,9 +40,22 @@ namespace SmithChartTool.Model
                     Type = schematicElement 
             });
         }
-        public void ChangeValue()
+        public void ChangePortImpedance(int name, MathNet.Numerics.Complex32 impedance)
         {
+            if(name == 1)
+            {
+                this.SchematicElements.First().Impedance = impedance;
+            }
+            else
+            {
+                this.SchematicElements.Last().Impedance = impedance;
+            }
 
+        }
+
+        public void ChangeElementValue(int index, double value)
+        {
+            this.SchematicElements[index + 1].Value = value;
         }
     }
 }

@@ -41,22 +41,7 @@ namespace SmithChartTool.Model
                 }
             }
         }
-        private double _length;
-        public double Length
-        {
-            get
-            {
-                return this._length;
-            }
-            set
-            {
-                if (this._length != value)
-                {
-                    this._length = value;
-                    OnPropertyChanged("Length");
-                }
-            }
-        }
+        
         private SchematicElementType _type;
         public SchematicElementType Type
         {

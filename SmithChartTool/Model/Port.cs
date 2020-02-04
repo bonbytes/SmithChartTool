@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace SmithChartTool.Model
 {
-	public class Port : ImpedanceElement
+	public class Port : SchematicElement
 	{
 		public string Name { get; private set; }
 
-		public Port(string name)
+		public Port(int name, MathNet.Numerics.Complex32 impedance)
 		{
-			this.Name = name;
+			this.Type = SchematicElementType.Port;
+			this.Id = name;
+			this.Name = name.ToString();
+			this.Impedance = impedance;
 		}
 }
 }
