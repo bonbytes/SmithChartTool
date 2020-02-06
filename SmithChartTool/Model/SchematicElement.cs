@@ -7,6 +7,20 @@ using System.Threading.Tasks;
 
 namespace SmithChartTool.Model
 {
+    public enum SchematicElementType
+    {
+        Port = 0,
+        ResistorSerial = 1,
+        CapacitorSerial,
+        InductorSerial,
+        ResistorParallel = 10,
+        CapacitorParallel,
+        InductorParallel,
+        TransLineSerial = 20,
+        TransLineParallelOpen,
+        TransLineParallelShort
+    }
+
     public class SchematicElement : ImpedanceElement
     {
         private int _id;

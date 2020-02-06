@@ -8,20 +8,6 @@ using MathNet.Numerics;
 
 namespace SmithChartTool.Model
 {
-    public enum SchematicElementType
-    {
-        Port = 0,
-        ResistorSerial = 1,
-        CapacitorSerial,
-        InductorSerial,
-        ResistorParallel = 10,
-        CapacitorParallel,
-        InductorParallel,
-        TransLineSerial = 20,
-        TransLineParallelOpen,
-        TransLineParallelShort
-    }
-
     public class Schematic
     {
         public IList<SchematicElement> SchematicElements { get; private set; }

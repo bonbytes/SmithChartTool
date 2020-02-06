@@ -94,15 +94,22 @@
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements">
 					<GroupBox Header="Drag-Drop test">
-						<StackPanel>
-							<ListView vm:DragDropHelper.IsDragSource="True"  ItemsSource="{Binding SchematicElementsSource}">
+                        <StackPanel  vm:DragDropHelper.IsDragSource="True">
+                            <local:MySchematicElementControl Width="100" Type="ResistorSerial"></local:MySchematicElementControl>
+                            <local:MySchematicElementControl Width="100" Type="CapacitorSerial"></local:MySchematicElementControl>
+                            <local:MySchematicElementControl Width="100" Type="InductorSerial"></local:MySchematicElementControl>
+                            <local:MySchematicElementControl Width="100" Type="TransLineSerial"></local:MySchematicElementControl>
+                            <Button>Bli</Button>
+                            <Button>Bla</Button>
+                            <Button>Blub</Button>
+							<ListView ItemsSource="{Binding SchematicElementsSource}">
 								<ListView.ItemTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding Type}"></TextBlock>
 									</DataTemplate>
 								</ListView.ItemTemplate>
 							</ListView>
-							<ListView MinHeight="100" AllowDrop="True" vm:DragDropHelper.CanDragDrop ="True" ItemsSource="{Binding SchematicElementsDest}">
+							<ListView MinHeight="100"  ItemsSource="{Binding SchematicElementsDest}">
 								<ListView.ItemTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding Type}"></TextBlock>
@@ -125,15 +132,19 @@
                     <oxy:PlotView  Model="{Binding SmithChart}"  />
                 </GroupBox>
                 <GroupBox  Grid.Row="1" Header="Schematic">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Margin" Value="0,0,20,0"></Setter>
-                            </Style>
-                        </StackPanel.Resources>
-                        <TextBlock Text="Bla"></TextBlock>
-                        <TextBlock Text="Blub"></TextBlock>
-                    </StackPanel>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Margin" Value="0,0,20,0"></Setter>
+                                </Style>
+                            </StackPanel.Resources>
+                            <!--<TextBlock Text="Bla"></TextBlock>
+                        <TextBlock Text="Blub"></TextBlock>-->
+                            <Button>Blubbbbi</Button>
+                            <Button>Blubbbbo</Button>
+                        </StackPanel>
+                    </ScrollViewer>
                 </GroupBox>
 
 
