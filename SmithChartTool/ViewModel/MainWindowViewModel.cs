@@ -44,60 +44,60 @@ namespace SmithChartTool.ViewModel
             return temp;
         }
 
-        public List<LineSeries> DrawSmithChart(int numRealCirc = 7, int numImagCirc = 18)
-        {
-            List<double> y = GetLinRange(0, 100, 1000);
-            List<double> jrange = GetLogRange(Math.Log(0.15, 10), Math.Log(100, 10), 10);
-            List<double> jrangeFull = new List<double>(jrange.Invert());
+        //public List<LineSeries> DrawSmithChart(int numRealCirc = 7, int numImagCirc = 18)
+        //{
+        //    List<double> y = GetLinRange(0, 100, 1000);
+        //    List<double> jrange = GetLogRange(Math.Log(0.15, 10), Math.Log(100, 10), 10);
+        //    List<double> jrangeFull = new List<double>(jrange.Invert());
             
-            jrangeFull.Add(1e-20);
-            jrangeFull.AddRange(jrange);
-            //List<List<Complex32>> imagConstValues = new List<List<Complex32>>();
-            //List<List<DataPoint>> imagCurves = new List<List<DataPoint>>();
+        //    jrangeFull.Add(1e-20);
+        //    jrangeFull.AddRange(jrange);
+        //    //List<List<Complex32>> imagConstValues = new List<List<Complex32>>();
+        //    //List<List<DataPoint>> imagCurves = new List<List<DataPoint>>();
             
-            List<LineSeries> series = new List<LineSeries>();
+        //    List<LineSeries> series = new List<LineSeries>();
 
-            int i = 0;
-            foreach (var im in jrangeFull)
-            {
-                series.Add(new LineSeries { LineStyle = LineStyle.Dot });
-                //imagConstValues.Add(new List<Complex32>());
-                //imagCurves.Add(new List<DataPoint>());
-                foreach (var re in y)
-                {
-                    Complex32 _z = GetConformalImpedanceValue(new Complex32((float)re, (float)im));
-                    //imagConstValues[i].Add(_z); // every i represents one circle with constant imaginary part
-                    //imagCurves[i].Add(new DataPoint(_z.Real, _z.Imaginary));
-                    series[i].Points.Add(new DataPoint(_z.Real, _z.Imaginary));
-                }
-                i++;
-            }
+        //    int i = 0;
+        //    foreach (var im in jrangeFull)
+        //    {
+        //        series.Add(new LineSeries { LineStyle = LineStyle.Dot });
+        //        //imagConstValues.Add(new List<Complex32>());
+        //        //imagCurves.Add(new List<DataPoint>());
+        //        foreach (var re in y)
+        //        {
+        //            Complex32 _z = GetConformalImpedanceValue(new Complex32((float)re, (float)im));
+        //            //imagConstValues[i].Add(_z); // every i represents one circle with constant imaginary part
+        //            //imagCurves[i].Add(new DataPoint(_z.Real, _z.Imaginary));
+        //            series[i].Points.Add(new DataPoint(_z.Real, _z.Imaginary));
+        //        }
+        //        i++;
+        //    }
 
-            List<double> rrangeFull = new List<double> {0, 0.2, 0.5, 1, 2, 5, 10};
-            List<double> x = GetLogRange(-10, Math.Log(100,10), 1000);//GetRange(-100, 100, 4000);
-            x.AddRange(x.Invert());
-            //List<List<Complex32>> realConstValues = new List<List<Complex32>>();
-            //List<List<DataPoint>> realCurves = new List<List<DataPoint>>();
+        //    List<double> rrangeFull = new List<double> {0, 0.2, 0.5, 1, 2, 5, 10};
+        //    List<double> x = GetLogRange(-10, Math.Log(100,10), 1000);//GetRange(-100, 100, 4000);
+        //    x.AddRange(x.Invert());
+        //    //List<List<Complex32>> realConstValues = new List<List<Complex32>>();
+        //    //List<List<DataPoint>> realCurves = new List<List<DataPoint>>();
 
-            i = 0;
-            foreach (var re in rrangeFull)
-            {
-                series.Add(new LineSeries { LineStyle = LineStyle.Solid });
-                //realConstValues.Add(new List<Complex32>());
-                //realCurves.Add(new List<DataPoint>());
-                foreach (var im in x)
-                {
-                    Complex32 _z = GetConformalImpedanceValue(new Complex32((float)re, (float)im));
-                    //_z = GetConformalValue(_z);
-                    //realConstValues[i].Add(_z);  // every i represents one circle with constant real part
-                    //realCurves[i].Add(new DataPoint(_z.Real, _z.Imaginary));
-                    series[i].Points.Add(new DataPoint(_z.Real, _z.Imaginary));
-                }
-                i++;
-            }
+        //    i = 0;
+        //    foreach (var re in rrangeFull)
+        //    {
+        //        series.Add(new LineSeries { LineStyle = LineStyle.Solid });
+        //        //realConstValues.Add(new List<Complex32>());
+        //        //realCurves.Add(new List<DataPoint>());
+        //        foreach (var im in x)
+        //        {
+        //            Complex32 _z = GetConformalImpedanceValue(new Complex32((float)re, (float)im));
+        //            //_z = GetConformalValue(_z);
+        //            //realConstValues[i].Add(_z);  // every i represents one circle with constant real part
+        //            //realCurves[i].Add(new DataPoint(_z.Real, _z.Imaginary));
+        //            series[i].Points.Add(new DataPoint(_z.Real, _z.Imaginary));
+        //        }
+        //        i++;
+        //    }
 
-            return series;
-        }
+        //    return series;
+        //}
 
         public List<LineSeries> DrawSmithChartReal(int numRealCirc = 7)
         {
@@ -168,19 +168,11 @@ namespace SmithChartTool.ViewModel
             }
             this.SmithChartPlot.InvalidatePlot(true);
 
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.Port });
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.ResistorSerial });
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.CapacitorSerial });
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.InductorSerial });
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.ResistorParallel });
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.CapacitorParallel });
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.InductorParallel });
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.TransLineSerial });
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.TransLineParallelOpen });
-            SchematicElementsSource.Add(new SchematicElement() { Type = SchematicElementType.TransLineParallelShort });
+            SchematicElementsSource = typeof(SchematicElementType).ToNames();
+            var b = typeof(SchematicElementType).FromName(SchematicElementsSource[2]);
         }
 
-        public ObservableCollection<SchematicElement> SchematicElementsSource { get; private set; } = new ObservableCollection<SchematicElement>();
+        public List<string> SchematicElementsSource { get; private set; }
         public ObservableCollection<SchematicElement> SchematicElementsDest { get; private set; } = new ObservableCollection<SchematicElement>();
 
         public void Drop(DragEventArgs e)

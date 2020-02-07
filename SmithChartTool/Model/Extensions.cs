@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SmithChartTool.Model;
 
 namespace SmithChartTool
 {
@@ -17,5 +18,31 @@ namespace SmithChartTool
 			}
 			return temp;
 		}
+
+		public static List<string> ToNames(this Type input)
+		{
+			List<string> temp = new List<string>();
+			
+			if(input.IsEnum)
+			{
+				foreach(Enum item in Enum.GetValues(input))
+				{
+					temp.Add(item.ToString());
+				}
+			}
+			return temp;
+		}
+		public static Enum FromName(this Type input, string value)
+		{
+			foreach(Enum item in Enum.GetValues(input))
+			{
+				if(item.ToString() == value)
+				{
+					return item;
+				}
+			}
+			return null;
+		}
+
 	}
 }

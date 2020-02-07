@@ -68,11 +68,8 @@ namespace SmithChartTool.ViewModel
 		}
 
 		private static Point _dragStartPoint;
-		private static UIElement _realDragSource;
-		private static UIElement _dummyDragSource = new UIElement();
 		private static bool _isDown = false;
 		private static bool _isDragging = false;
-		private static SchematicElementType _schematicElementType = SchematicElementType.Port;
 
 		private static void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
 		{
@@ -86,7 +83,6 @@ namespace SmithChartTool.ViewModel
 		{
 			_isDown = false;
 			_isDragging = false;
-			_realDragSource.ReleaseMouseCapture();
 		}
 
 		private static void OnMouseMove(object sender, MouseEventArgs e)
@@ -97,118 +93,71 @@ namespace SmithChartTool.ViewModel
 					   (Math.Abs(e.GetPosition(null).Y - _dragStartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
 				{
 					_isDragging = true;
-					_realDragSource = e.Source as UIElement;
-					_realDragSource.CaptureMouse();
-					_schematicElementType = (e.Source as MySchematicElementControl).Type;
-					
-					DataObject dragData = new DataObject("SchematicElement", e.Source);
-					DragDrop.DoDragDrop(_dummyDragSource, dragData, DragDropEffects.Copy);
 
-					//ListViewItem lvitem = FindControlAncestor<ListViewItem>((DependencyObject)e.OriginalSource);
-					//if (lvitem != null)
-					//{
-					//	SchematicElement element = (SchematicElement)((sender as StackPanel).ItemContainerGenerator.ItemFromContainer(lvitem));
-					//	DataObject dragData = new DataObject("SchematicElement", element);
-					//	DragDrop.DoDragDrop(lvitem, dragData, DragDropEffects.Move);
-					//}
+					ListBoxItem lbitem = FindControlAncestor<ListBoxItem>((DependencyObject)e.OriginalSource);
+					if (lbitem != null)
+					{
+						SchematicElement element = (SchematicElement)((sender as ListBox).ItemContainerGenerator.ItemFromContainer(lbitem));
+						DataObject dragData = new DataObject("SchematicElement", element);
+						DragDrop.DoDragDrop(lbitem, dragData, DragDropEffects.Copy);
+					}
 				}
 			}
 		}
 
-		//private static T FindControlAncestor<T>(DependencyObject current) where T : DependencyObject
-		//{
-		//	do
-		//	{
-		//		if (current is T)
-		//		{
-		//			return (T)current;
-		//		}
-		//		current = VisualTreeHelper.GetParent(current);
-		//	}
-		//	while (current != null);
-		//	return null;
-		//}
+		private static T FindControlAncestor<T>(DependencyObject current) where T : DependencyObject
+		{
+			do
+			{
+				if (current is T)
+				{
+					return (T)current;
+				}
+				current = VisualTreeHelper.GetParent(current);
+			}
+			while (current != null);
+			return null;
+		}
 
 
 		private static void OnDragEnter(object sender, DragEventArgs e)
 		{
-			if (e.Data.GetDataPresent("SchematicElement"))
+			if (!e.Data.GetDataPresent("SchematicElement") || sender == e.Source)
 			{
-				e.Effects = DragDropEffects.Copy;
+				e.Effects = DragDropEffects.None;
 			}
-			//if (!e.Data.GetDataPresent("SchematicElement") || sender == e.Source)
-			//{
-			//	e.Effects = DragDropEffects.None;
-			//}
 		}
 
 		private static void OnDrop(object sender, DragEventArgs e)
 		{
 			if (e.Data.GetDataPresent("SchematicElement"))
 			{
-				StackPanel senderTarget = sender as StackPanel;
-				UIElement dropDest = e.Source as UIElement;
-				int dropDestIndex = -1;
-				int i = 0;
-
-				foreach (UIElement element in senderTarget.Children)
+				var dropDest = FindDragDropAncestor(sender as DependencyObject);
+				if (dropDest != null)
 				{
-					if (element.Equals(dropDest)) // search for drop position in StackPanel
-					{
-						dropDestIndex = i;
-						break;
-					}
-					i++;
+					dropDest.Drop(e);
 				}
-				if(dropDestIndex != -1)
-				{
-					//((IDragDrop)dropDest).Drop(e);
-					try
-					{
-						//senderTarget.Children.Insert(dropDestIndex, (Button)_realDragSource);
-						//senderTarget.Children.Insert(dropDestIndex, new Button() { Width = 100, Height = 200 });
 
-						senderTarget.Children.Insert(dropDestIndex, new MySchematicElementControl() { Type = _schematicElementType });
-					}
-					catch (Exception err)
-					{
-						MessageBox.Show("Das hat wohl nicht geklappt. Fehlercode: " + err.Message) ;
-					}
-				}
-				else
-				{
-					try
-					{
-						senderTarget.Children.Add(new MySchematicElementControl() { Type = _schematicElementType });
-					}
-					catch (Exception err)
-					{
-
-						MessageBox.Show("Das hat wohl nicht geklappt. Fehlercode: " + err.Message);
-					}
-					
-				}
 				_isDown = false;
 				_isDragging = false;
-				_realDragSource.ReleaseMouseCapture();
 			}
 		}
 
-		//private static IDragDrop FindDragDropAncestor(DependencyObject current)
-		//{
-		//	do
-		//	{
-		//		if (current is FrameworkElement)
-		//		{
-		//			object a = (current as FrameworkElement).DataContext;
-		//			if (a is IDragDrop)
-		//			{
-		//				return a as IDragDrop;
-		//			}
-		//		}
-		//		current = VisualTreeHelper.GetParent(current);
-		//	} while (current != null);
-		//	return null;
-		//}
+		private static IDragDrop FindDragDropAncestor(DependencyObject current)
+		{
+			do
+			{
+				if (current is FrameworkElement)
+				{
+					object a = (current as FrameworkElement).DataContext;
+					if (a is IDragDrop)
+					{
+						return a as IDragDrop;
+					}
+				}
+				current = VisualTreeHelper.GetParent(current);
+			} while (current != null);
+			return null;
+		}
 	}
 }

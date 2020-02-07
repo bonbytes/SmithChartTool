@@ -94,28 +94,14 @@
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements">
 					<GroupBox Header="Drag-Drop test">
-                        <StackPanel  vm:DragDropHelper.IsDragSource="True">
-                            <local:MySchematicElementControl Width="100" Type="ResistorSerial"></local:MySchematicElementControl>
-                            <local:MySchematicElementControl Width="100" Type="CapacitorSerial"></local:MySchematicElementControl>
-                            <local:MySchematicElementControl Width="100" Type="InductorSerial"></local:MySchematicElementControl>
-                            <local:MySchematicElementControl Width="100" Type="TransLineSerial"></local:MySchematicElementControl>
-                            <Button>Bli</Button>
-                            <Button>Bla</Button>
-                            <Button>Blub</Button>
-							<ListView ItemsSource="{Binding SchematicElementsSource}">
-								<ListView.ItemTemplate>
+						<StackPanel>
+							<ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding SchematicElementsSource}">
+								<ListBox.ItemTemplate>
 									<DataTemplate>
-										<TextBlock Text="{Binding Type}"></TextBlock>
+										<TextBlock Text="{Binding}"></TextBlock>
 									</DataTemplate>
-								</ListView.ItemTemplate>
-							</ListView>
-							<ListView MinHeight="100"  ItemsSource="{Binding SchematicElementsDest}">
-								<ListView.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding Type}"></TextBlock>
-									</DataTemplate>
-								</ListView.ItemTemplate>
-							</ListView>
+								</ListBox.ItemTemplate>
+							</ListBox>
 						</StackPanel>
 
 					</GroupBox>
@@ -129,26 +115,31 @@
                     <RowDefinition Height="150"/>
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Smith Chart">
-                    <oxy:PlotView  Model="{Binding SmithChart}"  />
+                    <oxy:PlotView  Model="{Binding SmithChartPlot}"  />
                 </GroupBox>
-                <GroupBox  Grid.Row="1" Header="Schematic">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                        <StackPanel Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" Orientation="Horizontal">
-                            <StackPanel.Resources>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Margin" Value="0,0,20,0"></Setter>
-                                </Style>
-                            </StackPanel.Resources>
-                            <!--<TextBlock Text="Bla"></TextBlock>
-                        <TextBlock Text="Blub"></TextBlock>-->
-                            <Button>Blubbbbi</Button>
-                            <Button>Blubbbbo</Button>
-                        </StackPanel>
-                    </ScrollViewer>
-                </GroupBox>
+				<GroupBox  Grid.Row="1" Header="Schematic">
+					<ListBox Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElementsDest}">
+						<ListBox.Template>
+							<ControlTemplate TargetType="ListBox">
+								<StackPanel Orientation="Horizontal" IsItemsHost="True" />
+							</ControlTemplate>
+						</ListBox.Template>
+						<ListBox.Resources>
+							<Style TargetType="ListBoxItem">
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="ListBoxItem">
+											<ContentPresenter />
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+							</Style>
+						</ListBox.Resources>
+					</ListBox>
+				</GroupBox>
+				
 
-
-            </Grid>
+			</Grid>
             <Expander IsExpanded="True" Grid.Column="2" ExpandDirection="Left">
                 <GroupBox Header="Properties">
                     <ScrollViewer>
@@ -165,7 +156,6 @@
                                 <TextBox x:Name="tbCustomControl2"></TextBox>
                             </local:MyLabeledControl>
 							<Button Content="Apply"></Button>
-
 						</StackPanel>
                     </ScrollViewer>
                 </GroupBox>
