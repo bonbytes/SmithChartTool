@@ -58,7 +58,7 @@
                     <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="Empty"/>
                     </TextBlock>
-                        <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                        <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
                     <!--<Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
@@ -82,7 +82,7 @@
                                 <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="Resistor serial"/>
                                 </TextBlock>
-                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
 
                             </Grid>
                         </ControlTemplate>
@@ -102,7 +102,7 @@
                                 <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="Resistor parallel"/>
                                 </TextBlock>
-                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
 
                             </Grid>
                         </ControlTemplate>
@@ -122,7 +122,7 @@
                                 <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="Capacitor serial"/>
                                 </TextBlock>
-                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
 
                             </Grid>
                         </ControlTemplate>
@@ -142,7 +142,7 @@
                                 <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="Capacitor parallel"/>
                                 </TextBlock>
-                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
 
                             </Grid>
                         </ControlTemplate>
@@ -162,7 +162,7 @@
                                 <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="Inductor serial"/>
                                 </TextBlock>
-                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
 
                             </Grid>
                         </ControlTemplate>
@@ -182,7 +182,7 @@
                                 <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="Inductor parallel"/>
                                 </TextBlock>
-                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
 
                             </Grid>
                         </ControlTemplate>
@@ -202,7 +202,7 @@
                                 <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="TLine"/>
                                 </TextBlock>
-                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
 
                             </Grid>
                         </ControlTemplate>
@@ -222,7 +222,7 @@
                                 <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="Open stub"/>
                                 </TextBlock>
-                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
 
                             </Grid>
                         </ControlTemplate>
@@ -235,14 +235,14 @@
                         <ControlTemplate TargetType="v:MySchematicElementControl">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition />
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Column="0" Margin="0,0,5,0" >
                             <Run Text="Shorted stub"/>
                                 </TextBlock>
-                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.bmp"></Image>
+                                <Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>
 
                             </Grid>
                         </ControlTemplate>

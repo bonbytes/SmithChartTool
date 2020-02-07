@@ -161,7 +161,7 @@
     <Resource Include="Images\Icons\Save_16x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\SchematicElements\empty.bmp" />
+    <Resource Include="Images\SchematicElements\empty.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

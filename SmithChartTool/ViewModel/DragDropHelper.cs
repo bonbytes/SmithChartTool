@@ -72,12 +72,11 @@ namespace SmithChartTool.ViewModel
 		private static UIElement _dummyDragSource = new UIElement();
 		private static bool _isDown = false;
 		private static bool _isDragging = false;
+		private static SchematicElementType _schematicElementType = SchematicElementType.Port;
 
 		private static void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			if (e.Source == null)
-			{ }
-			else
+			if (e.Source != null)
 			{
 				_isDown = true;
 				_dragStartPoint = e.GetPosition(null);
@@ -100,6 +99,8 @@ namespace SmithChartTool.ViewModel
 					_isDragging = true;
 					_realDragSource = e.Source as UIElement;
 					_realDragSource.CaptureMouse();
+					_schematicElementType = (e.Source as MySchematicElementControl).Type;
+					
 					DataObject dragData = new DataObject("SchematicElement", e.Source);
 					DragDrop.DoDragDrop(_dummyDragSource, dragData, DragDropEffects.Copy);
 
@@ -152,7 +153,7 @@ namespace SmithChartTool.ViewModel
 
 				foreach (UIElement element in senderTarget.Children)
 				{
-					if (element.Equals(dropDest))
+					if (element.Equals(dropDest)) // search for drop position in StackPanel
 					{
 						dropDestIndex = i;
 						break;
@@ -164,15 +165,10 @@ namespace SmithChartTool.ViewModel
 					//((IDragDrop)dropDest).Drop(e);
 					try
 					{
-						//senderTarget.Children.Remove(_realDragSource);
-						//if(_realDragSource.)
-						//senderTarget.Children.Insert(dropDestIndex, new Button(_realDragSource));
-
-						//senderTarget.Children.Insert(dropDestIndex, new Button() { Width = 100, Height = 200 });
 						//senderTarget.Children.Insert(dropDestIndex, (Button)_realDragSource);
+						//senderTarget.Children.Insert(dropDestIndex, new Button() { Width = 100, Height = 200 });
 
-						senderTarget.Children.Insert(dropDestIndex, new MySchematicElementControl() { Type = SchematicElementType.ResistorSerial });
-						
+						senderTarget.Children.Insert(dropDestIndex, new MySchematicElementControl() { Type = _schematicElementType });
 					}
 					catch (Exception err)
 					{
@@ -181,7 +177,16 @@ namespace SmithChartTool.ViewModel
 				}
 				else
 				{
-					senderTarget.Children.Add(new MySchematicElementControl() { Type = SchematicElementType.ResistorSerial });
+					try
+					{
+						senderTarget.Children.Add(new MySchematicElementControl() { Type = _schematicElementType });
+					}
+					catch (Exception err)
+					{
+
+						MessageBox.Show("Das hat wohl nicht geklappt. Fehlercode: " + err.Message);
+					}
+					
 				}
 				_isDown = false;
 				_isDragging = false;
