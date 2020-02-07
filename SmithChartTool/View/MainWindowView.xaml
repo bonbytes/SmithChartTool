@@ -71,7 +71,7 @@
                                 <CheckBox.IsChecked>
                                     <Binding Path="bli" ConverterParameter="21">
                                         <Binding.Converter>
-                                            <vm:BooleanInvertConverter></vm:BooleanInvertConverter>
+                                            <vm:Converters></vm:Converters>
                                         </Binding.Converter>
                                     </Binding>
                                 </CheckBox.IsChecked>
@@ -82,8 +82,8 @@
                             <Button.IsEnabled>
                                 <Binding Path="bli" ConverterParameter="22">
                                     <Binding.Converter>
-                                        <vm:BooleanInvertConverter>
-                                        </vm:BooleanInvertConverter>
+                                        <vm:Converters>
+                                        </vm:Converters>
                                     </Binding.Converter>
                                 </Binding>
                             </Button.IsEnabled>
@@ -93,19 +93,30 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements">
-					<GroupBox Header="Drag-Drop test">
-						<StackPanel>
-							<ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding SchematicElementsSource}">
-								<ListBox.ItemTemplate>
+                    <ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding SchematicElementsSource}">
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="ListBox">
+                                <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
+                            </ControlTemplate>
+                        </ListBox.Template>
+                        <ListBox.Resources>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <local:MySchematicElementControl />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.Resources>
+                        <!--<ListBox.ItemTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding}"></TextBlock>
 									</DataTemplate>
-								</ListBox.ItemTemplate>
-							</ListBox>
-						</StackPanel>
-
-					</GroupBox>
-				</GroupBox>
+								</ListBox.ItemTemplate>-->
+                    </ListBox>
+                </GroupBox>
             </Grid>
 
 
@@ -129,7 +140,7 @@
 								<Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="ListBoxItem">
-											<ContentPresenter />
+											<local:MySchematicElementControl />
 										</ControlTemplate>
 									</Setter.Value>
 								</Setter>

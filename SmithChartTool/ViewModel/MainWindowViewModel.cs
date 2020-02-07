@@ -159,7 +159,7 @@ namespace SmithChartTool.ViewModel
             List<LineSeries> seriesReal = DrawSmithChartReal(this.NumRealCircles);
             foreach (var item in seriesReal)
             {
-                this.SmithChartPlot.Series.Add(item);
+                this.SmithChartPlot.Series. Add(item);
             }
             List<LineSeries> seriesImag = DrawSmithChartImag(this.NumImagCircles);
             foreach (var item in seriesImag)

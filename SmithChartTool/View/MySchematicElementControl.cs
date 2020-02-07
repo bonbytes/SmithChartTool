@@ -18,17 +18,33 @@ namespace SmithChartTool.View
 {
     public class MySchematicElementControl : Control
     {
-        static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(SchematicElementType), typeof(MySchematicElementControl), new PropertyMetadata(SchematicElementType.ResistorSerial));
+        static public DependencyProperty ImagePathProperty = DependencyProperty.Register("ImagePath", typeof(string), typeof(MySchematicElementControl), new PropertyMetadata(string.Empty));
+        private string _specificName;
 
-		public SchematicElementType Type
+		public string ImagePath
 		{
-			get { return (SchematicElementType)GetValue(TypeProperty); }
-			set { SetValue(TypeProperty, value); }
-		}
+			get { return (string)GetValue(ImagePathProperty); }
+            //set { SetValue(ImagePathProperty, value); }
+            set 
+            {
+                _specificName = "pack://application:,,,/Images/SchematicElements/" + value + ".png";
+                SetValue(ImagePathProperty, _specificName); 
+            }
+        }
 
 		static MySchematicElementControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MySchematicElementControl), new FrameworkPropertyMetadata(typeof(MySchematicElementControl)));
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            DependencyObject b = GetTemplateChild("MySchematicElementControlBorder"); // UI element out of template
+            if (b.GetType() == typeof(Border))
+            {
+                _specificName = (string)b;
+            }
         }
     }
 }

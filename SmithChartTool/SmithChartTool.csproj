@@ -87,9 +87,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Extensions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Model\SchematicElement.cs" />
-    <Compile Include="ViewModel\BooleanInvertConverter.cs" />
+    <Compile Include="ViewModel\Converters.cs" />
     <Compile Include="ViewModel\DragDropHelper.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MyLabeledControl.cs" />
@@ -161,7 +161,18 @@
     <Resource Include="Images\Icons\Save_16x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\SchematicElements\empty.png" />
+    <Resource Include="Images\SchematicElements\ResistorSerial.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SchematicElements\CapacitorParallel.png" />
+    <Resource Include="Images\SchematicElements\CapacitorSerial.png" />
+    <Resource Include="Images\SchematicElements\InductorParallel.png" />
+    <Resource Include="Images\SchematicElements\InductorSerial.png" />
+    <Resource Include="Images\SchematicElements\Port.png" />
+    <Resource Include="Images\SchematicElements\ResistorParallel.png" />
+    <Resource Include="Images\SchematicElements\TransLineParallelOpen.png" />
+    <Resource Include="Images\SchematicElements\TransLineParallelShort.png" />
+    <Resource Include="Images\SchematicElements\TransLineSerial.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

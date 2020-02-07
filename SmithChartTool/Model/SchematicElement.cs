@@ -9,14 +9,14 @@ namespace SmithChartTool.Model
 {
     public enum SchematicElementType
     {
-        Port = 0,
-        ResistorSerial = 1,
+        Port,
+        ResistorSerial,
         CapacitorSerial,
         InductorSerial,
-        ResistorParallel = 10,
+        ResistorParallel,
         CapacitorParallel,
         InductorParallel,
-        TransLineSerial = 20,
+        TransLineSerial,
         TransLineParallelOpen,
         TransLineParallelShort
     }
