@@ -170,17 +170,18 @@ namespace SmithChartTool.ViewModel
 
             SchematicElementsSource = typeof(SchematicElementType).ToNames();
             var b = typeof(SchematicElementType).FromName(SchematicElementsSource[2]);
+            SchematicElementsDest.Add(new SchematicElement() { Type = SchematicElementType.ResistorParallel });
         }
 
         public List<string> SchematicElementsSource { get; private set; }
         public ObservableCollection<SchematicElement> SchematicElementsDest { get; private set; } = new ObservableCollection<SchematicElement>();
 
-        public void Drop(DragEventArgs e)
+        public void Drop(int index, DragEventArgs e)
         {
             if (e.Data.GetDataPresent("SchematicElement"))
             {
-                SchematicElement element = e.Data.GetData("SchematicElement") as SchematicElement;
-                SchematicElementsDest.Add(element);
+                SchematicElementType type = (SchematicElementType)e.Data.GetData("SchematicElement");
+                SchematicElementsDest.Insert(index, new SchematicElement() { Type=type });
             }
         }
 

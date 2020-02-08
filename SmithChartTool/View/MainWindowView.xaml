@@ -49,7 +49,7 @@
 
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="240" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
@@ -71,7 +71,7 @@
                                 <CheckBox.IsChecked>
                                     <Binding Path="bli" ConverterParameter="21">
                                         <Binding.Converter>
-                                            <vm:Converters></vm:Converters>
+                                            <vm:BooleanInvertConverter></vm:BooleanInvertConverter>
                                         </Binding.Converter>
                                     </Binding>
                                 </CheckBox.IsChecked>
@@ -82,8 +82,8 @@
                             <Button.IsEnabled>
                                 <Binding Path="bli" ConverterParameter="22">
                                     <Binding.Converter>
-                                        <vm:Converters>
-                                        </vm:Converters>
+                                        <vm:BooleanInvertConverter>
+                                        </vm:BooleanInvertConverter>
                                     </Binding.Converter>
                                 </Binding>
                             </Button.IsEnabled>
@@ -96,7 +96,9 @@
                     <ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding SchematicElementsSource}">
                         <ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
-                                <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
+                                <ScrollViewer Visibility="Visible">
+                                    <StackPanel Orientation="Vertical" IsItemsHost="True"/>
+                                </ScrollViewer>
                             </ControlTemplate>
                         </ListBox.Template>
                         <ListBox.Resources>
@@ -104,7 +106,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <local:MySchematicElementControl />
+                                            <local:MySchematicElementControl ImagePath="{Binding}" />
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -129,24 +131,25 @@
                     <oxy:PlotView  Model="{Binding SmithChartPlot}"  />
                 </GroupBox>
 				<GroupBox  Grid.Row="1" Header="Schematic">
-					<ListBox Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElementsDest}">
-						<ListBox.Template>
-							<ControlTemplate TargetType="ListBox">
-								<StackPanel Orientation="Horizontal" IsItemsHost="True" />
-							</ControlTemplate>
-						</ListBox.Template>
-						<ListBox.Resources>
-							<Style TargetType="ListBoxItem">
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="ListBoxItem">
-											<local:MySchematicElementControl />
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-							</Style>
-						</ListBox.Resources>
-					</ListBox>
+					<ListBox Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElementsDest}">
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="ListBox">
+                                <StackPanel Orientation="Horizontal" IsItemsHost="True" />
+                            </ControlTemplate>
+                        </ListBox.Template>
+                        <ListBox.Resources>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <local:MySchematicElementControl />
+                                            <!--<Image Source="{Binding}"/>-->
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.Resources>
+                    </ListBox>
 				</GroupBox>
 				
 

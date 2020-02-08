@@ -14,7 +14,7 @@ namespace SmithChartTool.ViewModel
 {
 	public interface IDragDrop
 	{	
-		void Drop(DragEventArgs e);
+		void Drop(int index, DragEventArgs e);
 	}
 
 	public static class DragDropHelper
@@ -67,42 +67,28 @@ namespace SmithChartTool.ViewModel
 		}
 
 		private static Point _dragStartPoint;
-		//private static bool _isDown = false;
-		//private static bool _isDragging = false;
 
 		private static void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.Source != null)
 			{
-				//_isDown = true;
 				_dragStartPoint = e.GetPosition(null);
 			}
 		}
-		//private static void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
-		//{
-		//	_isDown = false;
-		//	_isDragging = false;
-		//}
 
 		private static void OnMouseMove(object sender, MouseEventArgs e)
 		{
-			//if (_isDown)
-			//{
-				if (e.LeftButton == MouseButtonState.Pressed && ((Math.Abs(e.GetPosition(null).X - _dragStartPoint.X) > SystemParameters.MinimumHorizontalDragDistance) ||
-					   (Math.Abs(e.GetPosition(null).Y - _dragStartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
+			if (e.LeftButton == MouseButtonState.Pressed && ((Math.Abs(e.GetPosition(null).X - _dragStartPoint.X) > SystemParameters.MinimumHorizontalDragDistance) ||
+					(Math.Abs(e.GetPosition(null).Y - _dragStartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
+			{
+				ListBoxItem lbitem = FindControlAncestor<ListBoxItem>((DependencyObject)e.OriginalSource);
+				if (lbitem != null)
 				{
-					//_isDragging = true;
-
-					ListBoxItem lbitem = FindControlAncestor<ListBoxItem>((DependencyObject)e.OriginalSource);
-					if (lbitem != null)
-					{
-						//SchematicElement element = (SchematicElement)((sender as ListBox).ItemContainerGenerator.ItemFromContainer(lbitem));
-						var element = typeof(SchematicElementType).FromName((string)((sender as ListBox).SelectedItem));
-						DataObject dragData = new DataObject("SchematicElement", element);
-						DragDrop.DoDragDrop(lbitem, dragData, DragDropEffects.Move);
-					}
+                    var type = typeof(SchematicElementType).FromName((string)(lbitem.Content));
+                    DataObject dragData = new DataObject("SchematicElement", type);
+					DragDrop.DoDragDrop(lbitem, dragData, DragDropEffects.Move);
 				}
-			//}
+			}
 		}
 
 		private static T FindControlAncestor<T>(DependencyObject current) where T : DependencyObject
@@ -133,13 +119,30 @@ namespace SmithChartTool.ViewModel
 			if (e.Data.GetDataPresent("SchematicElement"))
 			{
 				var dropDest = FindDragDropAncestor(sender as DependencyObject);
-				if (dropDest != null)
-				{
-					dropDest.Drop(e);
-				}
+                int dropDestIndex = -1;
+                int i = 0;
 
-				//_isDown = false;
-				//_isDragging = false;
+                if (dropDest != null)
+                {
+                    foreach (var element in ((ListBox)sender).ItemsSource)
+                    {
+                        if (element.Equals(dropDest)) // search for drop position
+                        {
+                            dropDestIndex = i;
+                            break;
+                        }
+                        i++;
+                    }
+                    if (dropDestIndex != -1)
+                    {
+                        dropDest.Drop(dropDestIndex, e);
+                    }
+                    else
+                    {
+                        
+                        dropDest.Drop(i-1, e);
+                    }
+                }
 			}
 		}
 

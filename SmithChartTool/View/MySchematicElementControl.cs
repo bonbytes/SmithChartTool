@@ -18,18 +18,18 @@ namespace SmithChartTool.View
 {
     public class MySchematicElementControl : Control
     {
-        static public DependencyProperty ImagePathProperty = DependencyProperty.Register("ImagePath", typeof(string), typeof(MySchematicElementControl), new PropertyMetadata(string.Empty));
-        private string _specificName;
+        static public DependencyProperty ImagePathProperty = DependencyProperty.Register("ImagePath", typeof(string), typeof(MySchematicElementControl), new PropertyMetadata("pack://application:,,,/Images/SchematicElements/ResistorParallel.png"));
+        //private string _specificName;
 
 		public string ImagePath
 		{
 			get { return (string)GetValue(ImagePathProperty); }
-            //set { SetValue(ImagePathProperty, value); }
-            set 
-            {
-                _specificName = "pack://application:,,,/Images/SchematicElements/" + value + ".png";
-                SetValue(ImagePathProperty, _specificName); 
-            }
+            set { SetValue(ImagePathProperty, (string)("pack://application:,,,/Images/SchematicElements/" + value + ".png")); }
+            //set
+            //{
+            //    _specificName = "pack://application:,,,/Images/SchematicElements/" + value + ".png";
+            //    SetValue(ImagePathProperty, _specificName);
+            //}
         }
 
 		static MySchematicElementControl()
@@ -40,10 +40,10 @@ namespace SmithChartTool.View
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            DependencyObject b = GetTemplateChild("MySchematicElementControlBorder"); // UI element out of template
-            if (b.GetType() == typeof(Border))
+            DependencyObject b = GetTemplateChild("MySchematicElementControlImage"); // UI element out of template
+            if (b.GetType() == typeof(Image))
             {
-                _specificName = (string)b;
+                (b as Image).Source = this.ImagePath;
             }
         }
     }

@@ -46,14 +46,14 @@
     <Style TargetType="{x:Type v:MySchematicElementControl}">
         <Setter Property="Height" Value="100"/>
         <Setter Property="Width" Value="100"/>
-        <Setter Property="Margin" Value="5,5,5,5"/>
+        <Setter Property="Margin" Value="2,2,2,2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type v:MySchematicElementControl}">
                     <Grid>
-                        <Border Background="Transparent" BorderBrush="Black" BorderThickness="1" x:Name="MySchematicElementControlBorder">
-                            <!--<Image Source="pack://application:,,,/Images/SchematicElements/empty.png"></Image>-->
-                            <Image Stretch="Fill" HorizontalAlignment="Center" Source="{TemplateBinding ImagePath}"></Image>
+                        <Border Background="Transparent" BorderBrush="Black" BorderThickness="1">
+                            <!--<Image Source="pack://application:,,,/Images/SchematicElements/ResistorSerial.png"></Image>-->
+                            <Image x:Name="MySchematicElementControlImage" Source="{TemplateBinding ImagePath}"></Image>
                         </Border>
                     </Grid>
                 </ControlTemplate>
