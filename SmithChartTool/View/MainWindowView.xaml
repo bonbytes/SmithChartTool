@@ -131,7 +131,7 @@
                     <oxy:PlotView  Model="{Binding SmithChartPlot}"  />
                 </GroupBox>
 				<GroupBox  Grid.Row="1" Header="Schematic">
-					<ListBox Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElementsDest}">
+                    <ListBox Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElements}">
                         <ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
                                 <StackPanel Orientation="Horizontal" IsItemsHost="True" />

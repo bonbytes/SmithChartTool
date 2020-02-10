@@ -24,8 +24,9 @@ namespace SmithChartTool.View
 
         public MainWindowView()
         {
-            this.InitializeComponent();
             this.DataContext = VM;
+            this.InitializeComponent();
+            
             CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunCommandXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
         }
     }

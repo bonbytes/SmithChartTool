@@ -43,7 +43,7 @@ namespace SmithChartTool.View
             DependencyObject b = GetTemplateChild("MySchematicElementControlImage"); // UI element out of template
             if (b.GetType() == typeof(Image))
             {
-                (b as Image).Source = this.ImagePath;
+                //(b as Image).Source = (ImageSource)this.ImagePath;
             }
         }
     }

@@ -15,7 +15,10 @@ namespace SmithChartTool.ViewModel
 {
     public class MainWindowViewModel : IDragDrop
     {
+        public SmithChart SmithChart;
         public PlotModel SmithChartPlot { get; private set; }
+        public List<string> SchematicElementsSource { get; private set; }
+        public ObservableCollection<SchematicElement> SchematicElementsDest { get; private set; } = new ObservableCollection<SchematicElement>();
 
         private Complex32 GetConformalImpedanceValue(Complex32 z)
         {
@@ -148,6 +151,8 @@ namespace SmithChartTool.ViewModel
 
         public MainWindowViewModel()
         {
+            SmithChart = new SmithChart();
+
             this.NumRealCircles = 7;
             this.NumImagCircles = 18;
             this.SmithChartPlot = new PlotModel();
@@ -169,12 +174,11 @@ namespace SmithChartTool.ViewModel
             this.SmithChartPlot.InvalidatePlot(true);
 
             SchematicElementsSource = typeof(SchematicElementType).ToNames();
-            var b = typeof(SchematicElementType).FromName(SchematicElementsSource[2]);
-            SchematicElementsDest.Add(new SchematicElement() { Type = SchematicElementType.ResistorParallel });
-        }
+            //var b = typeof(SchematicElementType).FromName(SchematicElementsSource[2]);
 
-        public List<string> SchematicElementsSource { get; private set; }
-        public ObservableCollection<SchematicElement> SchematicElementsDest { get; private set; } = new ObservableCollection<SchematicElement>();
+            SchematicElementsDest.Add(new SchematicElement { Type = SchematicElementType.ResistorParallel });
+            SmithChart.Schematic.AddElement(SchematicElementType.ResistorParallel);
+        }
 
         public void Drop(int index, DragEventArgs e)
         {
