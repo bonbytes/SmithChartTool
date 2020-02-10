@@ -11,33 +11,40 @@ namespace SmithChartTool.Model
 {
     public class Schematic: INotifyPropertyChanged
     {
-        private ObservableCollection<SchematicElement> _schematicElements;
+        private ObservableCollection<SchematicElement> _elements;
 
-        public ObservableCollection<SchematicElement> SchematicElements
+        public ObservableCollection<SchematicElement> Elements
         {
-            get { return _schematicElements; }
-            set {
-                OnPropertyChanged("SchematicElements");
-                _schematicElements = value; }
+            get { return _elements; }
+            set 
+            {
+                OnPropertyChanged("Elements");
+                _elements = value;
+            }
         }
+
+        public List<string> AvailableElements { get; private set; }
 
         public Schematic()
         {
-            SchematicElements = new ObservableCollection<SchematicElement>(); // create empty schematic
-            SchematicElements.Add(new Port(1, new Complex32(50, 0)));
-            SchematicElements.Add(new Port(2, new Complex32(50, 0)));
+            Elements = new ObservableCollection<SchematicElement>(); // create empty schematic
+            AvailableElements = typeof(SchematicElementType).ToNames();
+            //var b = typeof(SchematicElementType).FromName(AvailableElements[2]);
+
+            Elements.Add(new Port(1, new Complex32(50, 0)));
+            Elements.Add(new Port(2, new Complex32(50, 0)));
         }
 
         public void AddElement(SchematicElementType schematicElement)
         {
-            SchematicElements.Insert(SchematicElements.Count-1, new SchematicElement 
+            Elements.Insert(Elements.Count-1, new SchematicElement 
             {
                     Type = schematicElement 
             });
         }
         public void InsertElement(int index, SchematicElementType schematicElement)
         {
-            SchematicElements.Insert(index, new SchematicElement
+            Elements.Insert(index, new SchematicElement
             {
                 Type = schematicElement
             });
@@ -45,31 +52,29 @@ namespace SmithChartTool.Model
 
         public void RemoveElement(int index)
         {
-            SchematicElements.RemoveAt(index);
-
+            Elements.RemoveAt(index);
         }
 
         public void ChangePortImpedance(int name, Complex32 impedance)
         {
             if(name == 1)
             {
-                SchematicElements[0].Impedance = impedance;
+                Elements[0].Impedance = impedance;
             }
             else
             {
-                SchematicElements[SchematicElements.Count].Impedance = impedance;
+                Elements[Elements.Count].Impedance = impedance;
             }
-
         }
 
         public void ChangeElementValue(int index, double value)
         {
-            SchematicElements[index].Value = value;
+            Elements[index].Value = value;
         }
 
         public void ChangeElementImpedance(int index, Complex32 impedance)
         {
-            SchematicElements[index].Impedance = impedance;
+            Elements[index].Impedance = impedance;
         }
 
         #region INotifyPropertyChanged Members  

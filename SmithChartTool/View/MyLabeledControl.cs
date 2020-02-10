@@ -21,7 +21,6 @@ namespace SmithChartTool.View
 		static public DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(MyLabeledControl), new PropertyMetadata(string.Empty));
 		static public DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(MyLabeledControl), new PropertyMetadata(Orientation.Horizontal));
 
-
 		public string Header
 		{
 			get { return (string)GetValue(HeaderProperty); }

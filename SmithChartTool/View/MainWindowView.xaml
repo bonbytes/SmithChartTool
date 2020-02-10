@@ -93,12 +93,12 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements">
-                    <ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding SchematicElementsSource}">
+                    <ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding Schematic.AvailableElements}">
                         <ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
-                                <ScrollViewer Visibility="Visible">
-                                    <StackPanel Orientation="Vertical" IsItemsHost="True"/>
-                                </ScrollViewer>
+                                <!--<ScrollViewer VerticalScrollBarVisibility="Visible" >-->
+                                    <WrapPanel Orientation="Horizontal" IsItemsHost="True"/>
+                                <!--</ScrollViewer>-->
                             </ControlTemplate>
                         </ListBox.Template>
                         <ListBox.Resources>
@@ -128,10 +128,10 @@
                     <RowDefinition Height="150"/>
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Smith Chart">
-                    <oxy:PlotView  Model="{Binding SmithChartPlot}"  />
+                    <oxy:PlotView  Model="{Binding SC.Plot}"  />
                 </GroupBox>
 				<GroupBox  Grid.Row="1" Header="Schematic">
-                    <ListBox Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElements}">
+                    <ListBox Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
                         <ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
                                 <StackPanel Orientation="Horizontal" IsItemsHost="True" />
@@ -142,8 +142,8 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <local:MySchematicElementControl />
-                                            <!--<Image Source="{Binding}"/>-->
+                                            <!--<local:MySchematicElementControl />-->
+                                            <Image Source="{Binding}"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>

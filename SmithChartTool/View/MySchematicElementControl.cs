@@ -18,21 +18,23 @@ namespace SmithChartTool.View
 {
     public class MySchematicElementControl : Control
     {
-        static public DependencyProperty ImagePathProperty = DependencyProperty.Register("ImagePath", typeof(string), typeof(MySchematicElementControl), new PropertyMetadata("pack://application:,,,/Images/SchematicElements/ResistorParallel.png"));
-        //private string _specificName;
+        static public DependencyProperty ImagePathProperty = DependencyProperty.Register("ImagePath", typeof(string), typeof(MySchematicElementControl), new PropertyMetadata((ImageSource)converter.ConvertFromString("pack://application:,,,/Images/SchematicElements/ResistorParallel.png")));
 
-		public string ImagePath
-		{
-			get { return (string)GetValue(ImagePathProperty); }
-            set { SetValue(ImagePathProperty, (string)("pack://application:,,,/Images/SchematicElements/" + value + ".png")); }
-            //set
-            //{
-            //    _specificName = "pack://application:,,,/Images/SchematicElements/" + value + ".png";
-            //    SetValue(ImagePathProperty, _specificName);
-            //}
+        static public ImageSourceConverter converter = new ImageSourceConverter();
+
+        public ImageSource ImagePath
+        {
+            get { return (ImageSource)GetValue(ImagePathProperty); }
+            set { SetValue(ImagePathProperty, (converter.ConvertFromString("pack://application:,,,/Images/SchematicElements/" + value + ".png"))); }
         }
 
-		static MySchematicElementControl()
+        //public string ImagePath
+        //{
+        //    get { return (string)GetValue(ImagePathProperty); }
+        //    set { SetValue(ImagePathProperty, (string)("pack://application:,,,/Images/SchematicElements/" + value + ".png")); }
+        //}
+
+        static MySchematicElementControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MySchematicElementControl), new FrameworkPropertyMetadata(typeof(MySchematicElementControl)));
         }
@@ -43,7 +45,8 @@ namespace SmithChartTool.View
             DependencyObject b = GetTemplateChild("MySchematicElementControlImage"); // UI element out of template
             if (b.GetType() == typeof(Image))
             {
-                //(b as Image).Source = (ImageSource)this.ImagePath;
+                (b as Image).Source = ImagePath;
+                //(b as Image).Source = (ImageSource)converter.ConvertFromString(this.ImagePath);
             }
         }
     }

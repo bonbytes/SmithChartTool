@@ -23,24 +23,14 @@ namespace SmithChartTool.Model
 
     public class SchematicElement : ImpedanceElement
     {
-        private int _id;
-        public int Id 
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                if (_id != value)
-                {
-                    _id = value;
-                    OnPropertyChanged("Id");
-                }
-            }
-        }
-
         private double _value;
+        /// <summary>
+        /// Value defines different mechanics based on element type
+        /// Resistor: Value defines resistance
+        /// Capacitor: Value defines capacitance
+        /// Inductor: Value defines inductance
+        /// Transmission Line: Value defines length
+        /// </summary>
         public double Value
         {
             get

@@ -10,12 +10,10 @@ namespace SmithChartTool.Model
 	public class Port : SchematicElement
 	{
 		public string Name { get; private set; }
-
 		public Port(int name, Complex32 impedance)
 		{
-			Type = SchematicElementType.Port;
-			Id = name;
 			Name = name.ToString();
+			Type = SchematicElementType.Port;
 			Impedance = impedance;
 		}
 }
