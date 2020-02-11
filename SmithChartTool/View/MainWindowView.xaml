@@ -93,7 +93,9 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements">
-                    <ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding Schematic.AvailableElements}">
+                    <ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding Schematic.AvailableElements}" ScrollViewer.CanContentScroll="True"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+
                         <ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
                                 <!--<ScrollViewer VerticalScrollBarVisibility="Visible" >-->
@@ -106,8 +108,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <local:MySchematicElementControl Type="{Binding}" />
-											<!--<local:MySchematicElementControl />-->
+                                            <local:MySchematicElementSource Type="{Binding}" />
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -143,7 +144,8 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-											<local:MySchematicElementControl Type="{Binding}"/>
+                                            <Border></Border>
+                                            <!--<local:MySchematicElementControl Type="{Binding}"/>-->
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>

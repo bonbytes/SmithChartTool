@@ -318,9 +318,9 @@
      inkscape:window-height="1017"
      id="namedview817"
      showgrid="true"
-     inkscape:zoom="15.999999"
-     inkscape:cx="56.370654"
-     inkscape:cy="54.827278"
+     inkscape:zoom="7.9999996"
+     inkscape:cx="4.3641892"
+     inkscape:cy="48.412653"
      inkscape:current-layer="g823"
      fit-margin-top="10"
      fit-margin-left="10"
@@ -329,7 +329,8 @@
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:snap-to-guides="true"><inkscape:grid
+     inkscape:snap-to-guides="true"
+     showguides="true"><inkscape:grid
        type="xygrid"
        id="grid1279"
        originx="0"
@@ -418,16 +419,7 @@
 
 
 
-<text
-   xml:space="preserve"
-   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:1.25;font-family:Consolas;-inkscape-font-specification:'Consolas, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75"
-   x="23.069973"
-   y="59.569496"
-   id="text2097-2"><tspan
-     sodipodi:role="line"
-     id="tspan1185"
-     x="23.069973"
-     y="59.569496">Resistor</tspan></text>
+
 
 
 
@@ -469,17 +461,21 @@
 
 
 <path
-   style="opacity:0.98200001;fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-   d="m 14.043697,83.798611 c 11.995619,1e-6 11.995619,1e-6 11.995619,1e-6"
+   style="opacity:0.98200001;fill:none;stroke:#000000;stroke-width:1.49999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   d="m 6.5393149,57.548611 c 75.0000011,10e-7 75.0000011,10e-7 75.0000011,10e-7"
    id="path3817"
-   inkscape:connector-curvature="0" /><rect
-   style="opacity:0.98200001;stroke-width:1.50000004;stroke-miterlimit:4;stroke-dasharray:none;stroke:#000000;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+   inkscape:connector-curvature="0" /><a
+   id="a65"
+   style="stroke-width:1.35000002;stroke-miterlimit:4;stroke-dasharray:none"
+   transform="matrix(1.2345679,0,0,1,-10.793173,11.250001)"><path
+     inkscape:connector-curvature="0"
+     id="path61"
+     d="m 14.039315,98.798612 c 60.750002,0 60.750002,0 60.750002,0"
+     style="fill:none;stroke:#000000;stroke-width:1.35000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /></a><rect
+   style="display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    id="rect4888"
    width="37.5"
    height="15"
-   x="25.289316"
-   y="76.298615" /><path
-   style="display:inline;opacity:0.98200001;fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-   d="m 62.043698,83.798611 c 11.995619,1e-6 11.995619,1e-6 11.995619,1e-6"
-   id="path3817-2"
-   inkscape:connector-curvature="0" /></g></svg>
+   x="-63.539314"
+   y="-65.048615"
+   transform="scale(-1)" /></g></svg>

@@ -9,16 +9,17 @@ namespace SmithChartTool.Model
 {
     public enum SchematicElementType
     {
-        Port,
+        Port1,
+        Port2,
         ResistorSerial,
         CapacitorSerial,
         InductorSerial,
         ResistorParallel,
         CapacitorParallel,
         InductorParallel,
-        TransLineSerial,
-        TransLineParallelOpen,
-        TransLineParallelShort
+        TLine,
+        OpenStub,
+        ShortedStub
     }
 
     public class SchematicElement : ImpedanceElement

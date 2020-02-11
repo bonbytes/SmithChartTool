@@ -93,7 +93,8 @@
     <Compile Include="ViewModel\DragDropHelper.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MyLabeledControl.cs" />
-    <Compile Include="View\MySchematicElementControl.cs" />
+    <Compile Include="View\MySchematicElement.cs" />
+    <Compile Include="View\MySchematicElementSource.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -168,11 +169,16 @@
     <Resource Include="Images\SchematicElements\CapacitorSerial.png" />
     <Resource Include="Images\SchematicElements\InductorParallel.png" />
     <Resource Include="Images\SchematicElements\InductorSerial.png" />
-    <Resource Include="Images\SchematicElements\Port.png" />
     <Resource Include="Images\SchematicElements\ResistorParallel.png" />
-    <Resource Include="Images\SchematicElements\TransLineParallelOpen.png" />
-    <Resource Include="Images\SchematicElements\TransLineParallelShort.png" />
-    <Resource Include="Images\SchematicElements\TransLineSerial.png" />
+    <Resource Include="Images\SchematicElements\OpenStub.png" />
+    <Resource Include="Images\SchematicElements\ShortedStub.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SchematicElements\Port1.png" />
+    <Resource Include="Images\SchematicElements\Port2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SchematicElements\TLine.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
