@@ -27,7 +27,7 @@ namespace SmithChartTool.Model
 
         public Schematic()
         {
-            Elements = new ObservableCollection<SchematicElement>(); // create empty schematic
+            Elements = new ObservableCollection<SchematicElement>();
             AvailableElements = typeof(SchematicElementType).ToNames();
             //var b = typeof(SchematicElementType).FromName(AvailableElements[2]);
 
@@ -37,7 +37,13 @@ namespace SmithChartTool.Model
 
         public void AddElement(SchematicElementType schematicElement)
         {
-            Elements.Insert(Elements.Count-1, new SchematicElement 
+            int index;
+            if ((Elements.Count - 1) < 0)
+                index = 0;
+            else
+                index = Elements.Count - 1;
+                
+            Elements.Insert(index, new SchematicElement 
             {
                     Type = schematicElement 
             });

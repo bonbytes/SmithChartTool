@@ -106,7 +106,8 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <local:MySchematicElementControl ImagePath="{Binding}" />
+                                            <local:MySchematicElementControl Type="{Binding}" />
+											<!--<local:MySchematicElementControl />-->
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -142,8 +143,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <!--<local:MySchematicElementControl />-->
-                                            <Image Source="{Binding}"/>
+											<local:MySchematicElementControl Type="{Binding}"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>

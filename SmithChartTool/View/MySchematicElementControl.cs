@@ -18,35 +18,56 @@ namespace SmithChartTool.View
 {
     public class MySchematicElementControl : Control
     {
-        static public DependencyProperty ImagePathProperty = DependencyProperty.Register("ImagePath", typeof(string), typeof(MySchematicElementControl), new PropertyMetadata((ImageSource)converter.ConvertFromString("pack://application:,,,/Images/SchematicElements/ResistorParallel.png")));
+        private Image img = null;
+        static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(MySchematicElementControl), new PropertyMetadata(SchematicElementType.InductorSerial.ToString(), OnTypeChanged));
+      
 
-        static public ImageSourceConverter converter = new ImageSourceConverter();
-
-        public ImageSource ImagePath
+        public string Type
         {
-            get { return (ImageSource)GetValue(ImagePathProperty); }
-            set { SetValue(ImagePathProperty, (converter.ConvertFromString("pack://application:,,,/Images/SchematicElements/" + value + ".png"))); }
+            get { return (string)GetValue(TypeProperty); }
+            set { SetValue(TypeProperty, value); }
         }
-
-        //public string ImagePath
-        //{
-        //    get { return (string)GetValue(ImagePathProperty); }
-        //    set { SetValue(ImagePathProperty, (string)("pack://application:,,,/Images/SchematicElements/" + value + ".png")); }
-        //}
 
         static MySchematicElementControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MySchematicElementControl), new FrameworkPropertyMetadata(typeof(MySchematicElementControl)));
         }
 
+        private void UpdateImage()
+        {
+            if(img != null)
+            {
+                var a = typeof(SchematicElementType).FromName(Type);
+                //if (a.GetType() != typeof(string))
+                    
+                    //a = a.Type.ToString();
+                switch (a)
+                {
+                    case SchematicElementType.CapacitorParallel:
+                        img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/CapacitorParallel.png"));
+                        break;
+                    
+
+                    default:
+                        img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/ResistorParallel.png"));
+                        break;
+                }
+            }
+        }
+
+        public static void OnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            (sender as MySchematicElementControl).UpdateImage();
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            DependencyObject b = GetTemplateChild("MySchematicElementControlImage"); // UI element out of template
-            if (b.GetType() == typeof(Image))
+            DependencyObject b = GetTemplateChild("PART_MySchematicElementControlImage"); // UI element out of template
+            if(b != null && (b.GetType() == typeof(Image)))
             {
-                (b as Image).Source = ImagePath;
-                //(b as Image).Source = (ImageSource)converter.ConvertFromString(this.ImagePath);
+                img = b as Image;
+                UpdateImage();
             }
         }
     }
