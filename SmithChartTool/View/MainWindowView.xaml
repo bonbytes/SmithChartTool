@@ -50,7 +50,9 @@
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
@@ -121,16 +123,17 @@
                 </GroupBox>
             </Grid>
 
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"/>
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="150"/>
                 </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" Header="Smith Chart">
-                    <oxy:PlotView  Model="{Binding SC.Plot}"  />
+                <GroupBox Grid.Row="0" Header="Smith Chart" x:Name="gbSmithChartPlot">
+                    <oxy:PlotView  Model="{Binding SC.Plot}"  Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" MaxWidth="{Binding MaxWidth, ElementName=gbSmithChartPlot}" />
                 </GroupBox>
-				<GroupBox  Grid.Row="1" Header="Schematic">
+                <GroupBox  Grid.Row="1" Header="Schematic">
                     <ListBox Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
                         <ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
@@ -150,11 +153,12 @@
                             </Style>
                         </ListBox.Resources>
                     </ListBox>
-				</GroupBox>
-				
+                </GroupBox>
+            </Grid>
 
-			</Grid>
-            <Expander IsExpanded="True" Grid.Column="2" ExpandDirection="Left">
+            <GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch"/>
+
+            <Expander IsExpanded="True" Grid.Column="4" ExpandDirection="Left">
                 <GroupBox Header="Properties">
                     <ScrollViewer>
                         <StackPanel Grid.IsSharedSizeScope="True">

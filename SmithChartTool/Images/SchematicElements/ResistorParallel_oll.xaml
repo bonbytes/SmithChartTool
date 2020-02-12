@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg815" Width="99.999999" Height="100">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Canvas Name="g823">
+      <Canvas.RenderTransform>
+        <MatrixTransform Matrix="1.3333333 0 0 1.3333333 -8.7190863 -61.73148"/>
+      </Canvas.RenderTransform>
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path3817" StrokeThickness="1.49999988" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="0.98200001">
+                <Path.Data>
+                    <PathGeometry Figures="m 6.5393149 57.548611 c 75.0000011 10e-7 75.0000011 10e-7 75.0000011 10e-7" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+            <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="15" Height="37.5" Name="rect4888" Fill="#FFFFFFFF" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" Opacity="1">
+            </Rectangle>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path38176" StrokeThickness="1.49999988" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="0.98200001">
+        <Path.Data>
+          <PathGeometry Figures="m 43.289316 65.048612 c 10e-7 -8.25 10e-7 -8.25 10e-7 -8.25" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path381766" StrokeThickness="1.49999988" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="0.98200001">
+        <Path.Data>
+          <PathGeometry Figures="m 44.039316 110.79861 c 10e-7 -8.99984 10e-7 -8.99984 10e-7 -8.99984" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </Canvas>
+</Viewbox>

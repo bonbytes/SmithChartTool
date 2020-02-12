@@ -1,41 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--This file is NOT compatible with Silverlight-->
 <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
-  <Canvas Name="svg815" Width="99.999999" Height="100">
-    <Canvas.RenderTransform>
-      <TranslateTransform X="0" Y="0"/>
-    </Canvas.RenderTransform>
-    <Canvas.Resources>
-      <!--Unknown tag: inkscape:path-effect-->
-      <!--Unknown tag: inkscape:path-effect-->
-    </Canvas.Resources>
-    <!--Unknown tag: metadata-->
-    <!--Unknown tag: sodipodi:namedview-->
-    <Canvas Name="g823">
-      <Canvas.RenderTransform>
-        <MatrixTransform Matrix="1.3333333 0 0 1.3333333 -8.7190863 -61.73148"/>
-      </Canvas.RenderTransform>
-      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path3817" StrokeThickness="1.49999988" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="0.98200001">
-        <Path.Data>
-          <PathGeometry Figures="m 6.5393149 57.548611 c 75.0000011 10e-7 75.0000011 10e-7 75.0000011 10e-7" FillRule="NonZero"/>
-        </Path.Data>
-      </Path>
-      <!--Unknown tag: a-->
-      <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="-102.54861" Canvas.Top="36.539314" Width="37.5" Height="15" Name="rect4888" Fill="#FF000000" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" Opacity="1">
-        <Rectangle.RenderTransform>
-          <RotateTransform Angle="-90"/>
-        </Rectangle.RenderTransform>
-      </Rectangle>
-      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path38176" StrokeThickness="1.49999988" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="0.98200001">
-        <Path.Data>
-          <PathGeometry Figures="m 44.039316 65.798615 c 10e-7 -8.250003 10e-7 -8.250003 10e-7 -8.250003" FillRule="NonZero"/>
-        </Path.Data>
-      </Path>
-      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path381766" StrokeThickness="1.49999988" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="0.98200001">
-        <Path.Data>
-          <PathGeometry Figures="m 44.039316 110.72483 c 10e-7 -8.92606 10e-7 -8.92606 10e-7 -8.92606" FillRule="NonZero"/>
-        </Path.Data>
-      </Path>
+    <Canvas Name="frame" Width="100" Height="100">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathleft" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
+            <Path.Data>
+                <PathGeometry Figures="M0,20 h100" FillRule="NonZero"/>
+            </Path.Data>
+        </Path>
+        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="40" Canvas.Top="30" Width="20" Height="40" Name="rect4888" Fill="Black" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" Opacity="1"/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathgnd" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
+            <Path.Data>
+                <PathGeometry Figures="M0,80 h100" FillRule="NonZero"/>
+            </Path.Data>
+        </Path>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathtop" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Square" StrokeEndLineCap="Square"  Opacity="1">
+            <Path.Data>
+                <PathGeometry Figures="M50,20 v10" FillRule="NonZero"/>
+            </Path.Data>
+        </Path>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathbot" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Square" StrokeEndLineCap="Square"  Opacity="1">
+            <Path.Data>
+                <PathGeometry Figures="M50,80 v-10" FillRule="NonZero"/>
+            </Path.Data>
+        </Path>
     </Canvas>
-  </Canvas>
 </Viewbox>
