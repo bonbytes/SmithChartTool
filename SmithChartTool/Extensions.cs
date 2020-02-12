@@ -22,18 +22,24 @@ namespace SmithChartTool
 		public static List<string> ToNames(this Type input)
 		{
 			List<string> temp = new List<string>();
-			
+			var a = Enum.GetValues(input);
+
 			if(input.IsEnum)
 			{
-				foreach(Enum item in Enum.GetValues(input))
+				foreach(Enum item in a)
 				{
-					temp.Add(item.ToString());
+					if(a.ToString() != "Port")
+						temp.Add(item.ToString());
 				}
 			}
 			return temp;
 		}
 		public static Enum FromName(this Type input, string value)
 		{
+			if(value == "Port")
+			{
+				return null;
+			}
 			foreach(Enum item in Enum.GetValues(input))
 			{
 				if(item.ToString() == value)

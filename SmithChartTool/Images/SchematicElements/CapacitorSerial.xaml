@@ -21,11 +21,21 @@
         </Path.Data>
       </Path>
       <!--Unknown tag: a-->
-      <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="-63.539314" Canvas.Top="-65.048615" Width="37.5" Height="15" Name="rect4888" Fill="#FFFFFFFF" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" Opacity="1">
+      <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="-49.289314" Canvas.Top="-65.798615" Width="10.499998" Height="16.5" Name="rect4888" Fill="#FFFFFFFF" StrokeThickness="1.49999988" StrokeMiterLimit="4" Opacity="1">
         <Rectangle.RenderTransform>
           <ScaleTransform ScaleX="-1" ScaleY="-1"/>
         </Rectangle.RenderTransform>
       </Rectangle>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path38178" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="0.98200001">
+        <Path.Data>
+          <PathGeometry Figures="m 39.539316 65.798612 c 10e-7 -16.5 10e-7 -16.5 10e-7 -16.5" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path381789" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="0.98200001">
+        <Path.Data>
+          <PathGeometry Figures="m 48.539316 65.798612 c 10e-7 -16.500001 10e-7 -16.500001 10e-7 -16.500001" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
     </Canvas>
   </Canvas>
 </Viewbox>

@@ -21,7 +21,7 @@
         </Path.Data>
       </Path>
       <!--Unknown tag: a-->
-      <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="-63.539314" Canvas.Top="-65.048615" Width="37.5" Height="15" Name="rect4888" Fill="#FFFFFFFF" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" Opacity="1">
+      <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="-63.539314" Canvas.Top="-65.048615" Width="37.5" Height="15" Name="rect4888" Fill="#FF000000" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" Opacity="1">
         <Rectangle.RenderTransform>
           <ScaleTransform ScaleX="-1" ScaleY="-1"/>
         </Rectangle.RenderTransform>

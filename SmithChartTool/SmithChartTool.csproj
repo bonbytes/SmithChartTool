@@ -100,6 +100,42 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Resource Include="Images\SchematicElements\CapacitorParallel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\SchematicElements\CapacitorSerial.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\SchematicElements\InductorParallel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\SchematicElements\InductorSerial.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\SchematicElements\OpenStub.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\SchematicElements\Port.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\SchematicElements\ResistorParallel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\SchematicElements\ShortedStub.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\SchematicElements\TLine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -165,25 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\Save_16x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\SchematicElements\ResistorSerial.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\SchematicElements\CapacitorParallel.png" />
-    <Resource Include="Images\SchematicElements\CapacitorSerial.png" />
-    <Resource Include="Images\SchematicElements\InductorParallel.png" />
-    <Resource Include="Images\SchematicElements\InductorSerial.png" />
-    <Resource Include="Images\SchematicElements\ResistorParallel.png" />
-    <Resource Include="Images\SchematicElements\OpenStub.png" />
-    <Resource Include="Images\SchematicElements\ShortedStub.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\SchematicElements\Port1.png" />
-    <Resource Include="Images\SchematicElements\Port2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\SchematicElements\TLine.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

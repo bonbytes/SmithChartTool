@@ -26,7 +26,6 @@ namespace SmithChartTool.View
 			get { return (string)GetValue(HeaderProperty); }
 			set { SetValue(HeaderProperty, value); }
 		}
-
 		public Orientation Orientation
 		{
 			get { return (Orientation)GetValue(OrientationProperty); }

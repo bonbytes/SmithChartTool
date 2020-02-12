@@ -9,7 +9,7 @@ namespace SmithChartTool.Model
 {
     public enum SchematicElementType
     {
-        [SchematicElementInfo("Port", "Port1")] Port,
+        [SchematicElementInfo("Port", "Port")] Port,
         [SchematicElementInfo("Resistor (serial)", "ResistorSerial")] ResistorSerial,
         [SchematicElementInfo("Capacitor (serial)", "CapacitorSerial")] CapacitorSerial,
         [SchematicElementInfo("Inductor (serial)", "InductorSerial")] InductorSerial,
