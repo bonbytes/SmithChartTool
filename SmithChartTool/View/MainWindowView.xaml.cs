@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SmithChartTool.ViewModel;
 using SmithChartTool.Model;
+using System.Windows.Markup;
 
 namespace SmithChartTool.View
 {
@@ -28,6 +29,23 @@ namespace SmithChartTool.View
             this.InitializeComponent();
             
             CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunCommandXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
+
+            this.Loaded += (s, e) => {
+                //mitn doofen Frame -> cool, weil Datei (muss als Page gepackt sein)
+                //jaggeline.Navigate(new Uri("pack://application:,,,/Images/SchematicElements/Zeichnung.xaml"));
+
+                //Resource finden, doof weil in ResourceDictionary verbaut
+                //var a = FindResource("ResistorSerial");
+                //herbert.Content = a;
+
+                //DynamicResource attachen, doof weil s.o.
+                //herbert.SetResourceReference(Button.ContentProperty, "ResistorSerial");
+
+                //xaml laden und verarbeiten, cool weil Datei (muss als Resource gepackt sein)
+                //var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/Zeichnung.xaml"));
+                //var a = XamlReader.Load(sri.Stream);
+                //herbert.Content = a;
+            };
         }
     }
 }

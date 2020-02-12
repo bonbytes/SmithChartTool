@@ -39,11 +39,8 @@ namespace SmithChartTool.View
                 var a = typeof(SchematicElementType).FromName(Type);
                 switch (a)
                 {
-                    case SchematicElementType.Port1:
+                    case SchematicElementType.Port:
                         img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/Port1.png"));
-                        break;
-                    case SchematicElementType.Port2:
-                        img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/Port2.png"));
                         break;
                     case SchematicElementType.ResistorSerial:
                         img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/ResistorSerial.png"));

@@ -13,15 +13,7 @@ namespace SmithChartTool.Model
 		public Port(int name, Complex32 impedance)
 		{
 			Name = name.ToString();
-			if(name == 1)
-			{
-				Type = SchematicElementType.Port1;
-			}
-			else
-			{
-				Type = SchematicElementType.Port2;
-			}
-			
+			Type = SchematicElementType.Port;
 			Impedance = impedance;
 		}
 }

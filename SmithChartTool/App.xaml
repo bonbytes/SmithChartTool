@@ -2,8 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SmithChartTool"
+			 xmlns:core="clr-namespace:System;assembly=mscorlib"
              >
-    <Application.Resources>
-         
-    </Application.Resources>
+	<Application.Resources>
+		<!--<Grid x:Key="ResistorSerial" >
+			<Path Data="M0,5 L5,5 M5,0 L25,0 25,10 5,10Z M25,5 L30,5" StrokeThickness="1" Fill="Blue" Stroke="Red" SnapsToDevicePixels="True" />
+		</Grid>-->
+		<core:Double x:Key="plop">53.0</core:Double>
+		<SolidColorBrush x:Key="qolq">#FFFF00FF</SolidColorBrush>
+	</Application.Resources>
 </Application>

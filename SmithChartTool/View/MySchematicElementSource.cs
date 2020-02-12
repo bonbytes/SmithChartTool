@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -16,11 +18,13 @@ using SmithChartTool.Model;
 
 namespace SmithChartTool.View
 {
-    public class MySchematicElementSource : Control
+    //[ContentProperty("Bildchen")]
+    public class MySchematicElementSource : ContentControl
     {
         private Image img = null;
         static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(MySchematicElementSource), new PropertyMetadata(SchematicElementType.ResistorSerial.ToString(), OnTypeChanged));
         static public DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(MySchematicElementSource), new PropertyMetadata(string.Empty));
+        //static public DependencyProperty BildchenProperty = DependencyProperty.Register("Bildchen", typeof(object), typeof(MySchematicElementSource), new PropertyMetadata(null));
 
 
         public string Type
@@ -35,6 +39,12 @@ namespace SmithChartTool.View
             set { SetValue(HeaderProperty, value); }
         }
 
+        //public object Bildchen
+        //{
+        //    get { return GetValue(BildchenProperty); }
+        //    set { SetValue(BildchenProperty, value); }
+        //}
+
         static MySchematicElementSource()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MySchematicElementSource), new FrameworkPropertyMetadata(typeof(MySchematicElementSource)));
@@ -42,18 +52,45 @@ namespace SmithChartTool.View
 
         private void UpdateImage()
         {
-            if(img != null)
-            {
+            //if(img != null)
+            //{
                 var a = typeof(SchematicElementType).FromName(Type);
+
+                
+                Type t = a.GetType();
+                var b = t.GetMember(a.ToString());
+                
+                if(b.Count() > 0)
+                {
+                    var c = b[0].GetCustomAttributes(typeof(SchematicElementInfo), false);
+                    if(c.Count() > 0)
+                    {
+                        SchematicElementInfo sei = (SchematicElementInfo)c[0];
+                        Header = sei.Name;
+                        //img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/"+ sei.Icon +".png"));
+                        try
+                        {
+                            var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/" + sei.Icon + ".xaml"));
+                            var aa = XamlReader.Load(sri.Stream);
+                            //Bildchen = aa;
+                            Content = aa;
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+
+                return;
+
                 Header = Type;
                 switch (a)
                 {
-                    case SchematicElementType.Port1:
+                    case SchematicElementType.Port:
                         img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/Port1.png"));
                         break;
-                    case SchematicElementType.Port2:
-                        img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/Port2.png"));
-                        break;
+                   
                     case SchematicElementType.ResistorSerial:
                         img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/ResistorSerial.png"));
                         break;
@@ -85,7 +122,7 @@ namespace SmithChartTool.View
                         img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/Default.png"));
                         break;
                 }
-            }
+            //}
         }
 
         public static void OnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -102,6 +139,8 @@ namespace SmithChartTool.View
                 img = b as Image;
                 UpdateImage();
             }
+
+            UpdateImage();
         }
     }
 }

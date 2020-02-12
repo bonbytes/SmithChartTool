@@ -93,14 +93,12 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements">
-                    <ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding Schematic.AvailableElements}" ScrollViewer.CanContentScroll="True"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto">
-
-                        <ListBox.Template>
+					<ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding Schematic.AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+						<ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
-                                <!--<ScrollViewer VerticalScrollBarVisibility="Visible" >-->
+                                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" >
                                     <WrapPanel Orientation="Horizontal" IsItemsHost="True"/>
-                                <!--</ScrollViewer>-->
+                                </ScrollViewer>
                             </ControlTemplate>
                         </ListBox.Template>
                         <ListBox.Resources>
@@ -172,6 +170,9 @@
                                 <TextBox x:Name="tbCustomControl2"></TextBox>
                             </local:MyLabeledControl>
 							<Button Content="Apply"></Button>
+							<Button Height="100" x:Name="herbert">
+								<Frame x:Name="jaggeline" />
+							</Button>
 						</StackPanel>
                     </ScrollViewer>
                 </GroupBox>
