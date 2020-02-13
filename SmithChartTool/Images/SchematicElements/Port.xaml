@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--This file is NOT compatible with Silverlight-->
-<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
-    <Canvas Name="frame" Width="60" Height="100">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="0"/>
-        </Canvas.RenderTransform>
-        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="White" Canvas.Left="0" Canvas.Top="0" Width="60" Height="100" Name="rectPort" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-        <TextBlock xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="16" FontWeight="Normal" FontFamily="sans-serif" FontStyle="normal" Foreground="#FF000000" Canvas.Left="15" Canvas.Top="40" Name="textPort">
-            <Span FontSize="16" FontWeight="Normal" FontFamily="sans-serif" FontStyle="normal">Port</Span>
-        </TextBlock>
-    </Canvas>
-</Viewbox>
+<Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="frame" Width="60" Height="100">
+	<Rectangle Fill="White" Width="60" Height="100" Name="rectPort" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"/>
+	<TextBlock Canvas.Left="15" Canvas.Top="40"  FontSize="16" FontWeight="Normal" FontFamily="sans-serif" FontStyle="normal" Foreground="#FF000000" Name="textPort">
+		<TextBlock.Text>
+			Port
+		</TextBlock.Text>
+	</TextBlock>
+</Canvas>
+

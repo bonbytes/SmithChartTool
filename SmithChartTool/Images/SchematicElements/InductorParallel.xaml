@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
-    <Canvas Name="frame" Width="100" Height="100">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="0"/>
-        </Canvas.RenderTransform>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathleft" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
-            <Path.Data>
-                <PathGeometry Figures="M0,20 h100" FillRule="NonZero"/>
-            </Path.Data>
-        </Path>
-        <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="40" Canvas.Top="30" Width="20" Height="40" Name="rect4888" Fill="Black" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" Opacity="1"/>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathgnd" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
-            <Path.Data>
-                <PathGeometry Figures="M0,80 h100" FillRule="NonZero"/>
-            </Path.Data>
-        </Path>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathtop" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Square" StrokeEndLineCap="Square"  Opacity="1">
-            <Path.Data>
-                <PathGeometry Figures="M50,20 v10" FillRule="NonZero"/>
-            </Path.Data>
-        </Path>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathbot" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Square" StrokeEndLineCap="Square"  Opacity="1">
-            <Path.Data>
-                <PathGeometry Figures="M50,80 v-10" FillRule="NonZero"/>
-            </Path.Data>
-        </Path>
-    </Canvas>
-</Viewbox>
+<Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="frame" Width="100" Height="100">
+	<Path Data="M0,20 h100" Name="pathleft" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+	<Path Data="M50,20 v10" Name="pathtop" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+	<Rectangle Canvas.Left="40" Canvas.Top="30" Width="20" Height="40" Name="rect" Fill="Black" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"/>
+
+	<Path Data="M0,80 h100" Name="pathgnd" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+	<Path Data="M50,80 v-10" Name="pathbot" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+</Canvas>

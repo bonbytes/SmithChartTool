@@ -1,33 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
-    <Canvas Name="frame" Width="100" Height="100">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="0"/>
-        </Canvas.RenderTransform>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathleft" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
-            <Path.Data>
-                <PathGeometry Figures="M0,20 h45" FillRule="NonZero"/>
-            </Path.Data>
-        </Path>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathcapleft" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
-            <Path.Data>
-                <PathGeometry Figures="M45,10 v20" FillRule="NonZero"/>
-            </Path.Data>
-        </Path>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathcapright" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
-            <Path.Data>
-                <PathGeometry Figures="M55,10 v20" FillRule="NonZero"/>
-            </Path.Data>
-        </Path>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathright" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
-            <Path.Data>
-                <PathGeometry Figures="M55,20 h45" FillRule="NonZero"/>
-            </Path.Data>
-        </Path>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pathgnd" StrokeThickness="1.5" Stroke="#FF000000" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
-            <Path.Data>
-                <PathGeometry Figures="M0,80 h100" FillRule="NonZero"/>
-            </Path.Data>
-        </Path>
-    </Canvas>
-</Viewbox>
+<Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  Name="frame" Width="100" Height="100">
+	<Path Data="M0,20 h45" Name="pathleft" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+	<Path Data="M45,10 v20" Name="pathcapleft" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+	<Path Data="M55,10 v20" Name="pathcapright" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+	<Path Data="M55,20 h45" Name="pathright" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+	<Path Data="M0,80 h100" Name="pathgnd" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+</Canvas>

@@ -8,6 +8,8 @@
         <!-- My resource dictionary -->
         <core:Double x:Key="RD_IconSizeSchematicElementSource">80.0</core:Double>
         <core:Double x:Key="RD_IconSizeSchematic">100.0</core:Double>
+		<core:Double x:Key="RD_LineThicknessSchematicElements">2.0</core:Double>
+		<Thickness x:Key="RD_BorderThicknessSchematicElements">3</Thickness>
 		<SolidColorBrush x:Key="RD_ColorBrushBlack">#000000FF</SolidColorBrush>
 	
     </Application.Resources>

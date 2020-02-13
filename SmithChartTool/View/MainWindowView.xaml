@@ -49,7 +49,7 @@
 
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="240" MinWidth="210" />
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="5" />
@@ -94,11 +94,11 @@
                         <Button x:Name="executeParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
                     </StackPanel>
                 </GroupBox>
-                <GroupBox Grid.Row="1" Header="Circuit Elements">
+                <GroupBox Grid.Row="1" Header="Circuit Elements" >
 					<ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding Schematic.AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
 						<ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
-                                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" >
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
                                     <WrapPanel Orientation="Horizontal" IsItemsHost="True"/>
                                 </ScrollViewer>
                             </ControlTemplate>
@@ -123,16 +123,30 @@
                 </GroupBox>
             </Grid>
 
-            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"/>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="Transparent" />
 
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="150"/>
                 </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" Header="Smith Chart" x:Name="gbSmithChartPlot">
-                    <oxy:PlotView  Model="{Binding SC.Plot}"  Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" MaxWidth="{Binding MaxWidth, ElementName=gbSmithChartPlot}" />
-                </GroupBox>
+                <GroupBox Grid.Row="0" Header="Smith Chart" x:Name="gbSmithChartPlot" >
+					<Grid x:Name="grSmithChartPlot">
+						<oxy:PlotView  Model="{Binding SC.Plot}"  Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+							<oxy:PlotView.Height>
+								<MultiBinding>
+									<MultiBinding.Bindings>
+										<Binding Path="ActualWidth" ElementName="grSmithChartPlot"/>
+										<Binding Path="ActualHeight" ElementName="grSmithChartPlot"/>
+									</MultiBinding.Bindings>
+									<MultiBinding.Converter>
+										<vm:PlotSizeConverter></vm:PlotSizeConverter>
+									</MultiBinding.Converter>
+								</MultiBinding>
+							</oxy:PlotView.Height>
+						</oxy:PlotView>
+					</Grid>
+				</GroupBox>
                 <GroupBox  Grid.Row="1" Header="Schematic">
                     <ListBox Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
                         <ListBox.Template>
@@ -156,7 +170,7 @@
                 </GroupBox>
             </Grid>
 
-            <GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch"/>
+			<GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch" Background="Transparent" />
 
             <Expander IsExpanded="True" Grid.Column="4" ExpandDirection="Left">
                 <GroupBox Header="Properties">

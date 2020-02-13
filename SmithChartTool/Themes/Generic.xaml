@@ -45,8 +45,6 @@
     </Style>
 
     <Style TargetType="{x:Type v:MySchematicElementSource}">
-        <Setter Property="Height" Value="{DynamicResource RD_IconSizeSchematicElementSource}"/>
-        <Setter Property="Width" Value="{DynamicResource RD_IconSizeSchematicElementSource}"/>
         <Setter Property="Margin" Value="5,2,2,2"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -57,16 +55,18 @@
 								<TextBlock Text="{TemplateBinding Header}"/>
 							</Border>
 						</Grid.ToolTip>
-                        <StackPanel Orientation="Vertical">
-							<!--<TextBlock HorizontalAlignment="Center" Text="{TemplateBinding Header}" TextTrimming="CharacterEllipsis" />-->
-                            <Border Background="Transparent" BorderBrush="Black" BorderThickness="3">
-                                <!--<Image Stretch="Fill" x:Name="PART_MySchematicElementSourceImage" Source="pack://application:,,,/Images/SchematicElements/Default.png" ></Image>-->
-								<Viewbox Stretch="Uniform">
-									<Button Content="{TemplateBinding Content}" />
-								</Viewbox>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="auto"/>
+							<RowDefinition />
+						</Grid.RowDefinitions>
+							
+						<TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ABC}" Text="{TemplateBinding Header}" TextTrimming="CharacterEllipsis" />
+						<Viewbox Grid.Row="1" Stretch="Uniform" x:Name="ABC" Height="{DynamicResource RD_IconSizeSchematicElementSource}" Width="{DynamicResource RD_IconSizeSchematicElementSource}">
+							<Border Background="Transparent" BorderBrush="Black" BorderThickness="{DynamicResource RD_BorderThicknessSchematicElements}" >
+								<Button Content="{TemplateBinding Content}" />
 							</Border>
-                        </StackPanel>
-                    </Grid>
+						</Viewbox>
+					</Grid>
 				</ControlTemplate>
             </Setter.Value>
         </Setter>
