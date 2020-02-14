@@ -80,7 +80,6 @@
                                 </CheckBox.IsChecked>
                             </CheckBox>
                         </local:LabeledControl>
-
                         <Button x:Name="executeSync" Content="Normal Execute">
                             <Button.IsEnabled>
                                 <Binding Path="bli" ConverterParameter="22">
@@ -115,11 +114,6 @@
                                 </Setter>
                             </Style>
                         </ListBox.Resources>
-                        <!--<ListBox.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding}"></TextBlock>
-									</DataTemplate>
-								</ListBox.ItemTemplate>-->
                     </ListBox>
                 </GroupBox>
             </Grid>
@@ -129,7 +123,8 @@
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="5" MinHeight="5"/>
+                    <RowDefinition Height="150" MinHeight="150"/>
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Smith Chart" x:Name="gbSmithChartPlot" >
 					<Grid x:Name="grSmithChartPlot">
@@ -148,60 +143,63 @@
 						</oxy:PlotView>
 					</Grid>
 				</GroupBox>
-                <GroupBox  Grid.Row="1" Header="Schematic">
-                    <ListView Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
-                        <ListView.Template>
+
+                <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" Background="Transparent" />
+                
+                <GroupBox  Grid.Row="2" Header="Schematic">
+                    <ListBox Width="auto" Background="White" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
+                        <ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
-                                <StackPanel Orientation="Horizontal" IsItemsHost="True" />
+                                <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
+                                    <StackPanel Orientation="Horizontal" IsItemsHost="True" />
+                                </ScrollViewer>
                             </ControlTemplate>
-                        </ListView.Template>
-                        <ListView.Resources>
-                            <Style TargetType="ListViewItem">
+                        </ListBox.Template>
+                        <ListBox.Resources>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Focusable" Value="True"></Setter>
                                 <Setter Property="Template">
                                     <Setter.Value>
-                                        <ControlTemplate TargetType="ListViewItem">
+                                        <ControlTemplate TargetType="ListBoxItem">
                                             <local:SchematicElementControl Type="{Binding}" Designator="{Binding}" Value="{Binding}"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
                             </Style>
-                        </ListView.Resources>
-                    </ListView>
+                        </ListBox.Resources>
+                    </ListBox>
                 </GroupBox>
             </Grid>
 
 			<GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch" Background="Transparent" />
 
-            <Expander IsExpanded="True" Grid.Column="4" ExpandDirection="Left">
-                <GroupBox Header="Properties">
-                    <ScrollViewer>
-                        <StackPanel Grid.IsSharedSizeScope="True">
-                            <StackPanel.Resources>
-                                <Style TargetType="Button">
-                                    <Setter Property="Margin" Value="0,0,0,10"></Setter>
-                                </Style>
-                            </StackPanel.Resources>
-                            <local:LabeledControl Header="Blub">
-                                <TextBox x:Name="tbCustomControl"></TextBox>
-                            </local:LabeledControl>
-                            <Button Content="Apply"></Button>
-							<Button x:Name="blub">
-								<Button.Triggers>
-									<EventTrigger RoutedEvent="Button.Click" SourceName="blub">
-										<BeginStoryboard>
-											<Storyboard>
-												<ColorAnimation From="Red" To="Blue" Duration="0:0:1.56" AutoReverse="True" Storyboard.TargetName="blub" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" />
-											</Storyboard>
-										</BeginStoryboard>
-									</EventTrigger>
-								</Button.Triggers>
-								123
-							</Button>
-                        </StackPanel>
-                    </ScrollViewer>
-                </GroupBox>
-                
-            </Expander>
+            <GroupBox Header="Properties" Grid.Column="4">
+                <ScrollViewer>
+                    <StackPanel Grid.IsSharedSizeScope="True">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Margin" Value="0,0,0,10"></Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        <local:LabeledControl Header="Blub">
+                            <TextBox x:Name="tbCustomControl"></TextBox>
+                        </local:LabeledControl>
+                        <Button Content="Apply"></Button>
+                        <Button x:Name="blub">
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click" SourceName="blub">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation From="Red" To="Blue" Duration="0:0:1.56" AutoReverse="True" Storyboard.TargetName="blub" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
+                            123
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </GroupBox>
 
         </Grid>
     </DockPanel>

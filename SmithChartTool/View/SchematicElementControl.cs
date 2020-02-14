@@ -46,43 +46,25 @@ namespace SmithChartTool.View
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SchematicElementControl), new FrameworkPropertyMetadata(typeof(SchematicElementControl)));
         }
 
-        private void UpdateControl()
+        private void UpdateControl(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            var a = typeof(SchematicElementType);
-            if (a != null)
-            {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-                Type t = a.GetType();
-                var b = t.GetMember(a.ToString());
+            var elementData = sender.GetValue(DataContextProperty);
+            var t = ((SchematicElement)elementData).Type.GetType();
+            var attributeData = t.GetMember((((SchematicElement)elementData).Type).ToString());
+            var attributes = attributeData[0].GetCustomAttributes(typeof(SchematicElementInfo), false);
+            SchematicElementInfo sei = (SchematicElementInfo)attributes[0];
 
-                if (b.Count() > 0)
-                {
-                    var c = b[0].GetCustomAttributes(typeof(SchematicElementInfo), false);
-                    if (c!= null && c.Count() > 0)
-                    {
-                        var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/" + sei.Icon + ".xaml"));
-                        var content = XamlReader.Load(sri.Stream);
-                        Content = content;
-                    }
-                        
+            var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/" + sei.Icon + ".xaml"));
+            var content = XamlReader.Load(sri.Stream);
+            Content = content;
 
-
-                    //SchematicElementInfo sei = (SchematicElementInfo)c[0];
-                    //Header = sei.Name;
-                    //img.Source = new BitmapImage(new Uri("pack://application:,,,/Images/SchematicElements/"+ sei.Icon +".png"));
-                    //if (sei != null)
-                    //{
-                    //    var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/" + sei.Icon + ".xaml"));
-                    //    var content = XamlReader.Load(sri.Stream);
-                    //    Content = content;
-                    //}
-                }
-            }
-
+            Value = ((SchematicElement)elementData).Value.ToString();
+            Designator = sei.Designator;
         }
 
         public static void OnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            (sender as SchematicElementControl).UpdateControl();
+            (sender as SchematicElementControl).UpdateControl(sender, e);
         }
 
         //public override void OnApplyTemplate()

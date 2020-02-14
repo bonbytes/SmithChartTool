@@ -12,7 +12,5 @@
 		<Thickness x:Key="RD_BorderThicknessSchematicElements">3</Thickness>
 		<SolidColorBrush x:Key="RD_ColorBrushBlack">#000000FF</SolidColorBrush>
 
-		
-
 	</Application.Resources>
 </Application>

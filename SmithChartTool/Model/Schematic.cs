@@ -11,8 +11,9 @@ namespace SmithChartTool.Model
 {
     public class Schematic: INotifyPropertyChanged
     {
+        public List<string> AvailableElements { get; private set; }
+        
         private ObservableCollection<SchematicElement> _elements;
-
         public ObservableCollection<SchematicElement> Elements
         {
             get { return _elements; }
@@ -22,15 +23,22 @@ namespace SmithChartTool.Model
                 OnPropertyChanged("Elements");
             }
         }
-
-        public List<string> AvailableElements { get; private set; }
+        public ObservableCollection<Complex32> InputImpedances
+        {
+            get { return _inputImpedances; }
+            set 
+            {
+                _inputImpedances = value;
+                OnPropertyChanged("InputImpedances");
+            }
+        }
 
         public Schematic()
         {
             Elements = new ObservableCollection<SchematicElement>();
             AvailableElements = typeof(SchematicElementType).ToNames();
-            //var b = typeof(SchematicElementType).FromName(AvailableElements[2]);
 
+            // create two Ports (initial setup)
             Elements.Add(new Port(1, new Complex32(50, 0)));
             Elements.Add(new Port(2, new Complex32(50, 0)));
         }

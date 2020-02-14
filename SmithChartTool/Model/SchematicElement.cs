@@ -9,16 +9,16 @@ namespace SmithChartTool.Model
 {
     public enum SchematicElementType
     {   
-        [SchematicElementInfo("Port", "Port"), HideInList] Port,
-        [SchematicElementInfo("Resistor (serial)", "ResistorSerial")] ResistorSerial,
-        [SchematicElementInfo("Capacitor (serial)", "CapacitorSerial")] CapacitorSerial,
-        [SchematicElementInfo("Inductor (serial)", "InductorSerial")] InductorSerial,
-        [SchematicElementInfo("Resistor (parallel)", "ResistorParallel")] ResistorParallel,
-        [SchematicElementInfo("Capacitor (parallel)", "CapacitorParallel")] CapacitorParallel,
-        [SchematicElementInfo("Inductor (parallel)", "InductorParallel")] InductorParallel,
-        [SchematicElementInfo("Transmission Line", "TLine")] TLine,
-        [SchematicElementInfo("Open stub", "OpenStub"), HideInList] OpenStub,
-        [SchematicElementInfo("Shorted stub", "ShortedStub"), HideInList] ShortedStub
+        [SchematicElementInfo("Port", "Port","P"), HideInList] Port,
+        [SchematicElementInfo("Resistor (serial)", "ResistorSerial", "R")] ResistorSerial,
+        [SchematicElementInfo("Capacitor (serial)", "CapacitorSerial", "C")] CapacitorSerial,
+        [SchematicElementInfo("Inductor (serial)", "InductorSerial", "L")] InductorSerial,
+        [SchematicElementInfo("Resistor (parallel)", "ResistorParallel", "R")] ResistorParallel,
+        [SchematicElementInfo("Capacitor (parallel)", "CapacitorParallel", "C")] CapacitorParallel,
+        [SchematicElementInfo("Inductor (parallel)", "InductorParallel", "L")] InductorParallel,
+        [SchematicElementInfo("Transmission Line", "TLine", "TL")] TLine,
+        [SchematicElementInfo("Open stub", "OpenStub", "TL"), HideInList] OpenStub,
+        [SchematicElementInfo("Shorted stub", "ShortedStub", "TL"), HideInList] ShortedStub
     }
 
     public class SchematicElement : ImpedanceElement
