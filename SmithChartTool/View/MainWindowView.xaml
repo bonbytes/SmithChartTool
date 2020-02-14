@@ -35,19 +35,20 @@
 			<Button>
 				<Image Source="pack://application:,,,/Images/Icons/Save_16x.png"></Image>
 			</Button>
+			<ComboBox x:Name="cmbThemes" ItemsSource="{Binding}"></ComboBox>
 		</ToolBar>
 
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem >
-                <ProgressBar Width="200"></ProgressBar>
+                <ProgressBar Width="200" Height="20"></ProgressBar>
             </StatusBarItem>
             <Separator></Separator>
             <StatusBarItem>
-                <TextBlock>Blub</TextBlock>
+                <TextBlock>Ready</TextBlock>
             </StatusBarItem>
         </StatusBar >
 
-        <Grid Margin="10">
+        <Grid Margin="10" Background="{DynamicResource WindowBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="240" MinWidth="210" />
                 <ColumnDefinition Width="5" MinWidth="5"/>
@@ -184,6 +185,18 @@
                                 <TextBox x:Name="tbCustomControl"></TextBox>
                             </local:MyLabeledControl>
                             <Button Content="Apply"></Button>
+							<Button x:Name="blub">
+								<Button.Triggers>
+									<EventTrigger RoutedEvent="Button.Click" SourceName="blub">
+										<BeginStoryboard>
+											<Storyboard>
+												<ColorAnimation From="Red" To="Blue" Duration="0:0:1.56" AutoReverse="True" Storyboard.TargetName="blub" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" />
+											</Storyboard>
+										</BeginStoryboard>
+									</EventTrigger>
+								</Button.Triggers>
+								123
+							</Button>
                         </StackPanel>
                     </ScrollViewer>
                 </GroupBox>

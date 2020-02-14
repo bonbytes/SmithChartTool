@@ -1,0 +1,47 @@
+﻿<Window x:Class="SmithChartTool.View.AboutWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About..." Height="200" Width="300" ResizeMode="NoResize" 
+        WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" 
+		>
+		<!--Icon="images/icons/Info_16x.png"-->
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<StackPanel>
+			<!--<IAFUI:IAFLogo Margin="0,10,0,0"  Height="71" />-->
+			<TextBlock FontWeight="Bold" FontSize="14" TextAlignment="Center" Margin="0,10,0,5">
+                Smith Chart Tool
+			</TextBlock>
+			<TextBlock TextAlignment="Center">
+                B. Baumann<LineBreak/>R. Porter<LineBreak />
+			</TextBlock>
+
+			<TextBlock HorizontalAlignment="Center" Foreground="Blue" TextDecorations="Underline" Cursor="Hand">
+                <Hyperlink x:Name="hplURL" NavigateUri="http://xxx">
+                    Github Link
+                </Hyperlink>
+			</TextBlock>
+			<TextBlock TextAlignment="Center" Margin="0,15,0,0">
+                Version: <Run x:Name="txtVersion" Text="#.#.#" />
+			</TextBlock>
+		</StackPanel>
+
+		<Border Height="1" Background="#FF000000" Margin="5,0,5,0" VerticalAlignment="Top" Grid.Row="1" />
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock TextWrapping="Wrap" TextAlignment="Justify" FontSize="10" Margin="5,3,0,5" Grid.Row="1">
+			</TextBlock>
+
+			<Button Content="OK" Width="100" Margin="10,0,5,5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" IsDefault="True" IsCancel="True" />
+		</Grid>
+	</Grid>
+</Window>

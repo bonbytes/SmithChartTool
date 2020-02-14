@@ -24,13 +24,19 @@ namespace SmithChartTool
 			List<string> temp = new List<string>();
 			var a = Enum.GetValues(input);
 
-			if(input.IsEnum)
+			if (input.IsEnum)
 			{
-				foreach(Enum item in a)
+				foreach (Enum item in a)
 				{
-					if(a.ToString() != "Port")
+					var b = input.GetMember(item.ToString());
+					if (b == null || b.Length < 1)
+						continue;
+				
+					var c = b[0].GetCustomAttributes(typeof(HideInList), false);
+					if (c == null || c.Length < 1)
 						temp.Add(item.ToString());
 				}
+
 			}
 			return temp;
 		}

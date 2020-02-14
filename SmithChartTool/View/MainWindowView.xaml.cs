@@ -22,6 +22,7 @@ namespace SmithChartTool.View
     public partial class MainWindowView : Window
     {
         public MainWindowViewModel VM { get; set; } = new MainWindowViewModel();
+        
 
         public MainWindowView()
         {
@@ -45,6 +46,20 @@ namespace SmithChartTool.View
                 //var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/Zeichnung.xaml"));
                 //var a = XamlReader.Load(sri.Stream);
                 //herbert.Content = a;
+
+
+                List<String> themes = new List<string>();
+                themes.Add("LightTheme");
+                themes.Add("DarkTheme");
+                cmbThemes.DataContext = themes;
+
+                cmbThemes.SelectionChanged += (_s, _e) =>
+                {
+                    Application.Current.Resources.MergedDictionaries.Clear();
+
+                    Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Themes/" + cmbThemes.SelectedItem + ".xaml") });
+
+                };
             };
         }
     }

@@ -23,8 +23,7 @@ namespace SmithChartTool.View
     {
         static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(MySchematicElementSource), new PropertyMetadata(SchematicElementType.ResistorSerial.ToString()));
         static public DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(MySchematicElementSource), new PropertyMetadata(string.Empty));
-        static public DependencyProperty IsAddableProperty = DependencyProperty.Register("IsAddable", typeof(bool), typeof(MySchematicElementSource), new PropertyMetadata(false));
-
+        
         public string Type
         {
             get { return (string)GetValue(TypeProperty); }
@@ -35,12 +34,6 @@ namespace SmithChartTool.View
         {
             get { return (string)GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
-        }
-
-        public bool IsAddable
-        {
-            get { return (bool)GetValue(IsAddableProperty); }
-            set { SetValue(IsAddableProperty, value); }
         }
 
         static MySchematicElementSource()
@@ -64,7 +57,6 @@ namespace SmithChartTool.View
                         SchematicElementInfo sei = (SchematicElementInfo)c[0];
                         if(sei != null)
                         {
-                            IsAddable = sei.IsAddable;
                             Header = sei.Name;
                             var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/" + sei.Icon + ".xaml"));
                             var content = XamlReader.Load(sri.Stream);
