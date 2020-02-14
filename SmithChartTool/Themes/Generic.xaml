@@ -4,11 +4,11 @@
     xmlns:v="clr-namespace:SmithChartTool.View">
 	
 
-    <Style TargetType="{x:Type v:MyLabeledControl}">
+    <Style TargetType="{x:Type v:LabeledControl}">
         <Setter Property="Margin" Value="0,0,0,5"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type v:MyLabeledControl}">
+                <ControlTemplate TargetType="{x:Type v:LabeledControl}">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="auto" SharedSizeGroup="HeaderColumn"/>
@@ -26,7 +26,7 @@
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="v:MyLabeledControl">
+                        <ControlTemplate TargetType="v:LabeledControl">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -44,12 +44,12 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type v:MySchematicElementSource}">
+    <Style TargetType="{x:Type v:SchematicElementSourceControl}">
         <Setter Property="Margin" Value="5,2,2,2"/>
 		<Setter Property="Foreground" Value="{DynamicResource SchematicElementSourceHeaderForeground}" />
 		<Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type v:MySchematicElementSource}">
+                <ControlTemplate TargetType="{x:Type v:SchematicElementSourceControl}">
 					<Grid ToolTipService.InitialShowDelay="1000">
 						<Grid.ToolTip>
 							<Border Background="{DynamicResource RD_ColorBrushBlack}">
@@ -73,25 +73,25 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type v:MySchematicElement}">
+    <Style TargetType="{x:Type v:SchematicElementControl}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type v:MySchematicElement}">
+                <ControlTemplate TargetType="{x:Type v:SchematicElementControl}">
                     <Grid ToolTipService.InitialShowDelay="1000">
                         <Grid.ToolTip>
                             <Border Background="{DynamicResource RD_ColorBrushBlack}">
                                 <TextBlock Text="{TemplateBinding Value}"/>
                             </Border>
                         </Grid.ToolTip>
-                        <Grid.RowDefinitions>
+                        <!--<Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition />
                             <RowDefinition />
-                        </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>-->
 
-                        <TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Designator}" />
-                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Value}" />
-                        <Viewbox Grid.Row="2" Stretch="Uniform" x:Name="ElementSymbol" Height="{DynamicResource RD_IconSizeSchematicElement}" Width="{DynamicResource RD_IconSizeSchematicElement}">
+                        <!--<TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Designator}" />
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Value}" />-->
+                        <Viewbox Grid.Row="0" Stretch="Uniform" x:Name="ElementSymbol" Height="{DynamicResource RD_IconSizeSchematicElement}" Width="{DynamicResource RD_IconSizeSchematicElement}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Viewbox>
                     </Grid>

@@ -18,8 +18,8 @@ namespace SmithChartTool.Model
             get { return _elements; }
             set 
             {
-                OnPropertyChanged("Elements");
                 _elements = value;
+                OnPropertyChanged("Elements");
             }
         }
 

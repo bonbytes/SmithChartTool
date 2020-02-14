@@ -63,13 +63,13 @@
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Smith Chart settings">
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
-                        <local:MyLabeledControl Header="Frequency">
+                        <local:LabeledControl Header="Frequency">
                             <TextBox x:Name="tbFrequency"></TextBox>
-                        </local:MyLabeledControl>
-                        <local:MyLabeledControl Header="Ref. Impedance">
+                        </local:LabeledControl>
+                        <local:LabeledControl Header="Ref. Impedance">
                             <TextBox x:Name="tbRefImpedance"></TextBox>
-                        </local:MyLabeledControl>
-                        <local:MyLabeledControl Header="Normalized">
+                        </local:LabeledControl>
+                        <local:LabeledControl Header="Normalized">
                             <CheckBox x:Name="chkIsNormalized">
                                 <CheckBox.IsChecked>
                                     <Binding Path="bli" ConverterParameter="21">
@@ -79,7 +79,7 @@
                                     </Binding>
                                 </CheckBox.IsChecked>
                             </CheckBox>
-                        </local:MyLabeledControl>
+                        </local:LabeledControl>
 
                         <Button x:Name="executeSync" Content="Normal Execute">
                             <Button.IsEnabled>
@@ -109,7 +109,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <local:MySchematicElementSource Type="{Binding}" />
+                                            <local:SchematicElementSourceControl Type="{Binding}" />
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -149,24 +149,24 @@
 					</Grid>
 				</GroupBox>
                 <GroupBox  Grid.Row="1" Header="Schematic">
-                    <ListBox Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
-                        <ListBox.Template>
+                    <ListView Width="auto" Background="Transparent" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
+                        <ListView.Template>
                             <ControlTemplate TargetType="ListBox">
                                 <StackPanel Orientation="Horizontal" IsItemsHost="True" />
                             </ControlTemplate>
-                        </ListBox.Template>
-                        <ListBox.Resources>
-                            <Style TargetType="ListBoxItem">
+                        </ListView.Template>
+                        <ListView.Resources>
+                            <Style TargetType="ListViewItem">
                                 <Setter Property="Template">
                                     <Setter.Value>
-                                        <ControlTemplate TargetType="ListBoxItem">
-                                            <local:MySchematicElement Type="{Binding}" Designator="{Binding}" Value="{Binding}"/>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <local:SchematicElementControl Type="{Binding}" Designator="{Binding}" Value="{Binding}"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
                             </Style>
-                        </ListBox.Resources>
-                    </ListBox>
+                        </ListView.Resources>
+                    </ListView>
                 </GroupBox>
             </Grid>
 
@@ -181,9 +181,9 @@
                                     <Setter Property="Margin" Value="0,0,0,10"></Setter>
                                 </Style>
                             </StackPanel.Resources>
-                            <local:MyLabeledControl Header="Blub">
+                            <local:LabeledControl Header="Blub">
                                 <TextBox x:Name="tbCustomControl"></TextBox>
-                            </local:MyLabeledControl>
+                            </local:LabeledControl>
                             <Button Content="Apply"></Button>
 							<Button x:Name="blub">
 								<Button.Triggers>

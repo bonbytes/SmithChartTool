@@ -96,9 +96,9 @@
     <Compile Include="View\AboutWindowView.xaml.cs">
       <DependentUpon>AboutWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MyLabeledControl.cs" />
-    <Compile Include="View\MySchematicElement.cs" />
-    <Compile Include="View\MySchematicElementSource.cs" />
+    <Compile Include="View\LabeledControl.cs" />
+    <Compile Include="View\SchematicElementControl.cs" />
+    <Compile Include="View\SchematicElementSourceControl.cs" />
     <Resource Include="Images\SchematicElements\ResistorSerial.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -19,10 +19,10 @@ using SmithChartTool.Model;
 namespace SmithChartTool.View
 {
     //[ContentProperty("OtherPropertyNameThanContent")]
-    public class MySchematicElementSource : ContentControl
+    public class SchematicElementSourceControl : ContentControl
     {
-        static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(MySchematicElementSource), new PropertyMetadata(SchematicElementType.ResistorSerial.ToString()));
-        static public DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(MySchematicElementSource), new PropertyMetadata(string.Empty));
+        static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(SchematicElementSourceControl), new PropertyMetadata(string.Empty, OnTypeChanged));
+        static public DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(SchematicElementSourceControl), new PropertyMetadata(string.Empty));
         
         public string Type
         {
@@ -36,9 +36,9 @@ namespace SmithChartTool.View
             set { SetValue(HeaderProperty, value); }
         }
 
-        static MySchematicElementSource()
+        static SchematicElementSourceControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MySchematicElementSource), new FrameworkPropertyMetadata(typeof(MySchematicElementSource)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(SchematicElementSourceControl), new FrameworkPropertyMetadata(typeof(SchematicElementSourceControl)));
         }
 
         private void UpdateControl()
@@ -69,12 +69,12 @@ namespace SmithChartTool.View
 
         public static void OnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            (sender as MySchematicElementSource).UpdateControl();
+            (sender as SchematicElementSourceControl).UpdateControl();
         }
 
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
+        //public override void OnApplyTemplate()
+        //{
+        //    base.OnApplyTemplate();
             //DependencyObject b = GetTemplateChild("PART_MySchematicElementSourceImage"); // UI element out of template
             //if(b != null && (b.GetType() == typeof(Image)))
             //{
@@ -82,7 +82,7 @@ namespace SmithChartTool.View
             //    UpdateImage();
             //}
 
-            UpdateControl();
-        }
+            //UpdateControl();
+        //}
     }
 }

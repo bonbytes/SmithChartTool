@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 
 namespace SmithChartTool.View
 {
-	public class MyLabeledControl : ContentControl
+	public class LabeledControl : ContentControl
 	{
 		//private Border _brd = null;
-		static public DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(MyLabeledControl), new PropertyMetadata(string.Empty));
-		static public DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(MyLabeledControl), new PropertyMetadata(Orientation.Horizontal));
+		static public DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(LabeledControl), new PropertyMetadata(string.Empty));
+		static public DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(LabeledControl), new PropertyMetadata(Orientation.Horizontal));
 
 		public string Header
 		{
@@ -32,9 +32,9 @@ namespace SmithChartTool.View
 			set { SetValue(OrientationProperty, value); }
 		}
 
-		static MyLabeledControl()
+		static LabeledControl()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(MyLabeledControl), new FrameworkPropertyMetadata(typeof(MyLabeledControl)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(LabeledControl), new FrameworkPropertyMetadata(typeof(LabeledControl)));
 		}
 
 		//public MyLabeledControl()
