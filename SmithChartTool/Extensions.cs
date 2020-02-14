@@ -36,10 +36,6 @@ namespace SmithChartTool
 		}
 		public static Enum FromName(this Type input, string value)
 		{
-			if(value == "Port")
-			{
-				return null;
-			}
 			foreach(Enum item in Enum.GetValues(input))
 			{
 				if(item.ToString() == value)

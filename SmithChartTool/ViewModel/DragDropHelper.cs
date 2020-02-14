@@ -86,7 +86,7 @@ namespace SmithChartTool.ViewModel
 				{
                     var type = typeof(SchematicElementType).FromName((string)(lbitem.Content));
                     DataObject dragData = new DataObject("SchematicElement", type);
-					DragDrop.DoDragDrop(lbitem, dragData, DragDropEffects.Move);
+					DragDrop.DoDragDrop(lbitem, dragData, DragDropEffects.Copy);
 				}
 			}
 		}
@@ -139,7 +139,6 @@ namespace SmithChartTool.ViewModel
                     }
                     else
                     {
-                        
                         dropDest.Drop(i-1, e);
                     }
                 }

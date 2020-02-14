@@ -63,7 +63,7 @@
 						<TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ABC}" Text="{TemplateBinding Header}" TextTrimming="CharacterEllipsis" />
 						<Viewbox Grid.Row="1" Stretch="Uniform" x:Name="ABC" Height="{DynamicResource RD_IconSizeSchematicElementSource}" Width="{DynamicResource RD_IconSizeSchematicElementSource}">
 							<Border Background="Transparent" BorderBrush="Black" BorderThickness="{DynamicResource RD_BorderThicknessSchematicElements}" >
-								<Button Content="{TemplateBinding Content}" />
+								<Button Background="White" Content="{TemplateBinding Content}" />
 							</Border>
 						</Viewbox>
 					</Grid>
@@ -76,10 +76,24 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type v:MySchematicElement}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                    </Border>
+                    <Grid ToolTipService.InitialShowDelay="1000">
+                        <Grid.ToolTip>
+                            <Border Background="{DynamicResource RD_ColorBrushBlack}">
+                                <TextBlock Text="{TemplateBinding Value}"/>
+                            </Border>
+                        </Grid.ToolTip>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Designator}" />
+                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Value}" />
+                        <Viewbox Grid.Row="2" Stretch="Uniform" x:Name="ElementSymbol" Height="{DynamicResource RD_IconSizeSchematicElement}" Width="{DynamicResource RD_IconSizeSchematicElement}">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Viewbox>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

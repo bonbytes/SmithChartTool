@@ -10,11 +10,13 @@ namespace SmithChartTool
 	{
 		public string Name { get; }
 		public string Icon { get; }
-	
-		public SchematicElementInfo(string name, string icon)
+		public bool IsAddable { get; }
+
+		public SchematicElementInfo(string name, string icon, bool isAddable)
 		{
 			this.Name = name;
 			this.Icon = icon;
+			this.IsAddable = isAddable;
 		}
 
 	}

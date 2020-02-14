@@ -50,10 +50,10 @@
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="240" MinWidth="210" />
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="5" MinWidth="5"/>
+                <ColumnDefinition Width="*" MinWidth="200"/>
+                <ColumnDefinition Width="5" MinWidth="5"/>
+                <ColumnDefinition Width="auto" MinWidth="100"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
@@ -159,8 +159,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <Border></Border>
-                                            <!--<local:MySchematicElementControl Type="{Binding}"/>-->
+                                            <local:MySchematicElement Type="{Binding}" Designator="{Binding}" Value="{Binding}"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -184,14 +183,8 @@
                             <local:MyLabeledControl Header="Blub">
                                 <TextBox x:Name="tbCustomControl"></TextBox>
                             </local:MyLabeledControl>
-                            <local:MyLabeledControl Orientation="Vertical"  Header="BlubBlubBlubBlub">
-                                <TextBox x:Name="tbCustomControl2"></TextBox>
-                            </local:MyLabeledControl>
-							<Button Content="Apply"></Button>
-							<Button Height="100" x:Name="herbert">
-								<Frame x:Name="jaggeline" />
-							</Button>
-						</StackPanel>
+                            <Button Content="Apply"></Button>
+                        </StackPanel>
                     </ScrollViewer>
                 </GroupBox>
                 
