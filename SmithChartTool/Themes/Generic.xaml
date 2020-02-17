@@ -74,29 +74,65 @@
     </Style>
 
     <Style TargetType="{x:Type v:SchematicElementControl}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type v:SchematicElementControl}">
-                    <Grid ToolTipService.InitialShowDelay="1000">
-                        <Grid.ToolTip>
-                            <Border Background="{DynamicResource RD_ColorBrushBlack}">
-                                <TextBlock Text="{TemplateBinding Value}"/>
-                            </Border>
-                        </Grid.ToolTip>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition Height="4*"/>
-                        </Grid.RowDefinitions>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type v:SchematicElementControl}">
+					<Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" CornerRadius="5">
+						<Grid>
+							<Grid ToolTipService.InitialShowDelay="1000">
+								<Grid.ToolTip>
+									<Border Background="{DynamicResource RD_ColorBrushBlack}">
+										<TextBlock Text="{TemplateBinding Value}"/>
+									</Border>
+								</Grid.ToolTip>
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition Height="4*"/>
+								</Grid.RowDefinitions>
 
-                        <TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Designator}" />
-                        <TextBlock Grid.Row="1" HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Value}" />
-                        <Viewbox Grid.Row="2" Stretch="Uniform" x:Name="ElementSymbol" Height="{DynamicResource RD_IconSizeSchematicElement}" Width="{DynamicResource RD_IconSizeSchematicElement}">
-                            <ContentPresenter Content="{TemplateBinding Content}" />
-                        </Viewbox>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+								<TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Designator}" />
+								<TextBlock Grid.Row="1" HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Value}" />
+								<Viewbox Grid.Row="2" Stretch="Uniform" x:Name="ElementSymbol" Height="{DynamicResource RD_IconSizeSchematicElement}" Width="{DynamicResource RD_IconSizeSchematicElement}">
+									<ContentPresenter Content="{TemplateBinding Content}" />
+								</Viewbox>
+							</Grid>
+							<Button x:Name="btnClose" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
+								<Button.Template>
+									<ControlTemplate TargetType="Button">
+										<Border x:Name="b" BorderThickness="0" Background="Transparent">
+											<Path x:Name="p" Data="M0,0 L8,8 M8,0 L0,8" StrokeThickness="2" Stroke="Red" />
+										</Border>
+										<ControlTemplate.Triggers>
+											<Trigger Property="IsMouseOver" Value="True">
+												<Setter TargetName="p" Property="Stroke" Value="DarkRed" />
+											</Trigger>
+											<Trigger Property="IsPressed" Value="True">
+												<Setter TargetName="p" Property="Stroke" Value="White" />
+												<Setter TargetName="b" Property="Background" Value="DarkRed" />
+											</Trigger>
+										</ControlTemplate.Triggers>
+									</ControlTemplate>
+								</Button.Template>
+								
+							</Button>
+						</Grid>
+					</Border>
+					
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter Property="Background" Value="Blue"/>
+							<Setter Property="BorderBrush" Value="Red"/>
+							<Setter Property="BorderThickness" Value="1"/>
+							<Setter TargetName="btnClose" Property="Visibility" Value="Visible"/>
+						</Trigger>
+					</ControlTemplate.Triggers>	
+					
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
     </Style>
 </ResourceDictionary>
