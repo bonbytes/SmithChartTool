@@ -23,6 +23,7 @@ namespace SmithChartTool.Model
                 OnPropertyChanged("Elements");
             }
         }
+        public ObservableCollection<Complex32> _inputImpedances;
         public ObservableCollection<Complex32> InputImpedances
         {
             get { return _inputImpedances; }
