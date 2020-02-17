@@ -17,6 +17,7 @@ namespace SmithChartTool.View
 {
 	public class LabeledControl : ContentControl
 	{
+
 		//private Border _brd = null;
 		static public DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(LabeledControl), new PropertyMetadata(string.Empty));
 		static public DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(LabeledControl), new PropertyMetadata(Orientation.Horizontal));

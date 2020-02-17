@@ -124,7 +124,8 @@
 					
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="True">
-							<Setter Property="Background" Value="Blue"/>
+							<!--System colors?-->
+							<Setter Property="Background" Value="HighlightBrush"/> 
 							<Setter Property="BorderBrush" Value="Red"/>
 							<Setter Property="BorderThickness" Value="1"/>
 							<Setter TargetName="btnClose" Property="Visibility" Value="Visible"/>
