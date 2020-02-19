@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SmithChartTool.View
-{
+{ 
 	public class LabeledControl : ContentControl
 	{
 
@@ -30,7 +30,7 @@ namespace SmithChartTool.View
 		public Orientation Orientation
 		{
 			get { return (Orientation)GetValue(OrientationProperty); }
-			set { SetValue(OrientationProperty, value); }
+			set {SetValue(OrientationProperty, value); }
 		}
 
 		static LabeledControl()

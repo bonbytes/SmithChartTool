@@ -17,7 +17,7 @@ using SmithChartTool.Model;
 
 namespace SmithChartTool.View
 {
-    public class SchematicElementControl : ContentControl
+    public class SchematicElementControl : ListBoxItem
     {
         static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));
         static public DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));

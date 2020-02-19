@@ -97,9 +97,10 @@ namespace SmithChartTool.Model
             NumRealCircles = 7;
             NumImagCircles = 18;
             Plot.IsLegendVisible = false;
-            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = -1, Maximum = 1, IsZoomEnabled = false, Title = "Imaginary" });
-            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = -1, Maximum = 1, IsZoomEnabled = false, Title = "Real" });
+            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = -1, Maximum = 1, IsZoomEnabled = false, Title = "Imaginary", IsPanEnabled = false });
+            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = -1, Maximum = 1, IsZoomEnabled = false, Title = "Real", IsPanEnabled=false });
             Plot.DefaultColors = new List<OxyColor> { (OxyColors.Black) };
+            
 
             List<LineSeries> seriesReal = DrawSmithChartReal(this.NumRealCircles);
             foreach (var item in seriesReal)

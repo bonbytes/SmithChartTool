@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using SmithChartTool.ViewModel;
 using SmithChartTool.Model;
 using System.Windows.Markup;
+using OxyPlot;
 
 namespace SmithChartTool.View
 {
@@ -46,7 +47,8 @@ namespace SmithChartTool.View
                 //var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/Zeichnung.xaml"));
                 //var a = XamlReader.Load(sri.Stream);
                 //herbert.Content = a;
-
+                this.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
+                this.oxySmithChart.ActualController.BindMouseEnter(PlotCommands.HoverPointsOnlyTrack);
 
                 List<String> themes = new List<string>();
                 themes.Add("LightTheme");
