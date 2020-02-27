@@ -22,6 +22,21 @@ namespace SmithChartTool.View
         static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));
         static public DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));
         static public DependencyProperty DesignatorProperty = DependencyProperty.Register("Designator", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));
+        static public DependencyProperty IsValidInputProperty = DependencyProperty.Register("IsValidInput", typeof(bool), typeof(SchematicElementControl), new PropertyMetadata(true, OnTypeChanged));
+
+        public static DependencyProperty UnitProperty = DependencyProperty.Register("Unit", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty));
+
+        public string Unit
+        {
+            get
+            {
+                return (string)GetValue(UnitProperty);
+            }
+            set
+            {
+                SetValue(UnitProperty, value);
+            }
+        }
 
         public string Type
         {
@@ -41,6 +56,12 @@ namespace SmithChartTool.View
             set { SetValue(DesignatorProperty, value); }
         }
 
+        public bool IsValidInput
+        {
+            get { return (bool)GetValue(IsValidInputProperty); }
+            set { SetValue(IsValidInputProperty, value); }
+        }
+
         static SchematicElementControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SchematicElementControl), new FrameworkPropertyMetadata(typeof(SchematicElementControl)));
@@ -58,8 +79,16 @@ namespace SmithChartTool.View
             var content = XamlReader.Load(sri.Stream);
             Content = content;
 
-            Value = ((SchematicElement)elementData).Value.ToString();
-            Designator = sei.Designator;
+            if( ((SchematicElement)elementData).Type == SchematicElementType.Port )
+            {
+                Value = (((SchematicElement)elementData).Impedance.ToString() + " Ohms");
+            }
+            else
+            {
+                Value = ((SchematicElement)elementData).Value.ToString();
+            }
+            
+            Designator = sei.Designator + ((SchematicElement)elementData).Designator.ToString();
         }
 
         public static void OnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

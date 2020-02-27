@@ -13,9 +13,9 @@ namespace SmithChartTool.Model
     public class SmithChart: INotifyPropertyChanged
     {
         public PlotModel Plot { get; private set; }
-        public double Frequency { get; private set; }
+        public double Frequency { get; set; }
         public ImpedanceElement ReferenceImpedance { get; private set; }
-        public bool IsNormalized { get; private set; }
+        public bool IsNormalized { get; set; }
         public int NumRealCircles { get; private set; }
         public int NumImagCircles { get; private set; }
 
@@ -46,18 +46,18 @@ namespace SmithChartTool.Model
             return temp;
         }
 
-        public List<LineSeries> DrawSmithChartReal(int numRealCirc = 7)
+        public List<MyLineSeries> DrawSmithChartRealCircles(int numRealCirc = 7)
         {
-            List<LineSeries> series = new List<LineSeries>();
+            List<MyLineSeries> series = new List<MyLineSeries>();
             List<double> rrangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10 };
-            List<double> x = GetLogRange(-10, Math.Log(100, 10), 1000);//GetRange(-100, 100, 4000);
+            List<double> x = GetLogRange(-10, Math.Log(1000, 10), 1000);//GetRange(-100, 100, 4000);
             //List<List<Complex32>> realConstValues = new List<List<Complex32>>();
             x.AddRange(x.Invert());
             int i = 0;
 
             foreach (var re in rrangeFull)
             {
-                series.Add(new LineSeries { LineStyle = LineStyle.Solid });
+                series.Add(new MyLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
                 foreach (var im in x)
                 {
                     Complex32 _z = GetConformalImpedanceValue(new Complex32((float)re, (float)im));
@@ -68,20 +68,20 @@ namespace SmithChartTool.Model
             return series;
         }
 
-        public List<LineSeries> DrawSmithChartImag(int numImagCirc = 18)
+        public List<MyLineSeries> DrawSmithChartImagCircles(int numImagCirc = 18)
         {
             List<double> y = GetLinRange(0, 100, 1000);
             List<double> jrange = GetLogRange(Math.Log(0.15, 10), Math.Log(100, 10), 10);
             List<double> jrangeFull = new List<double>(jrange.Invert());
             jrangeFull.Add(1e-20);
             jrangeFull.AddRange(jrange);
-            List<LineSeries> series = new List<LineSeries>();
+            List<MyLineSeries> series = new List<MyLineSeries>();
             //List<List<Complex32>> imagConstValues = new List<List<Complex32>>();
 
             int i = 0;
             foreach (var im in jrangeFull)
             {
-                series.Add(new LineSeries { LineStyle = LineStyle.Dot });
+                series.Add(new MyLineSeries { LineStyle = LineStyle.Dash, StrokeThickness = 0.75 });
                 foreach (var re in y)
                 {
                     Complex32 _z = GetConformalImpedanceValue(new Complex32((float)re, (float)im));
@@ -97,17 +97,36 @@ namespace SmithChartTool.Model
             NumRealCircles = 7;
             NumImagCircles = 18;
             Plot.IsLegendVisible = false;
-            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Left, Minimum = -1, Maximum = 1, IsZoomEnabled = false, Title = "Imaginary", IsPanEnabled = false });
-            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis { Position = OxyPlot.Axes.AxisPosition.Bottom, Minimum = -1, Maximum = 1, IsZoomEnabled = false, Title = "Real", IsPanEnabled=false });
+            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis 
+            { 
+                Position = OxyPlot.Axes.AxisPosition.Left, 
+                Minimum = -1, 
+                Maximum = 1, 
+                AbsoluteMaximum = 1, 
+                AbsoluteMinimum = -1, 
+                IsZoomEnabled = true, 
+                Title = "Imaginary", 
+                IsPanEnabled = true
+            });
+            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis 
+            { 
+                Position = OxyPlot.Axes.AxisPosition.Bottom, 
+                Minimum = -1, 
+                Maximum = 1, 
+                AbsoluteMaximum = 1, 
+                AbsoluteMinimum = -1, 
+                IsZoomEnabled = true, 
+                Title = "Real", 
+                IsPanEnabled= true
+            });
             Plot.DefaultColors = new List<OxyColor> { (OxyColors.Black) };
-            
 
-            List<LineSeries> seriesReal = DrawSmithChartReal(this.NumRealCircles);
+            List<MyLineSeries> seriesReal = DrawSmithChartRealCircles(this.NumRealCircles);
             foreach (var item in seriesReal)
             {
                 Plot.Series.Add(item);
             }
-            List<LineSeries> seriesImag = DrawSmithChartImag(this.NumImagCircles);
+            List<MyLineSeries> seriesImag = DrawSmithChartImagCircles(this.NumImagCircles);
             foreach (var item in seriesImag)
             {
                 Plot.Series.Add(item);
@@ -117,6 +136,11 @@ namespace SmithChartTool.Model
         private void Invalidate()
         {
             Plot.InvalidatePlot(true);
+        }
+
+        public void ExportImage()
+        {
+            
         }
 
         public SmithChart()
@@ -137,5 +161,34 @@ namespace SmithChartTool.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+    }
+
+    public class MyLineSeries : LineSeries
+    {
+
+        //List<ScreenPoint> outputBuffer = null;
+
+        public bool Aliased { get; set; } = true;
+
+        //protected override void RenderLine(IRenderContext rc, OxyRect clippingRect, IList<ScreenPoint> pointsToRender)
+        //{
+        //    var dashArray = this.ActualDashArray;
+
+        //    if (this.outputBuffer == null)
+        //    {
+        //        this.outputBuffer = new List<ScreenPoint>(pointsToRender.Count);
+        //    }
+
+        //    rc.DrawClippedLine(clippingRect,
+        //                       pointsToRender,
+        //                       this.MinimumSegmentLength * this.MinimumSegmentLength,
+        //                       this.GetSelectableColor(this.ActualColor),
+        //                       this.StrokeThickness,
+        //                       dashArray,
+        //                       this.LineJoin,
+        //                       this.Aliased,  // <-- this is the issue
+        //                       this.outputBuffer);
+
+        //}
     }
 }

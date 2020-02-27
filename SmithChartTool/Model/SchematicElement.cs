@@ -17,8 +17,8 @@ namespace SmithChartTool.Model
         [SchematicElementInfo("Capacitor (parallel)", "CapacitorParallel", "C")] CapacitorParallel,
         [SchematicElementInfo("Inductor (parallel)", "InductorParallel", "L")] InductorParallel,
         [SchematicElementInfo("Transmission Line", "TLine", "TL")] TLine,
-        [SchematicElementInfo("Open stub", "OpenStub", "TL"), HideInList] OpenStub,
-        [SchematicElementInfo("Shorted stub", "ShortedStub", "TL"), HideInList] ShortedStub
+        [SchematicElementInfo("Open stub", "OpenStub", "TL")] OpenStub,
+        [SchematicElementInfo("Shorted stub", "ShortedStub", "TL")] ShortedStub
     }
 
     public class SchematicElement : ImpedanceElement
@@ -46,7 +46,24 @@ namespace SmithChartTool.Model
                 }
             }
         }
-        
+
+        private int _designator;
+        public int Designator
+        {
+            get
+            {
+                return _designator;
+            }
+            set
+            {
+                if (_designator != value)
+                {
+                    _designator = value;
+                    OnPropertyChanged("Designator");
+                }
+            }
+        }
+
         private SchematicElementType _type;
         public SchematicElementType Type
         {
@@ -62,6 +79,21 @@ namespace SmithChartTool.Model
                     OnPropertyChanged("Type");
                 }
             }
+        }
+
+        public SchematicElement(SchematicElementType type, int designator, double value )
+        {
+            Type = type;
+            Designator = designator;
+            Value = value;
+
+        }
+        public SchematicElement()
+        { }
+
+        public string ToStringSimple()
+        {
+            return (Type.ToString() + " " + Designator.ToString() + " " + Value.ToString());
         }
     }
 }

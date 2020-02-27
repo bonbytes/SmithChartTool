@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="frame" Width="100" Height="100">
-	<Path Data="M0,20 h30" Name="pathleft" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
-	<Rectangle Canvas.Left="20" Canvas.Top="15" Width="60" Height="10" Name="rectsig" Fill="#FFFFFFFF" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"/>
-	<Ellipse Width="5" Height="10" Fill="White" Canvas.Left="17.5" Canvas.Top="15" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" StrokeDashCap="Round" StrokeDashArray="1" ></Ellipse>
-	<Ellipse Width="5" Height="10" Fill="White" Canvas.Left="77.5" Canvas.Top="15" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" ></Ellipse>
-	<Path Data="M80,20 h20" Name="pathright" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
-
-	<Path Data="M0,80 h30" Name="pathleftgnd" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
-	<Rectangle Canvas.Left="20" Canvas.Top="75" Width="60" Height="10" Name="rectgnd" Fill="#FFFFFFFF" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"/>
-	<Ellipse Width="5" Height="10" Fill="White" Canvas.Left="17.5" Canvas.Top="75" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" StrokeDashCap="Round" StrokeDashArray="1" ></Ellipse>
-	<Ellipse Width="5" Height="10" Fill="White" Canvas.Left="77.5" Canvas.Top="75" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" ></Ellipse>
-	<Path Data="M80,80 h20" Name="pathrightgnd" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+	<Path Data="M0,20 h50" Name="pathleft" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+    <Path Data="M50,20 h50" Name="pathright" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+    <Rectangle Canvas.Left="50" Canvas.Top="15" Width="25" Height="10" Name="rectsig" Fill="#FFFFFFFF" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000">
+        <Rectangle.RenderTransform>
+            <RotateTransform Angle="45"/>
+        </Rectangle.RenderTransform>
+    </Rectangle>
+    <Ellipse Width="5" Height="10" Fill="White" Canvas.Left="50" Canvas.Top="15" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" StrokeDashCap="Round" StrokeDashArray="1" >
+        <Ellipse.RenderTransform>
+            <RotateTransform Angle="40"/>
+        </Ellipse.RenderTransform>
+    </Ellipse>
+    <Ellipse Width="5" Height="10" Fill="White" Canvas.Left="65" Canvas.Top="30" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" >
+        <Ellipse.RenderTransform>
+        <RotateTransform Angle="40"/>
+    </Ellipse.RenderTransform>
+    </Ellipse>
+    <Path Data="M0,80 h100" Name="pathleftgnd" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+    <Rectangle Canvas.Left="50" Canvas.Top="75" Width="25" Height="10" Fill="#FFFFFFFF" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000">
+        <Rectangle.RenderTransform>
+            <RotateTransform Angle="40"/>
+        </Rectangle.RenderTransform>
+    </Rectangle>
+    <Ellipse Width="5" Height="10" Fill="White" Canvas.Left="50" Canvas.Top="75" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" StrokeDashCap="Round" StrokeDashArray="1" >
+        <Ellipse.RenderTransform>
+            <RotateTransform Angle="40"/>
+        </Ellipse.RenderTransform>
+    </Ellipse>
+    <Ellipse Width="5" Height="10" Fill="White" Canvas.Left="65" Canvas.Top="90" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" >
+        <Ellipse.RenderTransform>
+            <RotateTransform Angle="40"/>
+        </Ellipse.RenderTransform>
+    </Ellipse>
 </Canvas>

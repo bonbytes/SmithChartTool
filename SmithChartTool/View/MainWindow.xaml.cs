@@ -20,17 +20,19 @@ using OxyPlot;
 
 namespace SmithChartTool.View
 {
-    public partial class MainWindowView : Window
+    public partial class MainWindow : Window
     {
         public MainWindowViewModel VM { get; set; } = new MainWindowViewModel();
         
 
-        public MainWindowView()
+        public MainWindow()
         {
             this.DataContext = VM;
             this.InitializeComponent();
             
             CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunCommandXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
+            CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandSaveSmithChartImage, (s, e) => { VM.RunSaveSmithChartImage(); }));
+
 
             this.Loaded += (s, e) => {
                 //mitn doofen Frame -> cool, weil Datei (muss als Page gepackt sein)
@@ -50,7 +52,7 @@ namespace SmithChartTool.View
                 this.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
                 this.oxySmithChart.ActualController.BindMouseEnter(PlotCommands.HoverPointsOnlyTrack);
 
-                List<String> themes = new List<string>();
+                List<string> themes = new List<string>();
                 themes.Add("LightTheme");
                 themes.Add("DarkTheme");
                 cmbThemes.DataContext = themes;

@@ -38,10 +38,19 @@ namespace SmithChartTool.Model
         {
             Elements = new ObservableCollection<SchematicElement>();
             AvailableElements = typeof(SchematicElementType).ToNames();
+            InputImpedances = new ObservableCollection<Complex32>();
 
             // create two Ports (initial setup)
-            Elements.Add(new Port(1, new Complex32(50, 0)));
-            Elements.Add(new Port(2, new Complex32(50, 0)));
+            Elements.Add(new SchematicElement() { Type = SchematicElementType.Port, Designator = 1, Impedance = new Complex32(50, 0), Value = 0 });
+            Elements.Add(new SchematicElement() { Type = SchematicElementType.Port, Designator = 2, Impedance = new Complex32(50, 0), Value = 0 });
+
+            InputImpedances.Add(Elements[0].Impedance);
+            InputImpedances.Add(Elements[1].Impedance);
+        }
+
+        public void InvalidateImpedances()
+        {
+
         }
 
         public void AddElement(SchematicElementType schematicElement)

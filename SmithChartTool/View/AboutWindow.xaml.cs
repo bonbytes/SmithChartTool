@@ -17,9 +17,9 @@ namespace SmithChartTool.View
 	/// <summary>
 	/// Interaction logic for AboutWindowView.xaml
 	/// </summary>
-	public partial class AboutWindowView : Window
+	public partial class AboutWindow : Window
 	{
-		public AboutWindowView()
+		public AboutWindow()
 		{
 			InitializeComponent();
 		}

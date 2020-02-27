@@ -46,6 +46,19 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="{x:Type v:UnitTextBox}">
+        <Setter Property="Margin" Value="0,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type v:UnitTextBox}">
+                    <Grid>
+                        <TextBox Margin="0,0,5,0" Text="{TemplateBinding Text}"></TextBox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type v:SchematicElementSourceControl}">
         <Setter Property="Margin" Value="5,2,2,2"/>
 		<Setter Property="Foreground" Value="{DynamicResource SchematicElementSourceHeaderForeground}" />
@@ -125,20 +138,30 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="Blue"/>
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                             <Setter Property="BorderBrush" Value="Red"/>
                             <Setter Property="BorderThickness" Value="2"/>
                             <Setter TargetName="btnDelete" Property="Visibility" Value="Visible"/>
-                        </Trigger>
+                        </MultiTrigger>-->
+
                         <Trigger Property="IsMouseOver" Value="True">
-                            <!--System colors?-->
-                            <Setter Property="Background" Value="AliceBlue"/>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                             <Setter Property="BorderBrush" Value="Red"/>
                             <Setter Property="BorderThickness" Value="1"/>
                             <Setter TargetName="btnDelete" Property="Visibility" Value="Visible"/>
                         </Trigger>
-                        
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"/>
+                            <Setter Property="BorderBrush" Value="Red"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter TargetName="btnDelete" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>
