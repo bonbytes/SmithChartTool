@@ -29,10 +29,11 @@ namespace SmithChartTool.View
         {
             this.DataContext = VM;
             this.InitializeComponent();
-            
-            CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunCommandXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
-            CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandSaveSmithChartImage, (s, e) => { VM.RunSaveSmithChartImage(); }));
 
+           // CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandTestFeature, (s, e) => { VM.RunTestFeature(); }));
+            //CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
+            //CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandSaveSmithChartImage, (s, e) => { VM.RunSaveSmithChartImage(); }));
+            
 
             this.Loaded += (s, e) => {
                 //mitn doofen Frame -> cool, weil Datei (muss als Page gepackt sein)
@@ -49,6 +50,8 @@ namespace SmithChartTool.View
                 //var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/Zeichnung.xaml"));
                 //var a = XamlReader.Load(sri.Stream);
                 //herbert.Content = a;
+
+
                 this.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
                 this.oxySmithChart.ActualController.BindMouseEnter(PlotCommands.HoverPointsOnlyTrack);
 

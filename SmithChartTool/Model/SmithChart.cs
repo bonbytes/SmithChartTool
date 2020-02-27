@@ -145,7 +145,7 @@ namespace SmithChartTool.Model
 
         public SmithChart()
         {
-            Frequency = 1.0e9;
+            Frequency = 1.0e3;
             ReferenceImpedance = new ImpedanceElement(new Complex32(50, 0));
             IsNormalized = true;
             Plot = new PlotModel();

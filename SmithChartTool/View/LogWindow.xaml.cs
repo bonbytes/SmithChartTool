@@ -21,9 +21,11 @@ namespace SmithChartTool.View
     public partial class LogWindow : Window
     {
         private bool _LogChangedEnabled;
+        public LogWindowViewModel VM { get; set; } = new LogWindowViewModel();
 
         public LogWindow()
         {
+            this.DataContext = VM;
             InitializeComponent();
 
             Log.LogChanged += LogChanged;
@@ -70,8 +72,8 @@ namespace SmithChartTool.View
             Log.LogChanged -= LogChanged;
             _LogChangedEnabled = false;
 
-            btnStop.IsEnabled = false;
-            btnResume.IsEnabled = true;
+            btnStopLog.IsEnabled = false;
+            btnResumeLog.IsEnabled = true;
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -99,8 +101,8 @@ namespace SmithChartTool.View
 
             Log.AddLine("[log] ### Die Aufzeichnung wird fortgesetzt. ###\r");
 
-            btnStop.IsEnabled = true;
-            btnResume.IsEnabled = false;
+            btnStopLog.IsEnabled = true;
+            btnResumeLog.IsEnabled = false;
         }
 
         private void HandleKeyDownEvent(object sender, KeyEventArgs e)

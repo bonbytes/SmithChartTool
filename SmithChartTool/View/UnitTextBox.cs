@@ -49,7 +49,7 @@ namespace SmithChartTool.View
 
         private void MyTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (Text.ToLower().IndexOf(Prefix) == -1)
+            if (Text.IndexOf(Unit) == -1)
             {
                 int tmp = ((TextBox)e.Source).SelectionStart; // get current cursor position
                 Text += Unit; // append unit and reset cursor position

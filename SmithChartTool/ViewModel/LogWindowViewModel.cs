@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace SmithChartTool.ViewModel
 {
-    class LogWindowViewModel
+    public class LogWindowViewModel
     {
         //public static RoutedUICommand CommandSaveSmithChartImage = new RoutedUICommand("Save Smith Chart image", "RSSCI", typeof(LogWindow));
         //public void RunSaveSmithChartImage()

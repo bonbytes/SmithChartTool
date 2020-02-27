@@ -3,14 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:system="clr-namespace:System;assembly=System"
-        xmlns:local="clr-namespace:SmithChartTool.View"
+        xmlns:local="clr-namespace:SmithChartTool"
+        xmlns:v="clr-namespace:SmithChartTool.View"
         xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
+        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         Title="SmithChartTool" 
         Width="800" Height="600" MinWidth="800" MinHeight="600"
-        Icon="pack://application:,,,/Images/Icons/Infinity_16x.png"
-        >
-
-    <!--xmlns:oxy="http://oxyplot.org/wpf"-->
+        Icon="pack://application:,,,/Images/Icons/Infinity_16x.png" >
+    
+    <Window.Resources>
+        <local:StringConverter x:Key="StringConverter"/>
+        <local:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
+    </Window.Resources>
+    
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -67,36 +72,21 @@
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Smith Chart settings">
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
-                        <local:LabeledControl Header="Frequency">
-                            <local:UnitTextBox x:Name="tbFrequency" Unit="Hz"></local:UnitTextBox>
-                        </local:LabeledControl>
-                        <local:LabeledControl Header="Ref. Impedance">
-                            <local:UnitTextBox x:Name="tbRefImpedance" Unit="Ohm"></local:UnitTextBox>
-                        </local:LabeledControl>
-                        <local:LabeledControl Header="Normalized">
-                            <CheckBox x:Name="chkIsNormalized">
-                                <CheckBox.IsChecked>
-                                    <Binding Path="bli" ConverterParameter="21">
-                                        <Binding.Converter>
-                                            <vm:BooleanInvertConverter></vm:BooleanInvertConverter>
-                                        </Binding.Converter>
-                                    </Binding>
-                                </CheckBox.IsChecked>
-                            </CheckBox>
-                        </local:LabeledControl>
-                        <Button x:Name="executeSync" Content="Normal Execute">
-                            <Button.IsEnabled>
-                                <Binding Path="bli" ConverterParameter="22">
-                                    <Binding.Converter>
-                                        <vm:BooleanInvertConverter>
-                                        </vm:BooleanInvertConverter>
-                                    </Binding.Converter>
-                                </Binding>
-                            </Button.IsEnabled>
-                        </Button>
-                        <Button x:Name="executeAsync" IsEnabled="{Binding Path=bli}">Async Execute</Button>
-                        <Button x:Name="executeParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
-                        <Button x:Name="blub">
+                        <v:LabeledControl Header="Frequency">
+                            <!--<v:UnitTextBox x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBox>-->
+                            <TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"/>
+                        </v:LabeledControl>
+                        <v:LabeledControl Header="Ref. Impedance">
+                            <v:UnitTextBox x:Name="tbRefImpedance" Unit="Ohm"></v:UnitTextBox>
+                        </v:LabeledControl>
+                        <v:LabeledControl Header="Normalized">
+                            <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></CheckBox>
+                        </v:LabeledControl>
+                        <!--<Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainWindowViewModel.CommandTestFeature"></Button>-->
+                        <Button x:Name="btnExecuteSync" Content="Normal Execute" IsEnabled="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></Button>
+                        <Button x:Name="btnExecuteAsync" IsEnabled="{Binding Path=bli}">Async Execute</Button>
+                        <Button x:Name="btnExecuteParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
+                        <Button x:Name="btnAnimationTest">
                             <Button.Triggers>
                                 <EventTrigger RoutedEvent="Button.Click" SourceName="blub">
                                     <BeginStoryboard>
@@ -131,7 +121,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <local:SchematicElementSourceControl Type="{Binding}" />
+                                            <v:SchematicElementSourceControl Type="{Binding}" />
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -151,7 +141,7 @@
 				</Grid.RowDefinitions>
 				<GroupBox Grid.Row="0" Header="Smith Chart" x:Name="gbSmithChartPlot" >
 					<Grid x:Name="grSmithChartPlot">
-                        <oxy:PlotView x:Name="oxySmithChart" Style="{StaticResource oxySmithChartStyle}" Model="{Binding SC.Plot}" Background="Transparent"  Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <oxy:PlotView x:Name="oxySmithChart" Style="{StaticResource oxySmithChartStyle}" Model="{Binding SC.Plot}" Background="Transparent"  Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                             <oxy:PlotView.Height>
 								<MultiBinding>
 									<MultiBinding.Bindings>
@@ -159,7 +149,7 @@
 										<Binding Path="ActualHeight" ElementName="grSmithChartPlot"/>
 									</MultiBinding.Bindings>
 									<MultiBinding.Converter>
-										<vm:PlotSizeConverter></vm:PlotSizeConverter>
+										<local:PlotSizeConverter></local:PlotSizeConverter>
 									</MultiBinding.Converter>
 								</MultiBinding>
 							</oxy:PlotView.Height>
@@ -184,7 +174,7 @@
                                 <Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="ListBoxItem">
-											<local:SchematicElementControl Type="{Binding Type}" Designator="{Binding Designator}" Value="{Binding Value}"/>
+											<v:SchematicElementControl Type="{Binding Type}" Designator="{Binding Designator}" Value="{Binding Value}"/>
 										</ControlTemplate>
 									</Setter.Value>
 								</Setter>

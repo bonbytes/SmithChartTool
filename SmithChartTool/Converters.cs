@@ -25,8 +25,25 @@ using System.Windows.Data;
 
 
 
-namespace SmithChartTool.ViewModel
+namespace SmithChartTool
 {
+    public class StringConverter : IValueConverter
+    {
+        // Frontend -> Backend
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+
+        // Backend -> Frontend
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string s = value.ToString();
+            s = s.Replace(".", ",");
+            return s;
+        }
+    }
+
     public class BooleanInvertConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -58,7 +75,7 @@ namespace SmithChartTool.ViewModel
             // return value == Visibility.Visible;
             return value;
         }
-    } // end class BooleanToVisibilityConverter
+    }
 
 
 
@@ -75,25 +92,7 @@ namespace SmithChartTool.ViewModel
             //return value == Visibility.Visible ? false : true;
             return value;
         }
-    } // end class BooleanToVisibilityInvertedConverter
-
-
-
-    public class BooleanToGridLengthConverter : IValueConverter
-    {
-
-        public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return (bool)value ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
-        }
-
-        public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return ((GridLength)value).Value == 0 ? false : true;
-        }
-    } // end class BooleanToGridLengthConverter
-
-
+    }
 
     public class YesNoToBooleanConverter : IValueConverter
     {
@@ -102,19 +101,12 @@ namespace SmithChartTool.ViewModel
             switch (value.ToString().ToLower())
             {
                 case "yes":
-                case "oui":
-                case "ja":
-                case "jup":
                     return true;
                 case "no":
-                case "non":
-                case "nein":
-                case "nö":
                     return false;
             }
             return false;
         }
-
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is bool)
@@ -126,7 +118,7 @@ namespace SmithChartTool.ViewModel
             }
             return "no";
         }
-    } // end class YesNoToBooleanConverter
+    }
 
     public class PlotSizeConverter : IMultiValueConverter
     {
@@ -144,7 +136,6 @@ namespace SmithChartTool.ViewModel
             {
                 return (double)values[0];
             }
-
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

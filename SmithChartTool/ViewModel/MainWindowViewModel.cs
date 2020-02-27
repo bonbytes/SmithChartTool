@@ -33,6 +33,7 @@ namespace SmithChartTool.ViewModel
         public string ProjectName { get; private set; }
         public string ProjectPath { get; private set; }
         public string ProjectDescription { get; private set; }
+        public int Progress { get; private set; }
 
         public static event Action<int> ProgressChanged;
         public static event Action<StatusType> StatusChanged;
@@ -59,13 +60,14 @@ namespace SmithChartTool.ViewModel
             }
         }
 
+
         public static RoutedUICommand CommandSaveSmithChartImage = new RoutedUICommand("Save Smith Chart image", "RSSCI", typeof(MainWindow));
         public void RunSaveSmithChartImage()
         {
             SaveFileDialog sfd = new SaveFileDialog();
 
             sfd.Filter = "PNG|*.png|BMP|*.bmp|JPEG|*.jpeg,*.jpg";
-            sfd.Title = "Export Smith Chart & Schematic";
+            sfd.Title = "Export Smith Chart image";
 
             sfd.ShowDialog();
 
@@ -74,9 +76,8 @@ namespace SmithChartTool.ViewModel
                 Log.AddLine("[image] Exporting Smith Chart to image \'(" + sfd.FileName + ")\'...");
 
                 string ImExt = Path.GetExtension(sfd.FileName);
-
                 PngExporter.Export(SC.Plot, sfd.FileName, 800, 600, OxyPlot.OxyColor.Parse("FFFFFF00"), 96);
-
+                
                 Log.AddLine("[image] Done.");
             }
         }
@@ -275,19 +276,25 @@ namespace SmithChartTool.ViewModel
             return new SchematicElement() { Type = SchematicElementType.Port };
         }
 
+        public static RoutedUICommand CommandTestFeature = new RoutedUICommand("Run Test Feature", "RTFE", typeof(MainWindow));
+        public async void RunTestFeature()
+        {
+            await Task.Run(() => MessageBox.Show(SC.Frequency.ToString()));
+        }
+
 
 
         public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.R, ModifierKeys.Control) });
-        public async void RunCommandXYAsync()
+        public async void RunXYAsync()
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            await RunXYAsync();
+            await XYAsync();
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             MessageBox.Show(elapsedMs.ToString());
         }
 
-        private async Task RunXYAsync()
+        private async Task XYAsync()
         {
             var result = await Task.Run(() => 0);  // insert lambda body
 
