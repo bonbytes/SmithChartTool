@@ -23,7 +23,6 @@ namespace SmithChartTool
 	public class HideInList : Attribute
 	{
 		public HideInList()
-		{
-		}
+		{}
 	}
 }

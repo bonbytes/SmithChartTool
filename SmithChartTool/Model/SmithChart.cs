@@ -50,7 +50,7 @@ namespace SmithChartTool.Model
         {
             List<MyLineSeries> series = new List<MyLineSeries>();
             List<double> rrangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10 };
-            List<double> x = GetLogRange(-10, Math.Log(1000, 10), 1000);//GetRange(-100, 100, 4000);
+            List<double> x = GetLogRange(-10, 4, 1000);//GetRange(-100, 100, 4000);
             //List<List<Complex32>> realConstValues = new List<List<Complex32>>();
             x.AddRange(x.Invert());
             int i = 0;

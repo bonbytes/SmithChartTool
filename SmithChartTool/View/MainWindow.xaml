@@ -12,7 +12,7 @@
         Icon="pack://application:,,,/Images/Icons/Infinity_16x.png" >
     
     <Window.Resources>
-        <local:StringConverter x:Key="StringConverter"/>
+        <local:TextBoxValueConverter x:Key="TextBoxValueConverter"/>
         <local:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
     </Window.Resources>
     
@@ -74,14 +74,14 @@
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
                         <v:LabeledControl Header="Frequency">
                             <!--<v:UnitTextBox x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBox>-->
-                            <TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"/>
+                            <TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency, Converter={StaticResource TextBoxValueConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"/>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Ref. Impedance">
                             <v:UnitTextBox x:Name="tbRefImpedance" Unit="Ohm"></v:UnitTextBox>
                         </v:LabeledControl>
-                        <v:LabeledControl Header="Normalized">
+                        <!--<v:LabeledControl Header="Normalized">
                             <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></CheckBox>
-                        </v:LabeledControl>
+                        </v:LabeledControl>-->
                         <!--<Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainWindowViewModel.CommandTestFeature"></Button>-->
                         <Button x:Name="btnExecuteSync" Content="Normal Execute" IsEnabled="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></Button>
                         <Button x:Name="btnExecuteAsync" IsEnabled="{Binding Path=bli}">Async Execute</Button>

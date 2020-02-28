@@ -92,10 +92,9 @@
     <Compile Include="Model\SchematicElement.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="ViewModel\DragDropHelper.cs" />
-    <Compile Include="ViewModel\Log.cs" />
+    <Compile Include="Model\Log.cs" />
     <Compile Include="ViewModel\LogWindowViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\TextBoxUnit.cs" />
     <Compile Include="View\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>

@@ -27,12 +27,76 @@ using System.Windows.Data;
 
 namespace SmithChartTool
 {
-    public class StringConverter : IValueConverter
+    public class TextBoxValueConverter : IValueConverter
     {
         // Frontend -> Backend
+        /// Hier Attribute?
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value;
+            if (value is string)
+            {
+                string str = value as string;
+                try
+                {
+                    int indexChar = 0;
+
+                    while (indexChar < str.Length && (char.IsDigit(str[indexChar]) || str[indexChar] == '.' || str[indexChar] == 'E' || str[indexChar] == '-'))
+                        indexChar++;
+
+                    string numString = str.Substring(0, indexChar);
+
+                    if (numString.Length == 0)
+                        return 0;
+
+                    // skip whitespaces between number and prefix
+                    while (indexChar < str.Length && char.IsWhiteSpace(str[indexChar]))
+                        indexChar++;
+
+                    string prefix = (str.Substring(indexChar));
+                    double num = double.Parse(numString);
+
+                    switch (prefix)
+                    {
+                        case "f":
+                            return num / Math.Pow(10, 12);
+                        case "p":
+                            return num / Math.Pow(10, 9);
+                        case "µ":
+                        case "u":
+                            return num / Math.Pow(10, 6);
+                        case "m":
+                            return num / Math.Pow(10, 3);
+                        case "c":
+                            return num / 100;
+                        case "d":
+                            return num / 10;
+                        case "k":
+                            return num * Math.Pow(10, 3);
+                        case "M":
+                        case "Meg":
+                            return num * Math.Pow(10, 6);
+                        case "G":
+                            return num * Math.Pow(10, 9);
+                        case "T":
+                            return num * Math.Pow(10, 12);
+                        default:
+                            return num;
+                    }
+                }
+                catch (FormatException fe)
+                {
+                    if (str.IndexOf('E') >= 1 && char.IsNumber(str[str.IndexOf('E') - 1]))
+                        return 0;
+
+                    // No number recognized. set to zero
+                    MessageBox.Show(str + "not recognized"
+                                    + "\n Setting value to zero.",
+                                    "Eingabe nicht erkannt", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return 0;
+                }
+            }
+            else
+                return 0;
         }
 
         // Backend -> Frontend

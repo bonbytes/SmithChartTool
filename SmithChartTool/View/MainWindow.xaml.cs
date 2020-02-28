@@ -30,7 +30,7 @@ namespace SmithChartTool.View
             this.DataContext = VM;
             this.InitializeComponent();
 
-           // CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandTestFeature, (s, e) => { VM.RunTestFeature(); }));
+            //CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandTestFeature, (s, e) => { VM.RunTestFeature(); }));
             //CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
             //CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandSaveSmithChartImage, (s, e) => { VM.RunSaveSmithChartImage(); }));
             

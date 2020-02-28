@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SmithChartTool.Model;
+using SmithChartTool.View;
 
 namespace SmithChartTool.ViewModel
 {
