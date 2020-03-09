@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Canvas Width="100" Height="100" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<Path Data="M0,20 h30" SnapsToDevicePixels="True" Name="pathleft" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
-    <Rectangle Canvas.Left="30" Canvas.Top="10" Width="40" Height="20" Name="rect4888" Fill="White"  StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"/>
+    <Rectangle Canvas.Left="30" Canvas.Top="10" Width="40" Height="20" Name="rect4888" Fill="Gray" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"/>
 	<Path Data="M70,20 h30" Name="pathright" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
 	
 	<Path Data="M0,80 h100" Name="pathgnd" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>

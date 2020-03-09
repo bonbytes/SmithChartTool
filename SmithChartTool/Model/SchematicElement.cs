@@ -18,7 +18,9 @@ namespace SmithChartTool.Model
         [SchematicElementInfo("Inductor (parallel)", "InductorParallel", "L")] InductorParallel,
         [SchematicElementInfo("Transmission Line", "TLine", "TL")] TLine,
         [SchematicElementInfo("Open stub", "OpenStub", "TL")] OpenStub,
-        [SchematicElementInfo("Shorted stub", "ShortedStub", "TL")] ShortedStub
+        [SchematicElementInfo("Shorted stub", "ShortedStub", "TL")] ShortedStub,
+        [SchematicElementInfo("Impedance (serial)", "ImpedanceSerial", "Z")] ImpedanceSerial,
+        [SchematicElementInfo("Impedance (parallel)", "ImpedanceParallel", "Z")] ImpedanceParallel
     }
 
     public class SchematicElement : ImpedanceElement

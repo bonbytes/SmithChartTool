@@ -62,9 +62,7 @@ namespace SmithChartTool.ViewModel
             LogData = new Log();
             SC = new SmithChart();
             Schematic = new Schematic();
-            Schematic.AddElement(SchematicElementType.ResistorParallel);
-            LogData.AddLine("[schematic] Parallel resistor added to schematic.");
-            Schematic.ChangeElementValue(1, 33);
+            AddSchematicElement(SchematicElementType.ImpedanceSerial);
             
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
@@ -85,6 +83,29 @@ namespace SmithChartTool.ViewModel
                 SchematicElementType type = (SchematicElementType)e.Data.GetData("SchematicElement");
                 Schematic.InsertElement(index, type);
             }
+        }
+
+        public void AddSchematicElement(SchematicElementType type)
+        {
+            string typeDescription = "";
+            Schematic.AddElement(type);
+            
+            Type t = type.GetType();
+            var b = t.GetMember(type.ToString());
+
+            if (b.Count() > 0)
+            {
+                var c = b[0].GetCustomAttributes(typeof(SchematicElementInfo), false);
+                if (c.Count() > 0)
+                {
+                    SchematicElementInfo sei = (SchematicElementInfo)c[0];
+                    if (sei != null)
+                    {
+                        typeDescription = sei.Name;
+                    }
+                }
+            }
+            LogData.AddLine("[schematic] " + typeDescription + " added to schematic.");
         }
 
 
