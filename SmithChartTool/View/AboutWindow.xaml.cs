@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SmithChartTool.ViewModel;
 
 namespace SmithChartTool.View
 {
@@ -19,8 +20,9 @@ namespace SmithChartTool.View
 	/// </summary>
 	public partial class AboutWindow : Window
 	{
-		public AboutWindow()
+		public AboutWindow(AboutWindowViewModel vm)
 		{
+			this.DataContext = vm;
 			InitializeComponent();
 		}
 	}

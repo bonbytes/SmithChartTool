@@ -4,7 +4,8 @@
         Title="About..." Height="300" Width="300" ResizeMode="NoResize" 
         WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner"
         Icon="pack://application:,,,/Images/Icons/HelpApplication_16x.png"
-		>
+		xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
+        >
 
     <Grid>
 		<Grid.RowDefinitions>
@@ -44,7 +45,7 @@
 			</Grid.ColumnDefinitions>
 
             <TextBlock TextWrapping="Wrap" TextAlignment="Justify" FontSize="10" Margin="5,3,0,5" Grid.Row="1"></TextBlock>
-            <Button Content="OK" Width="100" Margin="10,0,5,5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" IsDefault="True" IsCancel="True" />
+            <Button Content="OK" Width="100" Margin="10,0,5,5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" IsDefault="True" IsCancel="True" Command="vm:AboutWindowViewModel.CommandOK" />
 		</Grid>
 	</Grid>
 </Window>

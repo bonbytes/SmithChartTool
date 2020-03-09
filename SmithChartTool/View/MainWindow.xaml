@@ -23,12 +23,13 @@
                 <MenuItem Header="_Open project" Command="vm:MainWindowViewModel.CommandXYAsync"></MenuItem>
                 <MenuItem Header="_Save project"></MenuItem>
                 <MenuItem Header="E_xport plot" Command="vm:MainWindowViewModel.CommandSaveSmithChartImage"></MenuItem>
+                <MenuItem Header="Show Log" Command="vm:MainWindowViewModel.CommandShowLogWindow"></MenuItem>
                 <MenuItem Header="_Exit"></MenuItem>
             </MenuItem>
 			<MenuItem Header="_Insert"></MenuItem>
 			<MenuItem Header="_View"></MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Icon="pack://application:,,,/Images/Icons/HelpApplication_16x.png" Header="_About..."></MenuItem>
+                <MenuItem Icon="pack://application:,,,/Images/Icons/HelpApplication_16x.png" Header="_About..." Command="vm:MainWindowViewModel.CommandShowAboutWindow"></MenuItem>
 			</MenuItem>
 			
         </Menu>
@@ -74,7 +75,9 @@
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
                         <v:LabeledControl Header="Frequency">
                             <!--<v:UnitTextBox x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBox>-->
-                            <TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency, Converter={StaticResource TextBoxValueConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"/>
+                            <!--<TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency, Converter={StaticResource TextBoxValueConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"/>-->
+                            <!--<TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency}"/>-->
+                            <v:UnitTextBox x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency}"/>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Ref. Impedance">
                             <v:UnitTextBox x:Name="tbRefImpedance" Unit="Ohm"></v:UnitTextBox>
@@ -82,13 +85,13 @@
                         <!--<v:LabeledControl Header="Normalized">
                             <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></CheckBox>
                         </v:LabeledControl>-->
-                        <!--<Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainWindowViewModel.CommandTestFeature"></Button>-->
+                        <Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainWindowViewModel.CommandTestFeature"></Button>
                         <Button x:Name="btnExecuteSync" Content="Normal Execute" IsEnabled="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></Button>
                         <Button x:Name="btnExecuteAsync" IsEnabled="{Binding Path=bli}">Async Execute</Button>
                         <Button x:Name="btnExecuteParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
                         <Button x:Name="btnAnimationTest">
                             <Button.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click" SourceName="blub">
+                                <EventTrigger RoutedEvent="Button.Click" SourceName="btnAnimationTest">
                                     <BeginStoryboard>
                                         <Storyboard>
                                             <ColorAnimation From="Red" To="Blue" Duration="0:0:1.56" AutoReverse="True" Storyboard.TargetName="blub" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" />

@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmithChartTool.View"
+        xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         Title="Log Window" Height="320" Width="500" 
-        Background="#FFE9F6F9" 
-        KeyDown="HandleKeyDownEvent" 
+        Background="#FFE9F6F9"
         ResizeMode="NoResize" 
         >
     <Grid Margin="10">
@@ -24,16 +24,12 @@
             <RowDefinition Height="36"/>
         </Grid.RowDefinitions>
 
-        <RichTextBox x:Name="rtbLog" VerticalScrollBarVisibility="Visible" Grid.RowSpan="1" Background="AliceBlue" Margin="0,0,0,5" IsReadOnly="True" Cursor="Arrow" Grid.ColumnSpan="4" Foreground="White" FontFamily="Consolas">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="Margin" Value="0"/>
-                </Style>
-            </RichTextBox.Resources>
-        </RichTextBox>
+        <ListView  x:Name="lvLog" ItemsSource="{Binding Path=LogData.Lines}" Grid.RowSpan="1" Background="AliceBlue" Margin="0,0,0,5" Grid.ColumnSpan="4" Foreground="Black" FontFamily="Consolas">
 
-        <Button x:Name="btnResumeLog" IsEnabled="False" Content="Resume" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center" Margin="4"/>
-        <Button x:Name="btnStopLog" Content="Stop" Grid.Row="1" Grid.Column="2"  VerticalAlignment="Center" Margin="4"/>
-        <Button x:Name="btnCloseLog"  Content="Close" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="4"/>
+        </ListView>
+
+        <Button x:Name="btnResumeLog" IsEnabled="{Binding Path=IsbtnResumeLogEnabled}" Command="vm:LogWindowViewModel.CommandResumeLog" Content="Resume" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center" Margin="4"/>
+        <Button x:Name="btnStopLog" IsEnabled="{Binding Path=IsbtnStopLogEnabled}" Command="vm:LogWindowViewModel.CommandStopLog" Content="Stop" Grid.Row="1" Grid.Column="2"  VerticalAlignment="Center" Margin="4"/>
+        <Button x:Name="btnCloseLog" IsEnabled="{Binding Path=IsbtnCloseLogEnabled}" Command="vm:LogWindowViewModel.CommandCloseLog" Content="Close" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="4"/>
     </Grid>
 </Window>

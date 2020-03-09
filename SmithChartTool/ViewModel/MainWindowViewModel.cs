@@ -11,14 +11,18 @@ using SmithChartTool.View;
 using SmithChartTool.Model;
 using MathNet.Numerics;
 using System.IO;
+using OxyPlot;
 using OxyPlot.Wpf;
 using System.Windows.Controls;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
+using System.ComponentModel;
+
 
 namespace SmithChartTool.ViewModel
 {
-    public class MainWindowViewModel : IDragDrop
+    public class MainWindowViewModel : IDragDrop, INotifyPropertyChanged
     {
         public enum StatusType
         {
@@ -27,6 +31,7 @@ namespace SmithChartTool.ViewModel
             Error
         }
 
+        private MainWindow Window { get; set; }
         public SmithChart SC { get; private set; }
         public Schematic Schematic { get; private set; }
 
@@ -35,8 +40,17 @@ namespace SmithChartTool.ViewModel
         public string ProjectDescription { get; private set; }
         public int Progress { get; private set; }
 
+        public Log LogData { get; set; }
+
         public static event Action<int> ProgressChanged;
         public static event Action<StatusType> StatusChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public static RoutedUICommand CommandTestFeature = new RoutedUICommand("Run Test Feature", "RTFE", typeof(MainWindow));
+        public static RoutedUICommand CommandShowLogWindow = new RoutedUICommand("Show Log Window", "SLW", typeof(MainWindow));
+        public static RoutedUICommand CommandShowAboutWindow = new RoutedUICommand("Show About Window", "SAW", typeof(MainWindow));
+        public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.R, ModifierKeys.Control) });
+
 
         private const int ProgressUpdateIntervall = 400;
         private const int FinishedDelay = 400;
@@ -45,13 +59,26 @@ namespace SmithChartTool.ViewModel
 
         public MainWindowViewModel()
         {
+            LogData = new Log();
             SC = new SmithChart();
             Schematic = new Schematic();
             Schematic.AddElement(SchematicElementType.ResistorParallel);
+            LogData.AddLine("[schematic] Parallel resistor added to schematic.");
             Schematic.ChangeElementValue(1, 33);
+            
+            Window = new MainWindow(this);
+            Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandXYAsync, (s, e) => { RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
+            Window.CommandBindings.Add(new CommandBinding(CommandSaveSmithChartImage, (s, e) => { RunSaveSmithChartImage(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandShowLogWindow, (s, e) => { RunShowLogWindow(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandShowAboutWindow, (s, e) => { RunShowAboutWindow(); }));
+            Window.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
+            Window.oxySmithChart.ActualController.BindMouseEnter(OxyPlot.PlotCommands.HoverPointsOnlyTrack);
+
+            Window.Show();
         }
 
-        public void Drop(int index, DragEventArgs e)
+        public void DropSchematicElement(int index, DragEventArgs e)
         {
             if (e.Data.GetDataPresent("SchematicElement"))
             {
@@ -73,12 +100,13 @@ namespace SmithChartTool.ViewModel
 
             if (sfd.FileName != string.Empty)
             {
-                Log.AddLine("[image] Exporting Smith Chart to image \'(" + sfd.FileName + ")\'...");
+                LogData.AddLine("[image] Exporting Smith Chart to image \'(" + sfd.FileName + ")\'...");
 
                 string ImExt = Path.GetExtension(sfd.FileName);
-                PngExporter.Export(SC.Plot, sfd.FileName, 800, 600, OxyPlot.OxyColor.Parse("FFFFFF00"), 96);
-                
-                Log.AddLine("[image] Done.");
+                PngExporter.Export(SC.Plot, sfd.FileName, 1024, 768, OxyPlot.OxyColors.White, 300);
+                //SvgExporter.Export()
+
+                LogData.AddLine("[image] Done.");
             }
         }
 
@@ -100,9 +128,9 @@ namespace SmithChartTool.ViewModel
                 StatusChanged.Invoke(t);
         }
 
-        public static void SaveProjectToFile(string path, string projectName, string description, double frequency, bool isNormalized, List<SchematicElement> elements)
+        public void SaveProjectToFile(string path, string projectName, string description, double frequency, bool isNormalized, List<SchematicElement> elements)
         {
-            Log.AddLine("[fio] Saving project to file (\"" + path + "\")...");
+            LogData.AddLine("[fio] Saving project to file (\"" + path + "\")...");
 
             using (StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8))
             {
@@ -147,7 +175,7 @@ namespace SmithChartTool.ViewModel
                 ChangeStatus(StatusType.Ready);
             }
 
-            Log.AddLine("[fio] Done.");
+            LogData.AddLine("[fio] Done.");
         }
 
         public string ReadDescriptionFromFile(string path)
@@ -193,9 +221,9 @@ namespace SmithChartTool.ViewModel
             return new List<SchematicElement>();
         }
 
-            public List<SchematicElement> ReadProjectFromFile(string path, out string projectName, out double frequency, out bool isNormalized)
+        public List<SchematicElement> ReadProjectFromFile(string path, out string projectName, out double frequency, out bool isNormalized)
         {
-            Log.AddLine("[pfio] Starte readFromFile(\"" + path + "\", ...).");
+            LogData.AddLine("[fio] Reading project file (\"" + path + "\", ...).");
 
             List<SchematicElement> list = new List<SchematicElement>();
             projectName = "";
@@ -243,7 +271,7 @@ namespace SmithChartTool.ViewModel
             ChangeProgress(100);
             Thread.Sleep(FinishedDelay);
 
-            Log.AddLine("[fio] " + list.Count + " Schematic Elements loaded.");
+            LogData.AddLine("[fio] " + list.Count + " Schematic Elements loaded.");
 
             if (list.Count != numElements)
             {
@@ -276,15 +304,21 @@ namespace SmithChartTool.ViewModel
             return new SchematicElement() { Type = SchematicElementType.Port };
         }
 
-        public static RoutedUICommand CommandTestFeature = new RoutedUICommand("Run Test Feature", "RTFE", typeof(MainWindow));
         public async void RunTestFeature()
         {
             await Task.Run(() => MessageBox.Show(SC.Frequency.ToString()));
         }
 
+         public void RunShowLogWindow()
+        {
+            var logWindowViewModel = new LogWindowViewModel(LogData);
+        }
 
+        public void RunShowAboutWindow()
+        {
+            var aboutWindowViewModel = new AboutWindowViewModel();
+        }
 
-        public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.R, ModifierKeys.Control) });
         public async void RunXYAsync()
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();

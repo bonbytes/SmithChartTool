@@ -5,7 +5,7 @@
     xmlns:oxy="http://oxyplot.org/wpf"
     >
 	
-
+    <!-- This file is meant to be used to create frontends of "Custom Controls" in WPF -->
     <Style TargetType="{x:Type v:LabeledControl}">
         <Setter Property="Margin" Value="0,0,0,5"/>
         <Setter Property="Template">

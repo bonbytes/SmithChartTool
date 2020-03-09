@@ -29,9 +29,17 @@ namespace SmithChartTool
 {
     public class TextBoxValueConverter : IValueConverter
     {
-        // Frontend -> Backend
-        /// Hier Attribute?
+        // Backend -> Frontend
+        // attributes here?
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string s = value.ToString();
+            s = s.Replace(".", ",");
+            return s;
+        }
+
+        // Frontend -> Backend
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string)
             {
@@ -98,14 +106,6 @@ namespace SmithChartTool
             else
                 return 0;
         }
-
-        // Backend -> Frontend
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            string s = value.ToString();
-            s = s.Replace(".", ",");
-            return s;
-        }
     }
 
     public class BooleanInvertConverter : IValueConverter
@@ -140,8 +140,6 @@ namespace SmithChartTool
             return value;
         }
     }
-
-
 
     public class BooleanToVisibilityInvertedConverter : IValueConverter
     {

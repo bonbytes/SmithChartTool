@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,34 +11,57 @@ using System.Windows.Media;
 
 namespace SmithChartTool.Model
 {
-    public class Log
+    public class Log: INotifyPropertyChanged
     {
-        private static Queue<string> LogLines = new Queue<string>();
-        public static event Action<string> LogChanged;
-        private static int _MaxLogLines = 100;
+        //private Queue<string> _lines;
+        private ObservableCollection<string> _lines;
+        //public Queue<string> Lines
+        public ObservableCollection<string> Lines
+        {
+            get
+            {
+                return _lines;
+            }
+            set
+            {
+                if (value != _lines)
+                {
+                    _lines = value;
+                    OnPropertyChanged("Lines");
+                }
+            }
+        }
 
-        public static void AddLine(string newLogString)
+        private static int MaxLogLines = 100;
+
+        public Log()
+        {
+            Lines = new ObservableCollection<string>();
+        }
+
+        public void AddLine(string newLogString)
         {
             newLogString = "<" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + ">: " + newLogString;
 
-            lock (LogLines)
+            lock (Lines)
             {
-                LogLines.Enqueue(newLogString);
+                //Lines.Enqueue(newLogString);
+                Lines.Add(newLogString);
 
-                if (LogLines.Count > _MaxLogLines)
-                    LogLines.Dequeue();
+                if (Lines.Count > MaxLogLines)
+                    //Lines.Dequeue();
+                    Lines.RemoveAt(0);
+
+                OnPropertyChanged("Lines");
             }
-
-            if (LogChanged != null)
-                LogChanged.Invoke(newLogString);
         }
 
-        public static Queue<string> GetLines()
+        #region INotifyPropertyChanged Members  
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
         {
-            lock (LogLines)
-            {
-                return new Queue<string>(LogLines);
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }

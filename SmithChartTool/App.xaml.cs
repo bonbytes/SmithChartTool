@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using SmithChartTool.View;
+using SmithChartTool.ViewModel;
 
 namespace SmithChartTool
 {
@@ -20,8 +21,7 @@ namespace SmithChartTool
 
             Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Themes/LightTheme.xaml") });
 
-            MainWindow window = new MainWindow();
-            window.Show();
+            MainWindowViewModel vm = new MainWindowViewModel();
         }
     }
 }

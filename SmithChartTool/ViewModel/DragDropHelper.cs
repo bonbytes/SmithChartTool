@@ -14,7 +14,7 @@ namespace SmithChartTool.ViewModel
 {
 	public interface IDragDrop
 	{	
-		void Drop(int index, DragEventArgs e);
+		void DropSchematicElement(int index, DragEventArgs e);
 	}
 
 	public static class DragDropHelper
@@ -135,11 +135,11 @@ namespace SmithChartTool.ViewModel
                     }
                     if (dropDestIndex != -1)
                     {
-                        dropDest.Drop(dropDestIndex, e);
+                        dropDest.DropSchematicElement(dropDestIndex, e);
                     }
                     else
                     {
-                        dropDest.Drop(i-1, e);
+                        dropDest.DropSchematicElement(i-1, e);
                     }
                 }
 			}

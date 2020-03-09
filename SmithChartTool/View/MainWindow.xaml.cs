@@ -22,18 +22,10 @@ namespace SmithChartTool.View
 {
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel VM { get; set; } = new MainWindowViewModel();
-        
-
-        public MainWindow()
+        public MainWindow(MainWindowViewModel vm)
         {
-            this.DataContext = VM;
+            this.DataContext = vm;
             this.InitializeComponent();
-
-            //CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandTestFeature, (s, e) => { VM.RunTestFeature(); }));
-            //CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandXYAsync, (s, e) => { VM.RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
-            //CommandBindings.Add(new CommandBinding(MainWindowViewModel.CommandSaveSmithChartImage, (s, e) => { VM.RunSaveSmithChartImage(); }));
-            
 
             this.Loaded += (s, e) => {
                 //mitn doofen Frame -> cool, weil Datei (muss als Page gepackt sein)
@@ -51,10 +43,6 @@ namespace SmithChartTool.View
                 //var a = XamlReader.Load(sri.Stream);
                 //herbert.Content = a;
 
-
-                this.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
-                this.oxySmithChart.ActualController.BindMouseEnter(PlotCommands.HoverPointsOnlyTrack);
-
                 List<string> themes = new List<string>();
                 themes.Add("LightTheme");
                 themes.Add("DarkTheme");
@@ -63,7 +51,6 @@ namespace SmithChartTool.View
                 cmbThemes.SelectionChanged += (_s, _e) =>
                 {
                     Application.Current.Resources.MergedDictionaries.Clear();
-
                     Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Themes/" + cmbThemes.SelectedItem + ".xaml") });
 
                 };

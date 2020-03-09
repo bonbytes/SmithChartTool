@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics;
 using OxyPlot;
+using OxyPlot.Annotations;
 using OxyPlot.Series;
 
 namespace SmithChartTool.Model
@@ -13,8 +14,23 @@ namespace SmithChartTool.Model
     public class SmithChart: INotifyPropertyChanged
     {
         public PlotModel Plot { get; private set; }
-        public double Frequency { get; set; }
-        public ImpedanceElement ReferenceImpedance { get; private set; }
+        private double _frequency;
+        public double Frequency
+        {
+            get
+            {
+                return _frequency;
+            }
+            set
+            {
+                if (value != _frequency)
+                {
+                        _frequency = value;
+                        OnPropertyChanged("Frequency");
+                }
+            }
+        }
+        public ImpedanceElement ReferenceImpedance { get; set; }
         public bool IsNormalized { get; set; }
         public int NumRealCircles { get; private set; }
         public int NumImagCircles { get; private set; }
@@ -46,13 +62,16 @@ namespace SmithChartTool.Model
             return temp;
         }
 
-        public List<MyLineSeries> DrawSmithChartRealCircles(int numRealCirc = 7)
+        public List<MyLineSeries> DrawSmithChartImagCircles(int numImagCircSym = 7)
         {
             List<MyLineSeries> series = new List<MyLineSeries>();
             List<double> rrangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10 };
-            List<double> x = GetLogRange(-10, 4, 1000);//GetRange(-100, 100, 4000);
-            //List<List<Complex32>> realConstValues = new List<List<Complex32>>();
-            x.AddRange(x.Invert());
+            List<double> x = GetLogRange(-10, 4, 1000);
+            var temp = x.Invert();
+            var temp2 = x;
+            temp2.Reverse();
+            temp.AddRange(temp2);
+            x = temp;
             int i = 0;
 
             foreach (var re in rrangeFull)
@@ -68,16 +87,14 @@ namespace SmithChartTool.Model
             return series;
         }
 
-        public List<MyLineSeries> DrawSmithChartImagCircles(int numImagCirc = 18)
+        public List<MyLineSeries> DrawSmithChartRealCircles(int numRealCirc = 13)
         {
             List<double> y = GetLinRange(0, 100, 1000);
-            List<double> jrange = GetLogRange(Math.Log(0.15, 10), Math.Log(100, 10), 10);
+            List<double> jrange = GetLogRange(Math.Log(0.15, 10), Math.Log(1000, 10), numRealCirc);
             List<double> jrangeFull = new List<double>(jrange.Invert());
             jrangeFull.Add(1e-20);
             jrangeFull.AddRange(jrange);
             List<MyLineSeries> series = new List<MyLineSeries>();
-            //List<List<Complex32>> imagConstValues = new List<List<Complex32>>();
-
             int i = 0;
             foreach (var im in jrangeFull)
             {
@@ -94,8 +111,8 @@ namespace SmithChartTool.Model
 
         private void Init()
         {
-            NumRealCircles = 7;
-            NumImagCircles = 18;
+            NumRealCircles = 13;
+            NumImagCircles = 7;
             Plot.IsLegendVisible = false;
             Plot.Axes.Add(new OxyPlot.Axes.LinearAxis 
             { 
@@ -121,16 +138,17 @@ namespace SmithChartTool.Model
             });
             Plot.DefaultColors = new List<OxyColor> { (OxyColors.Black) };
 
-            List<MyLineSeries> seriesReal = DrawSmithChartRealCircles(this.NumRealCircles);
+            List<MyLineSeries> seriesReal = DrawSmithChartImagCircles(this.NumRealCircles);
             foreach (var item in seriesReal)
             {
                 Plot.Series.Add(item);
             }
-            List<MyLineSeries> seriesImag = DrawSmithChartImagCircles(this.NumImagCircles);
+            List<MyLineSeries> seriesImag = DrawSmithChartRealCircles(this.NumImagCircles);
             foreach (var item in seriesImag)
             {
                 Plot.Series.Add(item);
             }
+            Plot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
         }
 
         private void Invalidate()
