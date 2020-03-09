@@ -12,13 +12,13 @@ using SmithChartTool.Model;
 using MathNet.Numerics;
 using System.IO;
 using OxyPlot;
-using OxyPlot.Wpf;
+using OxyPlot.Series;
 using System.Windows.Controls;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
 using System.ComponentModel;
-
+using System.Windows.Media;
 
 namespace SmithChartTool.ViewModel
 {
@@ -50,7 +50,6 @@ namespace SmithChartTool.ViewModel
         public static RoutedUICommand CommandShowLogWindow = new RoutedUICommand("Show Log Window", "SLW", typeof(MainWindow));
         public static RoutedUICommand CommandShowAboutWindow = new RoutedUICommand("Show About Window", "SAW", typeof(MainWindow));
         public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.R, ModifierKeys.Control) });
-
 
         private const int ProgressUpdateIntervall = 400;
         private const int FinishedDelay = 400;
@@ -124,7 +123,7 @@ namespace SmithChartTool.ViewModel
                 LogData.AddLine("[image] Exporting Smith Chart to image \'(" + sfd.FileName + ")\'...");
 
                 string ImExt = Path.GetExtension(sfd.FileName);
-                PngExporter.Export(SC.Plot, sfd.FileName, 1024, 768, OxyPlot.OxyColors.White, 300);
+                OxyPlot.Wpf.PngExporter.Export(SC.Plot, sfd.FileName, 1024, 768, OxyPlot.OxyColors.White, 300);
                 //SvgExporter.Export()
 
                 LogData.AddLine("[image] Done.");

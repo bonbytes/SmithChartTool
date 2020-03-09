@@ -74,13 +74,13 @@
                 <GroupBox Grid.Row="0" Header="Smith Chart settings">
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
                         <v:LabeledControl Header="Frequency">
-                            <!--<v:UnitTextBox x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBox>-->
+                            <!--<v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBoxControl>-->
                             <!--<TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency, Converter={StaticResource TextBoxValueConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"/>-->
                             <!--<TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency}"/>-->
-                            <v:UnitTextBox x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency}"/>
+                            <v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency}"/>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Ref. Impedance">
-                            <v:UnitTextBox x:Name="tbRefImpedance" Unit="Ohm"></v:UnitTextBox>
+                            <v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm"></v:UnitTextBoxControl>
                         </v:LabeledControl>
                         <!--<v:LabeledControl Header="Normalized">
                             <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></CheckBox>

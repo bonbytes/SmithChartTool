@@ -32,8 +32,10 @@ namespace SmithChartTool.Model
         }
         public ImpedanceElement ReferenceImpedance { get; set; }
         public bool IsNormalized { get; set; }
-        public int NumRealCircles { get; private set; }
-        public int NumImagCircles { get; private set; }
+        public int NumResistanceCircles { get; private set; }
+        public int NumReactanceCircles { get; private set; }
+        public int NumConductanceCircles { get; private set; }
+        public int NumSusceptanceCircles { get; private set; }
 
         private Complex32 GetConformalImpedanceValue(Complex32 z)
         {
@@ -62,11 +64,11 @@ namespace SmithChartTool.Model
             return temp;
         }
 
-        public List<MyLineSeries> DrawSmithChartImagCircles(int numImagCircSym = 7)
+        public List<MyLineSeries> DrawSmithChartConstResistanceCircles(int numResistanceCirc = 7)
         {
             List<MyLineSeries> series = new List<MyLineSeries>();
-            List<double> rrangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10 };
-            List<double> x = GetLogRange(-10, 4, 1000);
+            List<double> rrangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10 }; // 7 circles
+            List<double> x = GetLogRange(Math.Log(1E-10, 10), Math.Log(100, 10), 1000); // number of points per circle
             var temp = x.Invert();
             var temp2 = x;
             temp2.Reverse();
@@ -74,10 +76,10 @@ namespace SmithChartTool.Model
             x = temp;
             int i = 0;
 
-            foreach (var re in rrangeFull)
+            foreach (var re in rrangeFull) // for every constant resistance circle
             {
                 series.Add(new MyLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
-                foreach (var im in x)
+                foreach (var im in x) // plot single circle through conformal mapping
                 {
                     Complex32 _z = GetConformalImpedanceValue(new Complex32((float)re, (float)im));
                     series[i].Points.Add(new DataPoint(_z.Real, _z.Imaginary));
@@ -87,12 +89,12 @@ namespace SmithChartTool.Model
             return series;
         }
 
-        public List<MyLineSeries> DrawSmithChartRealCircles(int numRealCirc = 13)
+        public List<MyLineSeries> DrawSmithChartConstReactanceCircles(int numReactanceCirc = 12)
         {
-            List<double> y = GetLinRange(0, 100, 1000);
-            List<double> jrange = GetLogRange(Math.Log(0.15, 10), Math.Log(1000, 10), numRealCirc);
+            List<double> y = GetLogRange(-5, 100, 1000); // value of R -> zero to infinity
+            List<double> jrange = GetLogRange(Math.Log(0.01, 10), Math.Log(10000, 10), 25);
             List<double> jrangeFull = new List<double>(jrange.Invert());
-            jrangeFull.Add(1e-20);
+            jrangeFull.Add(1e-20);  // "zero" line
             jrangeFull.AddRange(jrange);
             List<MyLineSeries> series = new List<MyLineSeries>();
             int i = 0;
@@ -105,14 +107,21 @@ namespace SmithChartTool.Model
                     series[i].Points.Add(new DataPoint(_z.Real, _z.Imaginary));
                 }
                 i++;
+                
             }
             return series;
         }
 
+        public void DrawSmithChartLegend()
+        {
+            Plot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
+
+        }
+
         private void Init()
         {
-            NumRealCircles = 13;
-            NumImagCircles = 7;
+            NumResistanceCircles = 7;
+            NumReactanceCircles = 13;
             Plot.IsLegendVisible = false;
             Plot.Axes.Add(new OxyPlot.Axes.LinearAxis 
             { 
@@ -138,20 +147,38 @@ namespace SmithChartTool.Model
             });
             Plot.DefaultColors = new List<OxyColor> { (OxyColors.Black) };
 
-            List<MyLineSeries> seriesReal = DrawSmithChartImagCircles(this.NumRealCircles);
-            foreach (var item in seriesReal)
+            //List<MyLineSeries> seriesResistanceCircles = DrawSmithChartConstResistanceCircles(NumResistanceCircles);
+            //foreach (var item in seriesResistanceCircles)
+            //{
+            //    Plot.Series.Add(item);
+            //}
+            List<MyLineSeries> seriesReactanceCircles = DrawSmithChartConstReactanceCircles(NumReactanceCircles);
+            foreach (var item in seriesReactanceCircles)
             {
                 Plot.Series.Add(item);
             }
-            List<MyLineSeries> seriesImag = DrawSmithChartRealCircles(this.NumImagCircles);
-            foreach (var item in seriesImag)
-            {
-                Plot.Series.Add(item);
-            }
-            Plot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
+
+            var series1 = new LineSeries();
+            series1.Color = OxyColor.FromRgb(22, 22, 22);
+            series1.StrokeThickness = 1;
+            series1.MarkerType = MarkerType.Diamond;
+            series1.MarkerStroke = OxyColors.Blue;
+            series1.MarkerFill = OxyColors.Beige;
+            series1.MarkerStrokeThickness = 5;
+            series1.MarkerSize = 2;
+            series1.DataFieldX = "Date";
+            series1.DataFieldY = "Value";
+            series1.TrackerFormatString = "Date: {2:d HH}&#x0a;Value: {4}";
+
+            series1.Points.Add(new DataPoint(-0.1, 0.3));
+            series1.Points.Add(new DataPoint(0.2, 0.4));
+            series1.Points.Add(new DataPoint(0.4, 0.5));
+            series1.Points.Add(new DataPoint(0.6, 0.6));
+
+            Invalidate();
         }
 
-        private void Invalidate()
+        public void Invalidate()
         {
             Plot.InvalidatePlot(true);
         }

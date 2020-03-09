@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -96,6 +97,44 @@ namespace SmithChartTool.Model
         public string ToStringSimple()
         {
             return (Type.ToString() + " " + Designator.ToString() + " " + Value.ToString());
+        }
+
+        public Complex32 TransformImpedance(Complex32 input)
+        {
+            Complex32 transformed = new Complex32();
+            switch (Type)
+            {
+                case SchematicElementType.ResistorSerial:
+                    transformed = input + Impedance.Real;
+                    break;
+                case SchematicElementType.CapacitorSerial:
+                    break;
+                case SchematicElementType.InductorSerial:
+                    break;
+                case SchematicElementType.ResistorParallel:
+                    break;
+                case SchematicElementType.CapacitorParallel:
+                    break;
+                case SchematicElementType.InductorParallel:
+                    break;
+                case SchematicElementType.TLine:
+
+                    break;
+                case SchematicElementType.OpenStub:
+                    break;
+                case SchematicElementType.ShortedStub:
+                    break;
+                case SchematicElementType.ImpedanceSerial:
+                    break;
+                case SchematicElementType.ImpedanceParallel:
+                    break;
+                default:
+                    throw new Exception("Invalid transformation. Aborting...")
+                    break;
+            }
+
+
+            return transformed;
         }
     }
 }

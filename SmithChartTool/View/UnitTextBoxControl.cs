@@ -16,10 +16,10 @@ using System.Windows.Shapes;
 
 namespace SmithChartTool.View
 {
-    public class UnitTextBox : TextBox
+    public class UnitTextBoxControl : TextBox
     {
 
-        public static DependencyProperty UnitProperty = DependencyProperty.Register("Unit", typeof(string), typeof(UnitTextBox), new PropertyMetadata(string.Empty));
+        public static DependencyProperty UnitProperty = DependencyProperty.Register("Unit", typeof(string), typeof(UnitTextBoxControl), new PropertyMetadata(string.Empty));
 
         public string Unit
         {
@@ -38,11 +38,11 @@ namespace SmithChartTool.View
             get; set;
         }
 
-        static UnitTextBox()
+        static UnitTextBoxControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(UnitTextBox), new FrameworkPropertyMetadata(typeof(UnitTextBox)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(UnitTextBoxControl), new FrameworkPropertyMetadata(typeof(UnitTextBoxControl)));
         }
-        public UnitTextBox()
+        public UnitTextBoxControl()
         {
             TextChanged += new TextChangedEventHandler(MyTextChanged);
         }
