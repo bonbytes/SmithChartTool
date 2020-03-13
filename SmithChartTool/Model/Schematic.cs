@@ -34,6 +34,13 @@ namespace SmithChartTool.Model
             }
         }
 
+        static int numResistors = 1;
+        static int numCapacitors = 1;
+        static int numInductors = 1;
+        static int numTLines = 1;
+        static int numImpedances = 1;
+
+
         public Schematic()
         {
             Elements = new ObservableCollection<SchematicElement>();
@@ -50,7 +57,52 @@ namespace SmithChartTool.Model
 
         public void InvalidateImpedances()
         {
+            for (int i = Elements.Count - 1; i>0; i--)
+            {
+                if (Elements[i].Type == SchematicElementType.Port)
+                    InputImpedances[i] = Elements[i].Impedance;
+                else
+                {
+                    InputImpedances[i] = Elements[i].TransformImpedance(InputImpedances[i+1]);
+                }
+            }    
+        }
 
+        public void InvalidateDesignators()
+        {
+            // TODO: Re-Designate all elements when element is removed.
+            foreach (var element in Elements)
+            {
+                switch (element.Type)
+                {
+                    case SchematicElementType.Port:
+                        break;
+                    case SchematicElementType.ResistorSerial:
+                        break;
+                    case SchematicElementType.CapacitorSerial:
+                        break;
+                    case SchematicElementType.InductorSerial:
+                        break;
+                    case SchematicElementType.ResistorParallel:
+                        break;
+                    case SchematicElementType.CapacitorParallel:
+                        break;
+                    case SchematicElementType.InductorParallel:
+                        break;
+                    case SchematicElementType.TLine:
+                        break;
+                    case SchematicElementType.OpenStub:
+                        break;
+                    case SchematicElementType.ShortedStub:
+                        break;
+                    case SchematicElementType.ImpedanceSerial:
+                        break;
+                    case SchematicElementType.ImpedanceParallel:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public void AddElement(SchematicElementType schematicElement)
@@ -63,42 +115,113 @@ namespace SmithChartTool.Model
                 
             Elements.Insert(index, new SchematicElement 
             {
-                    Type = schematicElement 
+                Type = schematicElement 
             });
+            InputImpedances.Add(Elements[index].Impedance);
+            IncreaseElementDesignator(schematicElement);
+            InvalidateImpedances();
         }
+
         public void InsertElement(int index, SchematicElementType schematicElement)
-        {
+        {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
             Elements.Insert(index, new SchematicElement
             {
                 Type = schematicElement
             });
+            InputImpedances.Add(Elements[index].Impedance);
+            IncreaseElementDesignator(schematicElement);
+            InvalidateImpedances();
         }
-
+        
         public void RemoveElement(int index)
         {
             Elements.RemoveAt(index);
+            InputImpedances.RemoveAt(index);
+            DecreaseElementDesignator(Elements[0].Type);
+            InvalidateImpedances();
         }
 
-        public void ChangePortImpedance(int name, Complex32 impedance)
+        public void IncreaseElementDesignator(SchematicElementType type)
         {
-            if(name == 1)
+            switch (type)
             {
-                Elements[0].Impedance = impedance;
+                case SchematicElementType.ResistorSerial:
+                    numResistors++;
+                    break;
+                case SchematicElementType.CapacitorSerial:
+                    numCapacitors++;
+                    break;
+                case SchematicElementType.InductorSerial:
+                    numInductors++;
+                    break;
+                case SchematicElementType.ResistorParallel:
+                    numResistors++;
+                    break;
+                case SchematicElementType.CapacitorParallel:
+                    numCapacitors++;
+                    break;
+                case SchematicElementType.InductorParallel:
+                    numInductors++;
+                    break;
+                case SchematicElementType.TLine:
+                    numTLines++;
+                    break;
+                case SchematicElementType.OpenStub:
+                    numTLines++;
+                    break;
+                case SchematicElementType.ShortedStub:
+                    numTLines++;
+                    break;
+                case SchematicElementType.ImpedanceSerial:
+                    numImpedances++;
+                    break;
+                case SchematicElementType.ImpedanceParallel:
+                    numImpedances++;
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
-            else
+        }
+        public void DecreaseElementDesignator(SchematicElementType type)
+        {
+            switch (type)
             {
-                Elements[Elements.Count].Impedance = impedance;
+                case SchematicElementType.ResistorSerial:
+                    numResistors--;
+                    break;
+                case SchematicElementType.CapacitorSerial:
+                    numCapacitors--;
+                    break;
+                case SchematicElementType.InductorSerial:
+                    numInductors--;
+                    break;
+                case SchematicElementType.ResistorParallel:
+                    numResistors--;
+                    break;
+                case SchematicElementType.CapacitorParallel:
+                    numCapacitors--;
+                    break;
+                case SchematicElementType.InductorParallel:
+                    numInductors--;
+                    break;
+                case SchematicElementType.TLine:
+                    numTLines--;
+                    break;
+                case SchematicElementType.OpenStub:
+                    numTLines--;
+                    break;
+                case SchematicElementType.ShortedStub:
+                    numTLines--;
+                    break;
+                case SchematicElementType.ImpedanceSerial:
+                    numImpedances--;
+                    break;
+                case SchematicElementType.ImpedanceParallel:
+                    numImpedances--;
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
-        }
-
-        public void ChangeElementValue(int index, double value)
-        {
-            Elements[index].Value = value;
-        }
-
-        public void ChangeElementImpedance(int index, Complex32 impedance)
-        {
-            Elements[index].Impedance = impedance;
         }
 
         #region INotifyPropertyChanged Members  

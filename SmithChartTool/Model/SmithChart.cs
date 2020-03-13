@@ -92,7 +92,7 @@ namespace SmithChartTool.Model
         public List<MyLineSeries> DrawSmithChartConstReactanceCircles(int numReactanceCirc = 12)
         {
             List<double> y = GetLogRange(-5, 100, 1000); // value of R -> zero to infinity
-            List<double> jrange = GetLogRange(Math.Log(0.01, 10), Math.Log(10000, 10), 25);
+            List<double> jrange = GetLogRange(Math.Log(0.15, 10), Math.Log(1000, 10), numReactanceCirc);
             List<double> jrangeFull = new List<double>(jrange.Invert());
             jrangeFull.Add(1e-20);  // "zero" line
             jrangeFull.AddRange(jrange);
@@ -121,7 +121,7 @@ namespace SmithChartTool.Model
         private void Init()
         {
             NumResistanceCircles = 7;
-            NumReactanceCircles = 13;
+            NumReactanceCircles = 10;
             Plot.IsLegendVisible = false;
             Plot.Axes.Add(new OxyPlot.Axes.LinearAxis 
             { 
@@ -147,11 +147,11 @@ namespace SmithChartTool.Model
             });
             Plot.DefaultColors = new List<OxyColor> { (OxyColors.Black) };
 
-            //List<MyLineSeries> seriesResistanceCircles = DrawSmithChartConstResistanceCircles(NumResistanceCircles);
-            //foreach (var item in seriesResistanceCircles)
-            //{
-            //    Plot.Series.Add(item);
-            //}
+            List<MyLineSeries> seriesResistanceCircles = DrawSmithChartConstResistanceCircles(NumResistanceCircles);
+            foreach (var item in seriesResistanceCircles)
+            {
+                Plot.Series.Add(item);
+            }
             List<MyLineSeries> seriesReactanceCircles = DrawSmithChartConstReactanceCircles(NumReactanceCircles);
             foreach (var item in seriesReactanceCircles)
             {

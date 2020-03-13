@@ -49,6 +49,7 @@ namespace SmithChartTool.ViewModel
         public static RoutedUICommand CommandTestFeature = new RoutedUICommand("Run Test Feature", "RTFE", typeof(MainWindow));
         public static RoutedUICommand CommandShowLogWindow = new RoutedUICommand("Show Log Window", "SLW", typeof(MainWindow));
         public static RoutedUICommand CommandShowAboutWindow = new RoutedUICommand("Show About Window", "SAW", typeof(MainWindow));
+        public static RoutedUICommand CommandSaveSmithChartImage = new RoutedUICommand("Save Smith Chart image", "RSSCI", typeof(MainWindow));
         public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.R, ModifierKeys.Control) });
 
         private const int ProgressUpdateIntervall = 400;
@@ -107,8 +108,6 @@ namespace SmithChartTool.ViewModel
             LogData.AddLine("[schematic] " + typeDescription + " added to schematic.");
         }
 
-
-        public static RoutedUICommand CommandSaveSmithChartImage = new RoutedUICommand("Save Smith Chart image", "RSSCI", typeof(MainWindow));
         public void RunSaveSmithChartImage()
         {
             SaveFileDialog sfd = new SaveFileDialog();

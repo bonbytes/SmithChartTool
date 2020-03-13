@@ -108,29 +108,38 @@ namespace SmithChartTool.Model
                     transformed = input + Impedance.Real;
                     break;
                 case SchematicElementType.CapacitorSerial:
+                    transformed = input;
                     break;
                 case SchematicElementType.InductorSerial:
+                    transformed = input;
                     break;
                 case SchematicElementType.ResistorParallel:
+                    transformed = input;
                     break;
                 case SchematicElementType.CapacitorParallel:
+                    transformed = input;
                     break;
                 case SchematicElementType.InductorParallel:
+                    transformed = input;
                     break;
                 case SchematicElementType.TLine:
-
+                    transformed = input;
                     break;
                 case SchematicElementType.OpenStub:
+                    transformed = input;
                     break;
                 case SchematicElementType.ShortedStub:
+                    transformed = input;
                     break;
                 case SchematicElementType.ImpedanceSerial:
+                    transformed = input + Impedance;
                     break;
                 case SchematicElementType.ImpedanceParallel:
+                    transformed = input;
                     break;
                 default:
-                    throw new Exception("Invalid transformation. Aborting...")
-                    break;
+                    transformed = input;
+                    throw new Exception("Invalid transformation. Aborting...");
             }
 
 
