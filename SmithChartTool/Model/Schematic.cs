@@ -65,7 +65,8 @@ namespace SmithChartTool.Model
                 {
                     InputImpedances[i] = Elements[i].TransformImpedance(InputImpedances[i+1]);
                 }
-            }    
+            }
+            OnPropertyChanged("InputImpedances");
         }
 
         public void InvalidateDesignators()
@@ -77,28 +78,28 @@ namespace SmithChartTool.Model
                 {
                     case SchematicElementType.Port:
                         break;
+                    
                     case SchematicElementType.ResistorSerial:
-                        break;
-                    case SchematicElementType.CapacitorSerial:
-                        break;
-                    case SchematicElementType.InductorSerial:
-                        break;
                     case SchematicElementType.ResistorParallel:
                         break;
+                   
+                    case SchematicElementType.CapacitorSerial:
                     case SchematicElementType.CapacitorParallel:
                         break;
+                    
+                    case SchematicElementType.InductorSerial:
                     case SchematicElementType.InductorParallel:
                         break;
+                    
                     case SchematicElementType.TLine:
-                        break;
                     case SchematicElementType.OpenStub:
-                        break;
                     case SchematicElementType.ShortedStub:
                         break;
+                    
                     case SchematicElementType.ImpedanceSerial:
-                        break;
                     case SchematicElementType.ImpedanceParallel:
                         break;
+                    
                     default:
                         break;
                 }
