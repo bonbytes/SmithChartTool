@@ -27,26 +27,12 @@ namespace SmithChartTool.View
             this.DataContext = vm;
             this.InitializeComponent();
 
-            this.Loaded += (s, e) => {
-                //mitn doofen Frame -> cool, weil Datei (muss als Page gepackt sein)
-                //jaggeline.Navigate(new Uri("pack://application:,,,/Images/SchematicElements/Zeichnung.xaml"));
-
-                //Resource finden, doof weil in ResourceDictionary verbaut
-                //var a = FindResource("ResistorSerial");
-                //herbert.Content = a;
-
-                //DynamicResource attachen, doof weil s.o.
-                //herbert.SetResourceReference(Button.ContentProperty, "ResistorSerial");
-
-                //xaml laden und verarbeiten, cool weil Datei (muss als Resource gepackt sein)
-                //var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/Zeichnung.xaml"));
-                //var a = XamlReader.Load(sri.Stream);
-                //herbert.Content = a;
-
-                List<string> themes = new List<string>();
-                themes.Add("LightTheme");
-                themes.Add("DarkTheme");
-                cmbThemes.DataContext = themes;
+            this.Loaded += (s, e) => 
+            {
+                List<string> Themes = new List<string>();
+                Themes.Add("LightTheme");
+                Themes.Add("DarkTheme");
+                cmbThemes.DataContext = Themes;
 
                 cmbThemes.SelectionChanged += (_s, _e) =>
                 {

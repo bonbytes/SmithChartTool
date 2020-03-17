@@ -28,11 +28,11 @@ namespace SmithChartTool.Model
     {
         private double _value;
         /// <summary>
-        /// Value defines different mechanics based on element type
-        /// Resistor: Value defines resistance
-        /// Capacitor: Value defines capacitance
-        /// Inductor: Value defines inductance
-        /// Transmission Line: Value defines length
+        /// <Value> defines different mechanics based on element type.
+        /// Resistor: Value defines resistance in Ohms.
+        /// Capacitor: Value defines capacitance in Farads.
+        /// Inductor: Value defines inductance in Henries.
+        /// Transmission Line: Value defines phase in degree.
         /// </summary>
         public double Value
         {
@@ -99,51 +99,6 @@ namespace SmithChartTool.Model
             return (Type.ToString() + " " + Designator.ToString() + " " + Value.ToString());
         }
 
-        public Complex32 TransformImpedance(Complex32 input)
-        {
-            Complex32 transformed = new Complex32();
-            switch (Type)
-            {
-                case SchematicElementType.ResistorSerial:
-                    transformed = input + Impedance.Real;
-                    break;
-                case SchematicElementType.CapacitorSerial:
-                    transformed = input;
-                    break;
-                case SchematicElementType.InductorSerial:
-                    transformed = input;
-                    break;
-                case SchematicElementType.ResistorParallel:
-                    transformed = input;
-                    break;
-                case SchematicElementType.CapacitorParallel:
-                    transformed = input;
-                    break;
-                case SchematicElementType.InductorParallel:
-                    transformed = input;
-                    break;
-                case SchematicElementType.TLine:
-                    transformed = input;
-                    break;
-                case SchematicElementType.OpenStub:
-                    transformed = input;
-                    break;
-                case SchematicElementType.ShortedStub:
-                    transformed = input;
-                    break;
-                case SchematicElementType.ImpedanceSerial:
-                    transformed = input + Impedance;
-                    break;
-                case SchematicElementType.ImpedanceParallel:
-                    transformed = input;
-                    break;
-                default:
-                    transformed = input;
-                    throw new Exception("Invalid transformation. Aborting...");
-            }
-
-
-            return transformed;
-        }
+        
     }
 }

@@ -14,22 +14,6 @@ namespace SmithChartTool.Model
     public class SmithChart: INotifyPropertyChanged
     {
         public PlotModel Plot { get; private set; }
-        private double _frequency;
-        public double Frequency
-        {
-            get
-            {
-                return _frequency;
-            }
-            set
-            {
-                if (value != _frequency)
-                {
-                        _frequency = value;
-                        OnPropertyChanged("Frequency");
-                }
-            }
-        }
         public ImpedanceElement ReferenceImpedance { get; set; }
         public bool IsNormalized { get; set; }
         public int NumResistanceCircles { get; private set; }
@@ -40,6 +24,11 @@ namespace SmithChartTool.Model
         private Complex32 GetConformalImpedanceValue(Complex32 z)
         {
             return ((z - 1) / (z + 1));
+        }
+
+        public static double CalculateVSWR(Complex32 Gamma)
+        {
+            return ((1 + Gamma.Magnitude) / (1 - Gamma.Magnitude));
         }
 
         private List<double> GetLinRange(double start, double stop, int steps)
@@ -115,7 +104,6 @@ namespace SmithChartTool.Model
         public void DrawSmithChartLegend()
         {
             Plot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
-
         }
 
         private void Init()
@@ -127,7 +115,7 @@ namespace SmithChartTool.Model
             { 
                 Position = OxyPlot.Axes.AxisPosition.Left, 
                 Minimum = -1, 
-                Maximum = 1, 
+                Maximum = 1,
                 AbsoluteMaximum = 1, 
                 AbsoluteMinimum = -1, 
                 IsZoomEnabled = true, 
@@ -157,28 +145,31 @@ namespace SmithChartTool.Model
             {
                 Plot.Series.Add(item);
             }
+            InvalidatePlot();
+            AddTestMarker();
+        }
 
+        public void AddTestMarker()
+        {
             var series1 = new LineSeries();
             series1.Color = OxyColor.FromRgb(22, 22, 22);
-            series1.StrokeThickness = 1;
+            series1.StrokeThickness = 2;
             series1.MarkerType = MarkerType.Diamond;
             series1.MarkerStroke = OxyColors.Blue;
             series1.MarkerFill = OxyColors.Beige;
-            series1.MarkerStrokeThickness = 5;
-            series1.MarkerSize = 2;
-            series1.DataFieldX = "Date";
-            series1.DataFieldY = "Value";
-            series1.TrackerFormatString = "Date: {2:d HH}&#x0a;Value: {4}";
+            series1.MarkerStrokeThickness = 3;
+            series1.MarkerSize = 3;
 
             series1.Points.Add(new DataPoint(-0.1, 0.3));
             series1.Points.Add(new DataPoint(0.2, 0.4));
             series1.Points.Add(new DataPoint(0.4, 0.5));
             series1.Points.Add(new DataPoint(0.6, 0.6));
 
-            Invalidate();
+            Plot.Series.Add(series1);
+            InvalidatePlot();
         }
 
-        public void Invalidate()
+        public void InvalidatePlot()
         {
             Plot.InvalidatePlot(true);
         }
@@ -190,13 +181,12 @@ namespace SmithChartTool.Model
 
         public SmithChart()
         {
-            Frequency = 1.0e3;
             ReferenceImpedance = new ImpedanceElement(new Complex32(50, 0));
             IsNormalized = true;
             Plot = new PlotModel();
 
             Init();
-            Invalidate();
+            InvalidatePlot();
         }
 
         #region INotifyPropertyChanged Members  

@@ -77,7 +77,7 @@
                             <!--<v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBoxControl>-->
                             <!--<TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency, Converter={StaticResource TextBoxValueConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"/>-->
                             <!--<TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency}"/>-->
-                            <v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency}"/>
+                            <v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=Schematic.Frequency}"/>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Ref. Impedance">
                             <v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm"></v:UnitTextBoxControl>

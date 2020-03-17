@@ -122,7 +122,7 @@ namespace SmithChartTool.ViewModel
                 LogData.AddLine("[image] Exporting Smith Chart to image \'(" + sfd.FileName + ")\'...");
 
                 string ImExt = Path.GetExtension(sfd.FileName);
-                OxyPlot.Wpf.PngExporter.Export(SC.Plot, sfd.FileName, 1024, 768, OxyPlot.OxyColors.White, 300);
+                OxyPlot.Wpf.PngExporter.Export(SC.Plot, sfd.FileName, 1000, 1000, OxyPlot.OxyColors.White, 300);
                 //SvgExporter.Export()
 
                 LogData.AddLine("[image] Done.");
@@ -325,7 +325,7 @@ namespace SmithChartTool.ViewModel
 
         public async void RunTestFeature()
         {
-            await Task.Run(() => MessageBox.Show(SC.Frequency.ToString()));
+            await Task.Run(() => MessageBox.Show(Schematic.Frequency.ToString()));
         }
 
          public void RunShowLogWindow()
