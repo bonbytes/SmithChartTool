@@ -82,14 +82,28 @@ namespace SmithChartTool.ViewModel
             {
                 SchematicElementType type = (SchematicElementType)e.Data.GetData("SchematicElement");
                 Schematic.InsertElement(index, type);
+                SC.InvalidateInputImpedances(Schematic);
+                LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
             }
         }
 
         public void AddSchematicElement(SchematicElementType type)
         {
-            string typeDescription = "";
             Schematic.AddElement(type);
-            
+            SC.InvalidateInputImpedances(Schematic);
+            LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
+        }
+
+        public void RemoveSchematicElement(int index)
+        {
+            LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(Schematic.Elements[index].Type) + " removed from schematic.");
+            Schematic.RemoveElement(index);
+            SC.InvalidateInputImpedances(Schematic);
+        }
+
+        private string GetSchematicElementTypeDescription(SchematicElementType type)
+        {
+            string typeDescription = "";
             Type t = type.GetType();
             var b = t.GetMember(type.ToString());
 
@@ -105,7 +119,7 @@ namespace SmithChartTool.ViewModel
                     }
                 }
             }
-            LogData.AddLine("[schematic] " + typeDescription + " added to schematic.");
+            return typeDescription;
         }
 
         public void RunSaveSmithChartImage()
@@ -325,7 +339,7 @@ namespace SmithChartTool.ViewModel
 
         public async void RunTestFeature()
         {
-            await Task.Run(() => MessageBox.Show(Schematic.Frequency.ToString()));
+            await Task.Run(() => MessageBox.Show(SC.Frequency.ToString()));
         }
 
          public void RunShowLogWindow()
