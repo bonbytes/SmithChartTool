@@ -89,8 +89,8 @@ namespace SmithChartTool.Model
             Type = type;
             Designator = designator;
             Value = value;
-
         }
+
         public SchematicElement()
         { }
 

@@ -89,6 +89,7 @@
     </ApplicationDefinition>
     <Compile Include="Attributes.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Model\InputImpedance.cs" />
     <Compile Include="Model\ObservableStack.cs" />
     <Compile Include="Model\SchematicElement.cs" />
     <Compile Include="Converters.cs" />

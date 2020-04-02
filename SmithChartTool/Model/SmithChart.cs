@@ -14,6 +14,12 @@ namespace SmithChartTool.Model
 {
     public class SmithChart: INotifyPropertyChanged
     {
+        public enum SmithChartType
+        {
+            Impedance,
+            Admittance
+        }
+
         public const double c0 = 299792458;  // speed of light in m/s
 
         public PlotModel Plot { get; private set; }
@@ -41,8 +47,8 @@ namespace SmithChartTool.Model
             }
         }
 
-        public ObservableCollection<Complex32> _inputImpedances;
-        public ObservableCollection<Complex32> InputImpedances
+        public ObservableCollection<InputImpedance> _inputImpedances;
+        public ObservableCollection<InputImpedance> InputImpedances
         {
             get { return _inputImpedances; }
             set
@@ -67,31 +73,52 @@ namespace SmithChartTool.Model
             return (2 * Math.PI) / (wavelength);
         }
 
-        public float CalculateSerialCapacitorReactance(double value, double frequency)
+        public static Complex32 CalculateSerialResistorResistance(double value)
         {
-            return (float)(1 / (2 * Math.PI * frequency * value));
+            return new Complex32((float)value, 0);
         }
 
-        public float CalculateSerialInductorReactance(double value, double frequency)
+        public static Complex32 CalculateParallelResistorConductance(double value)
         {
-            return (float)(2 * Math.PI * frequency * value);
+            return new Complex32((float)(1/value), 0);
         }
 
-        private static Complex32 GetConformalGammaValue(Complex32 impedance)
+        public static Complex32 CalculateSerialCapacitorReactance(double value, double frequency)
         {
-            return ((impedance - 1) / (impedance + 1));
+            return new Complex32(0, (float)(1 / (2 * Math.PI * frequency * value)));
         }
 
-        private static Complex32 GetConformalImpedanceValue(Complex32 gamma)
+        public static Complex32 CalculateSerialInductorReactance(double value, double frequency)
         {
-            return ((gamma + 1) / (gamma - 1));
+            return new Complex32(0, (float)(2 * Math.PI * frequency * value));
         }
+
+        public static Complex32 CalculateParallelCapacitorSusceptance(double value, double frequency)
+        {
+            return new Complex32(0, (float)(2 * Math.PI * frequency * value));
+        }
+
+        public static Complex32 CalculateParallelInductorSusceptance(double value, double frequency)
+        {
+            return new Complex32(0, (float)(1 / (2 * Math.PI * frequency * value)));
+        }
+
+        public static Complex32 GetConformalGammaValue(Complex32 input, SmithChartType type)
+        {
+            if (type == SmithChartType.Impedance)
+                return ((input - 1) / (input + 1));
+            else if (type == SmithChartType.Admittance)
+                return -((input - 1) / (input + 1));
+            else
+                return 0;
+        }
+
         public static double CalculateVSWR(Complex32 gamma)
         {
             return ((1 + gamma.Magnitude) / (1 - gamma.Magnitude));
         }
 
-        private List<double> GetLinRange(double start, double stop, int steps)
+        public static List<double> GetLinRange(double start, double stop, int steps)
         {
             List<double> temp = new List<double>();
             for (int i = 0; i < steps; i++)
@@ -102,8 +129,9 @@ namespace SmithChartTool.Model
             //return Enumerable.Range(0, steps).Select(i => start + (stop-start) * ((double)i / (steps-1))); // obsolete: Enumerable.Range only can return integer values...
         }
 
-        private List<double> GetLogRange(double start, double stop, int steps)
+        public static List<double> GetLogRange(double start, double stop, int steps)
         {
+            // call with: GetLogRange(Math.Log(MinValue, 10), Math.Log(MaxValue, 10), NumberOfPoints);
             double p = (stop - start) / (steps - 1);
             List<double> temp = new List<double>();
             for (int i = 0; i < steps; i++)
@@ -113,63 +141,66 @@ namespace SmithChartTool.Model
             return temp;
         }
 
-        public List<MyLineSeries> DrawSmithChartConstResistanceCircles(int numResistanceCirc = 7)
+        private void DrawConstRealCircles(SmithChartType type)
         {
             List<MyLineSeries> series = new List<MyLineSeries>();
-            List<double> rrangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10 }; // 7 circles
-            List<double> x = GetLogRange(Math.Log(1E-10, 10), Math.Log(100, 10), 1000); // number of points per circle
-            var temp = x.Invert();
-            var temp2 = x;
+            List<double> reRangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10, 50};
+            List<double> values = GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 250); // imaginary value of every circle
+            var temp = values.Invert();
+            var temp2 = values;
             temp2.Reverse();
             temp.AddRange(temp2);
-            x = temp;
+            values = temp;
             int i = 0;
 
-            foreach (var re in rrangeFull) // for every constant resistance circle
+            foreach (var re in reRangeFull) // for every real const circle
             {
                 series.Add(new MyLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
-                foreach (var im in x) // plot single circle through conformal mapping
+                foreach (var im in values) // plot every single circle through conformal mapping
                 {
-                    Complex32 _z = GetConformalGammaValue(new Complex32((float)re, (float)im));
-                    series[i].Points.Add(new DataPoint(_z.Real, _z.Imaginary));
+                    Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type);
+                    series[i].Points.Add(new DataPoint(r.Real, r.Imaginary));
                 }
+                Plot.Series.Add(series[i]);
                 i++;
             }
-            return series;
         }
 
-        public List<MyLineSeries> DrawSmithChartConstReactanceCircles(int numReactanceCirc = 12)
+        private void DrawConstImaginaryCircles(SmithChartType type)
         {
-            List<double> y = GetLogRange(-5, 100, 1000); // value of R -> zero to infinity
-            List<double> jrange = GetLogRange(Math.Log(0.15, 10), Math.Log(1000, 10), numReactanceCirc);
-            List<double> jrangeFull = new List<double>(jrange.Invert());
-            jrangeFull.Add(1e-20);  // "zero" line
-            jrangeFull.AddRange(jrange);
+            List<double> values = GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 250); // real value of every circle
+            List<double> imRange = new List<double>() { 0.2, 0.5, 1, 2, 5, 10, 20, 50 };
+            List<double> imRangeFull = new List<double>(imRange.Invert());
+            imRangeFull.Add(1e-20);  // "zero" line
+            imRangeFull.AddRange(imRange);
             List<MyLineSeries> series = new List<MyLineSeries>();
             int i = 0;
-            foreach (var im in jrangeFull)
+            foreach (var im in imRangeFull)
             {
                 series.Add(new MyLineSeries { LineStyle = LineStyle.Dash, StrokeThickness = 0.75 });
-                foreach (var re in y)
+                foreach (var re in values) // plot every single circle through conformal mapping
                 {
-                    Complex32 _z = GetConformalGammaValue(new Complex32((float)re, (float)im));
-                    series[i].Points.Add(new DataPoint(_z.Real, _z.Imaginary));
+                    Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type);
+                    series[i].Points.Add(new DataPoint(r.Real, r.Imaginary));
                 }
+                Plot.Series.Add(series[i]);
                 i++;
-                
             }
-            return series;
         }
 
-        public void DrawSmithChartLegend()
+        public void DrawLegend()
         {
             Plot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
         }
 
+        public void Draw(SmithChartType type)
+        {
+            DrawConstRealCircles(type);
+            DrawConstImaginaryCircles(type);
+        }
+
         private void Init()
         {
-            NumResistanceCircles = 7;
-            NumReactanceCircles = 10;
             Plot.IsLegendVisible = false;
             Plot.Axes.Add(new OxyPlot.Axes.LinearAxis 
             { 
@@ -179,7 +210,7 @@ namespace SmithChartTool.Model
                 AbsoluteMaximum = 1, 
                 AbsoluteMinimum = -1, 
                 IsZoomEnabled = true, 
-                Title = "Imaginary", 
+                Title = "Imaginary",
                 IsPanEnabled = true
             });
             Plot.Axes.Add(new OxyPlot.Axes.LinearAxis 
@@ -195,17 +226,8 @@ namespace SmithChartTool.Model
             });
             Plot.DefaultColors = new List<OxyColor> { (OxyColors.Black) };
 
-            List<MyLineSeries> seriesResistanceCircles = DrawSmithChartConstResistanceCircles(NumResistanceCircles);
-            foreach (var item in seriesResistanceCircles)
-            {
-                Plot.Series.Add(item);
-            }
-            List<MyLineSeries> seriesReactanceCircles = DrawSmithChartConstReactanceCircles(NumReactanceCircles);
-            foreach (var item in seriesReactanceCircles)
-            {
-                Plot.Series.Add(item);
-            }
-            InvalidatePlot();
+            Draw(SmithChartType.Impedance);
+            Invalidate();
             AddTestMarker();
         }
 
@@ -226,10 +248,10 @@ namespace SmithChartTool.Model
             series1.Points.Add(new DataPoint(0.6, 0.6));
 
             Plot.Series.Add(series1);
-            InvalidatePlot();
+            Invalidate();
         }
 
-        public void InvalidatePlot()
+        public void Invalidate()
         {
             Plot.InvalidatePlot(true);
         }
@@ -242,54 +264,78 @@ namespace SmithChartTool.Model
         public void InvalidateInputImpedances(Schematic schematic)
         {
             InputImpedances.Clear();
-            Complex32 transformationImpedance;
+            Complex32 transformer;
 
             for (int i = schematic.Elements.Count - 1; i > 0; i--)
             {
                 if (schematic.Elements[i].Type == SchematicElementType.Port)
-                    InputImpedances.Add(schematic.Elements[i].Impedance);
+                    InputImpedances.Add(new InputImpedance(i, schematic.Elements[i].Impedance));
                 else
                 {
                     switch (schematic.Elements[i].Type)
                     {
                         case SchematicElementType.ResistorSerial:
-                            transformationImpedance = new Complex32((float)schematic.Elements[i].Value, 0);
+                            transformer = CalculateSerialResistorResistance(schematic.Elements[i].Value);
                             break;
                         case SchematicElementType.CapacitorSerial:
-                            transformationImpedance = new Complex32(0, CalculateSerialCapacitorReactance(schematic.Elements[i].Value, Frequency));
+                            transformer = CalculateSerialCapacitorReactance(schematic.Elements[i].Value, Frequency);
                             break;
                         case SchematicElementType.InductorSerial:
-                            transformationImpedance = new Complex32(0, CalculateSerialInductorReactance(schematic.Elements[i].Value, Frequency));
+                            transformer = CalculateSerialInductorReactance(schematic.Elements[i].Value, Frequency);
                             break;
                         case SchematicElementType.ResistorParallel:
-                            transformationImpedance = 0;
+                            transformer = CalculateParallelResistorConductance(schematic.Elements[i].Value);
                             break;
                         case SchematicElementType.CapacitorParallel:
-                            transformationImpedance = 0;
+                            transformer = CalculateParallelCapacitorSusceptance(schematic.Elements[i].Value, Frequency);
                             break;
                         case SchematicElementType.InductorParallel:
-                            transformationImpedance = 0;
+                            transformer = CalculateParallelInductorSusceptance(schematic.Elements[i].Value, Frequency);
                             break;
                         case SchematicElementType.TLine:
-                            transformationImpedance = 0;
+                            transformer = 0;
                             break;
                         case SchematicElementType.OpenStub:
-                            transformationImpedance = 0;
+                            transformer = new Complex32(0, -(schematic.Elements[i].Impedance.Real * (float)Math.Tan(schematic.Elements[i].Value)));
                             break;
                         case SchematicElementType.ShortedStub:
-                            transformationImpedance = 0;
+                            transformer = new Complex32(0, (schematic.Elements[i].Impedance.Real * (float)Math.Tan(schematic.Elements[i].Value)));
                             break;
                         case SchematicElementType.ImpedanceSerial:
-                            transformationImpedance = schematic.Elements[i].Impedance;
+                            transformer = schematic.Elements[i].Impedance;
                             break;
                         case SchematicElementType.ImpedanceParallel:
-                            transformationImpedance = 0;
+                            transformer = 1/(schematic.Elements[i].Impedance);
                             break;
                         default:
-                            transformationImpedance = 0;
-                            throw new NotImplementedException("Invalid transformation. Aborting...");
+                            transformer = 0;
+                            break;
                     }
-                    InputImpedances.Add(InputImpedances.Last() + transformationImpedance);
+                    switch (schematic.Elements[i].Type)
+                    {
+                        case SchematicElementType.ResistorSerial:
+                        case SchematicElementType.CapacitorSerial:
+                        case SchematicElementType.InductorSerial:
+                        case SchematicElementType.ImpedanceSerial:
+                            InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance + transformer));
+                            break;
+                        case SchematicElementType.ResistorParallel:
+                        case SchematicElementType.CapacitorParallel:
+                        case SchematicElementType.InductorParallel:
+                        case SchematicElementType.ImpedanceParallel:
+                        case SchematicElementType.OpenStub:
+                        case SchematicElementType.ShortedStub:
+                            InputImpedances.Add(new InputImpedance(i, 1/(1/InputImpedances.Last().Impedance + 1/transformer)));
+                            break;
+                        case SchematicElementType.TLine:
+                            InputImpedances.Add(new InputImpedance(i, 0));
+                            //float z1 = schematic.Elements[i].Impedance.Real * (float)Math.Tan(schematic.Elements[i].Value);
+                            //Complex32 z2 = Complex32.Multiply(InputImpedances.Last(), (Complex32)Trig.Tan(schematic.Elements[i].Value));
+                            //InputImpedances.Add( Complex32.Multiply(schematic.Elements[i].Impedance.Real ,((Complex32.Add(InputImpedances.Last(), z1)) / (Complex32.Add(schematic.Elements[i].Impedance, z2)))));
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
             OnPropertyChanged("InputImpedances");
@@ -301,10 +347,10 @@ namespace SmithChartTool.Model
             ReferenceImpedance = new ImpedanceElement(new Complex32(50, 0));
             IsNormalized = true;
             Plot = new PlotModel();
-            InputImpedances = new ObservableCollection<Complex32>();
+            InputImpedances = new ObservableCollection<InputImpedance>();
 
             Init();
-            InvalidatePlot();
+            Invalidate();
         }
 
         #region INotifyPropertyChanged Members  

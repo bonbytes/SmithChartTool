@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="frame" Width="100" Height="100">
-	<Path Data="M0,20 h50" Name="pathleft" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
+    <Path Data="M0,20 h50" Name="pathleft" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
     <Path Data="M50,20 h50" Name="pathright" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
     <Rectangle Canvas.Left="50" Canvas.Top="15" Width="25" Height="10" Name="rectsig" Fill="#FFFFFFFF" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000">
         <Rectangle.RenderTransform>
@@ -14,8 +14,8 @@
     </Ellipse>
     <Ellipse Width="5" Height="10" Fill="White" Canvas.Left="65" Canvas.Top="30" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" >
         <Ellipse.RenderTransform>
-        <RotateTransform Angle="40"/>
-    </Ellipse.RenderTransform>
+            <RotateTransform Angle="40"/>
+        </Ellipse.RenderTransform>
     </Ellipse>
     <Path Data="M0,80 h100" Name="pathleftgnd" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"></Path>
     <Rectangle Canvas.Left="50" Canvas.Top="75" Width="25" Height="10" Fill="#FFFFFFFF" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000">
@@ -33,4 +33,5 @@
             <RotateTransform Angle="40"/>
         </Ellipse.RenderTransform>
     </Ellipse>
+    <Path Data="M0,0 v60" Name="pathshort" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000" Canvas.Left="69" Canvas.Top="38.5"></Path>
 </Canvas>

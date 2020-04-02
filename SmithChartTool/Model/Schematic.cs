@@ -24,11 +24,11 @@ namespace SmithChartTool.Model
             }
         }
 
-        static int numResistors = 1;
-        static int numCapacitors = 1;
-        static int numInductors = 1;
-        static int numTLines = 1;
-        static int numImpedances = 1;
+        static int numResistors = 0;
+        static int numCapacitors = 0;
+        static int numInductors = 0;
+        static int numTLines = 0;
+        static int numImpedances = 0;
 
         public Schematic()
         {
@@ -42,42 +42,56 @@ namespace SmithChartTool.Model
 
         public void InvalidateDesignators()
         {
-            // TODO: Re-Designate all elements when element is removed.
+            int resistorDesignator = 1;
+            int capacitorDesignator = 1;
+            int inductorDesignator = 1;
+            int tLineDesignator = 1;
+            int impedanceDesignator = 1;
+            
             foreach (var element in Elements)
             {
+                if (element.Type == SchematicElementType.Port)
+                    continue;
                 switch (element.Type)
-                {
-                    case SchematicElementType.Port:
-                        break;
-                    
+                {                    
                     case SchematicElementType.ResistorSerial:
                     case SchematicElementType.ResistorParallel:
+                        element.Designator = resistorDesignator;
+                        resistorDesignator++;
                         break;
                    
                     case SchematicElementType.CapacitorSerial:
                     case SchematicElementType.CapacitorParallel:
+                        element.Designator = capacitorDesignator;
+                        capacitorDesignator++;
                         break;
                     
                     case SchematicElementType.InductorSerial:
                     case SchematicElementType.InductorParallel:
+                        element.Designator = inductorDesignator;
+                        inductorDesignator++;
                         break;
                     
                     case SchematicElementType.TLine:
                     case SchematicElementType.OpenStub:
                     case SchematicElementType.ShortedStub:
+                        element.Designator = tLineDesignator;
+                        tLineDesignator++;
                         break;
                     
                     case SchematicElementType.ImpedanceSerial:
                     case SchematicElementType.ImpedanceParallel:
+                        element.Designator = impedanceDesignator;
+                        impedanceDesignator++;
                         break;
                     
                     default:
-                        break;
+                        throw new NotImplementedException();
                 }
             }
         }
 
-        public void AddElement(SchematicElementType schematicElement)
+        public void AddElement(SchematicElementType schematicElementType)
         {
             int index;
             if ((Elements.Count - 1) < 0)
@@ -87,104 +101,89 @@ namespace SmithChartTool.Model
                 
             Elements.Insert(index, new SchematicElement 
             {
-                Type = schematicElement 
+                Type = schematicElementType,
+                Impedance = 0,
+                Value = 0,
             });
-            IncreaseElementDesignator(schematicElement);
+            IncreaseElementNumber(schematicElementType);
+            InvalidateDesignators();
         }
 
-        public void InsertElement(int index, SchematicElementType schematicElement)
+        public void InsertElement(int index, SchematicElementType schematicElementType)
         {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
             Elements.Insert(index, new SchematicElement
             {
-                Type = schematicElement
+                Type = schematicElementType,
+                Impedance = 0,
+                Value = 0
             });
-            IncreaseElementDesignator(schematicElement);
+            IncreaseElementNumber(schematicElementType);
+            InvalidateDesignators();
         }
         
         public void RemoveElement(int index)
         {
+            DecreaseElementNumber(Elements[index].Type);
             Elements.RemoveAt(index);
-            DecreaseElementDesignator(Elements[0].Type);
+            InvalidateDesignators();
         }
 
-        public void IncreaseElementDesignator(SchematicElementType type)
+        public void IncreaseElementNumber(SchematicElementType schematicElementType)
         {
-            switch (type)
+            switch (schematicElementType)
             {
                 case SchematicElementType.ResistorSerial:
-                    numResistors++;
-                    break;
-                case SchematicElementType.CapacitorSerial:
-                    numCapacitors++;
-                    break;
-                case SchematicElementType.InductorSerial:
-                    numInductors++;
-                    break;
                 case SchematicElementType.ResistorParallel:
                     numResistors++;
                     break;
+                case SchematicElementType.CapacitorSerial:
                 case SchematicElementType.CapacitorParallel:
                     numCapacitors++;
                     break;
+                case SchematicElementType.InductorSerial:
                 case SchematicElementType.InductorParallel:
                     numInductors++;
                     break;
                 case SchematicElementType.TLine:
-                    numTLines++;
-                    break;
                 case SchematicElementType.OpenStub:
-                    numTLines++;
-                    break;
                 case SchematicElementType.ShortedStub:
                     numTLines++;
                     break;
                 case SchematicElementType.ImpedanceSerial:
-                    numImpedances++;
-                    break;
                 case SchematicElementType.ImpedanceParallel:
                     numImpedances++;
                     break;
+
                 default:
                     throw new NotImplementedException();
             }
         }
-        public void DecreaseElementDesignator(SchematicElementType type)
+        public void DecreaseElementNumber(SchematicElementType schematicElementType)
         {
-            switch (type)
+            switch (schematicElementType)
             {
                 case SchematicElementType.ResistorSerial:
-                    numResistors--;
-                    break;
-                case SchematicElementType.CapacitorSerial:
-                    numCapacitors--;
-                    break;
-                case SchematicElementType.InductorSerial:
-                    numInductors--;
-                    break;
                 case SchematicElementType.ResistorParallel:
                     numResistors--;
                     break;
+                case SchematicElementType.CapacitorSerial:
                 case SchematicElementType.CapacitorParallel:
                     numCapacitors--;
                     break;
+                case SchematicElementType.InductorSerial:
                 case SchematicElementType.InductorParallel:
                     numInductors--;
                     break;
                 case SchematicElementType.TLine:
-                    numTLines--;
-                    break;
                 case SchematicElementType.OpenStub:
-                    numTLines--;
-                    break;
                 case SchematicElementType.ShortedStub:
                     numTLines--;
                     break;
                 case SchematicElementType.ImpedanceSerial:
-                    numImpedances--;
-                    break;
                 case SchematicElementType.ImpedanceParallel:
                     numImpedances--;
                     break;
+
                 default:
                     throw new NotImplementedException();
             }

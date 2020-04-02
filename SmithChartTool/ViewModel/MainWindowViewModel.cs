@@ -63,7 +63,9 @@ namespace SmithChartTool.ViewModel
             SC = new SmithChart();
             Schematic = new Schematic();
             AddSchematicElement(SchematicElementType.ImpedanceSerial);
-            
+            AddSchematicElement(SchematicElementType.CapacitorSerial);
+            AddSchematicElement(SchematicElementType.TLine);
+
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandXYAsync, (s, e) => { RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));

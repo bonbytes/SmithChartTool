@@ -108,18 +108,14 @@
                                 </Style>
                             </RichTextBox.Resources>
                         </RichTextBox>
-                        <ListView Width="auto" Background="White" ItemsSource="{Binding SC.InputImpedances }">
-                            <!--<ListView.Resources>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListViewItem">
-                                                <v:SchematicElementSourceControl Type="{Binding}" />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListView.Resources>-->
+                        <ListView x:Name="InputImpedances" ItemsSource="{Binding SC.InputImpedances}" >
+                            <ListView.View>
+                                <GridView ScrollViewer.VerticalScrollBarVisibility="Visible">
+                                   
+                                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"  Width="50"/>
+                                    <GridViewColumn Header="Impedance" DisplayMemberBinding="{Binding Impedance}" />
+                                </GridView>
+                            </ListView.View>
                         </ListView>
                     </StackPanel>
                 </GroupBox>
@@ -190,7 +186,7 @@
                                 <Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="ListBoxItem">
-											<v:SchematicElementControl Type="{Binding Type}" Designator="{Binding Designator}" Value="{Binding Value}"/>
+                                            <v:SchematicElementControl Type="{Binding Type}" Designator="{Binding Designator}" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 										</ControlTemplate>
 									</Setter.Value>
 								</Setter>
