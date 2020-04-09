@@ -24,6 +24,7 @@ namespace SmithChartTool.Model
 
         public PlotModel Plot { get; private set; }
         public ImpedanceElement ReferenceImpedance { get; set; }
+        public LineSeries MarkerSeries { get; set; }
         public bool IsNormalized { get; set; }
         public int NumResistanceCircles { get; private set; }
         public int NumReactanceCircles { get; private set; }
@@ -85,6 +86,8 @@ namespace SmithChartTool.Model
 
         public static Complex32 CalculateSerialCapacitorReactance(double value, double frequency)
         {
+            if (value == 0)
+                return Complex32.Zero;
             return new Complex32(0, (float)(1 / (2 * Math.PI * frequency * value)));
         }
 
@@ -100,6 +103,8 @@ namespace SmithChartTool.Model
 
         public static Complex32 CalculateParallelInductorSusceptance(double value, double frequency)
         {
+            if (value == 0)
+                return Complex32.Zero;
             return new Complex32(0, (float)(1 / (2 * Math.PI * frequency * value)));
         }
 
@@ -199,59 +204,7 @@ namespace SmithChartTool.Model
             DrawConstImaginaryCircles(type);
         }
 
-        private void Init()
-        {
-            Plot.IsLegendVisible = false;
-            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis 
-            { 
-                Position = OxyPlot.Axes.AxisPosition.Left, 
-                Minimum = -1, 
-                Maximum = 1,
-                AbsoluteMaximum = 1, 
-                AbsoluteMinimum = -1, 
-                IsZoomEnabled = true, 
-                Title = "Imaginary",
-                IsPanEnabled = true
-            });
-            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis 
-            { 
-                Position = OxyPlot.Axes.AxisPosition.Bottom, 
-                Minimum = -1, 
-                Maximum = 1, 
-                AbsoluteMaximum = 1, 
-                AbsoluteMinimum = -1, 
-                IsZoomEnabled = true, 
-                Title = "Real", 
-                IsPanEnabled= true
-            });
-            Plot.DefaultColors = new List<OxyColor> { (OxyColors.Black) };
-
-            Draw(SmithChartType.Impedance);
-            Invalidate();
-            AddTestMarker();
-        }
-
-        public void AddTestMarker()
-        {
-            var series1 = new LineSeries();
-            series1.Color = OxyColor.FromRgb(22, 22, 22);
-            series1.StrokeThickness = 2;
-            series1.MarkerType = MarkerType.Diamond;
-            series1.MarkerStroke = OxyColors.Blue;
-            series1.MarkerFill = OxyColors.Beige;
-            series1.MarkerStrokeThickness = 3;
-            series1.MarkerSize = 3;
-
-            series1.Points.Add(new DataPoint(-0.1, 0.3));
-            series1.Points.Add(new DataPoint(0.2, 0.4));
-            series1.Points.Add(new DataPoint(0.4, 0.5));
-            series1.Points.Add(new DataPoint(0.6, 0.6));
-
-            Plot.Series.Add(series1);
-            Invalidate();
-        }
-
-        public void Invalidate()
+        private void Invalidate()
         {
             Plot.InvalidatePlot(true);
         }
@@ -293,7 +246,7 @@ namespace SmithChartTool.Model
                             transformer = CalculateParallelInductorSusceptance(schematic.Elements[i].Value, Frequency);
                             break;
                         case SchematicElementType.TLine:
-                            transformer = 0;
+                            transformer = Complex32.Zero;
                             break;
                         case SchematicElementType.OpenStub:
                             transformer = new Complex32(0, -(schematic.Elements[i].Impedance.Real * (float)Math.Tan(schematic.Elements[i].Value)));
@@ -308,37 +261,122 @@ namespace SmithChartTool.Model
                             transformer = 1/(schematic.Elements[i].Impedance);
                             break;
                         default:
-                            transformer = 0;
+                            transformer = Complex32.Zero;
                             break;
                     }
-                    switch (schematic.Elements[i].Type)
+                    if (transformer == Complex32.Zero)
                     {
-                        case SchematicElementType.ResistorSerial:
-                        case SchematicElementType.CapacitorSerial:
-                        case SchematicElementType.InductorSerial:
-                        case SchematicElementType.ImpedanceSerial:
-                            InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance + transformer));
-                            break;
-                        case SchematicElementType.ResistorParallel:
-                        case SchematicElementType.CapacitorParallel:
-                        case SchematicElementType.InductorParallel:
-                        case SchematicElementType.ImpedanceParallel:
-                        case SchematicElementType.OpenStub:
-                        case SchematicElementType.ShortedStub:
-                            InputImpedances.Add(new InputImpedance(i, 1/(1/InputImpedances.Last().Impedance + 1/transformer)));
-                            break;
-                        case SchematicElementType.TLine:
-                            InputImpedances.Add(new InputImpedance(i, 0));
-                            //float z1 = schematic.Elements[i].Impedance.Real * (float)Math.Tan(schematic.Elements[i].Value);
-                            //Complex32 z2 = Complex32.Multiply(InputImpedances.Last(), (Complex32)Trig.Tan(schematic.Elements[i].Value));
-                            //InputImpedances.Add( Complex32.Multiply(schematic.Elements[i].Impedance.Real ,((Complex32.Add(InputImpedances.Last(), z1)) / (Complex32.Add(schematic.Elements[i].Impedance, z2)))));
-                            break;
-                        default:
-                            break;
+                        InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance));
+                    }
+                    else
+                    {
+                        switch (schematic.Elements[i].Type)
+                        {
+                            case SchematicElementType.ResistorSerial:
+                            case SchematicElementType.CapacitorSerial:
+                            case SchematicElementType.InductorSerial:
+                            case SchematicElementType.ImpedanceSerial:
+                                InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance + transformer));
+                                break;
+                            case SchematicElementType.ResistorParallel:
+                            case SchematicElementType.CapacitorParallel:
+                            case SchematicElementType.InductorParallel:
+                            case SchematicElementType.ImpedanceParallel:
+                            case SchematicElementType.OpenStub:
+                            case SchematicElementType.ShortedStub:
+                                InputImpedances.Add(new InputImpedance(i, 1 / (1 / InputImpedances.Last().Impedance + 1 / transformer)));
+                                break;
+                            case SchematicElementType.TLine:
+                                InputImpedances.Add(new InputImpedance(i, 0));
+                                float z1 = schematic.Elements[i].Impedance.Real * (float)Math.Tan(schematic.Elements[i].Value);
+                                Complex32 z2 = Complex32.Multiply(InputImpedances.Last().Impedance, (Complex32)Trig.Tan(schematic.Elements[i].Value));
+                                //InputImpedances.Add( Complex32.Multiply(schematic.Elements[i].Impedance.Real ,((Complex32.Add(InputImpedances.Last().Impedance, z1)) / (Complex32.Add(schematic.Elements[i].Impedance, z2)))));
+                                InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance)); // not implemented yet
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
             OnPropertyChanged("InputImpedances");
+            InvalidateMarkers();
+        }
+
+        private void ClearMarkers()
+        {
+            MarkerSeries.Points.Clear();
+            Invalidate();
+        }
+
+        private void AddMarker(Complex32 impedance)
+        {
+            Complex32 gamma = GetConformalGammaValue(impedance/ReferenceImpedance.Impedance, SmithChartType.Impedance);
+            MarkerSeries.Points.Add(new DataPoint(gamma.Real, gamma.Imaginary));
+            Invalidate();
+        }
+
+        //private void AddMarkerRange(Complex32 impedanceNew, Complex32 impedanceOld)
+        //{
+        //    Complex32 gammanew = GetConformalGammaValue(impedanceNew / ReferenceImpedance.Impedance, SmithChartType.Impedance);
+        //    Complex32 gammaold = GetConformalGammaValue(impedanceOld / ReferenceImpedance.Impedance, SmithChartType.Impedance);
+
+        //    MarkerSeries.Points.Add(new DataPoint(gammanew.Real, gammanew.Imaginary));
+        //    List<DataPoint> = GetLinRange(gammaold.Real, gammanew.Real, 50);
+        //    GetLinRange(gammaold.Imaginary, gammanew.Imaginary, 50);
+        //    MarkerSeries.Points.AddRange(new List<DataPoint>()
+        //    Invalidate();
+        //}
+
+        public void InvalidateMarkers()
+        {
+            ClearMarkers();
+            foreach (var inputImpedance in InputImpedances)
+            {
+                AddMarker(inputImpedance.Impedance);
+            }
+        }
+
+        private void Init()
+        {
+            Plot.IsLegendVisible = false;
+            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis
+            {
+                Position = OxyPlot.Axes.AxisPosition.Left,
+                Minimum = -1,
+                Maximum = 1,
+                AbsoluteMaximum = 1,
+                AbsoluteMinimum = -1,
+                IsZoomEnabled = true,
+                Title = "Imaginary",
+                IsPanEnabled = true
+            });
+            Plot.Axes.Add(new OxyPlot.Axes.LinearAxis
+            {
+                Position = OxyPlot.Axes.AxisPosition.Bottom,
+                Minimum = -1,
+                Maximum = 1,
+                AbsoluteMaximum = 1,
+                AbsoluteMinimum = -1,
+                IsZoomEnabled = true,
+                Title = "Real",
+                IsPanEnabled = true
+            });
+            Plot.DefaultColors = new List<OxyColor> { (OxyColors.Black) };
+
+            MarkerSeries = new LineSeries();
+            MarkerSeries.Color = OxyColor.FromRgb(22, 22, 22);
+            MarkerSeries.StrokeThickness = 2;
+            MarkerSeries.MarkerType = MarkerType.Diamond;
+            MarkerSeries.MarkerStroke = OxyColors.Blue;
+            MarkerSeries.MarkerFill = OxyColors.Beige;
+            MarkerSeries.MarkerStrokeThickness = 3;
+            MarkerSeries.MarkerSize = 3;
+
+            Plot.Series.Add(MarkerSeries);
+
+            Draw(SmithChartType.Impedance);
+            Invalidate();
         }
 
         public SmithChart()

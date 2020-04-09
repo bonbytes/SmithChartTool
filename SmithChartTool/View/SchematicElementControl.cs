@@ -20,7 +20,7 @@ namespace SmithChartTool.View
     public class SchematicElementControl : ListBoxItem
     {
         static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));
-        static public DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));
+        static public readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(default(string)));
         static public DependencyProperty DesignatorProperty = DependencyProperty.Register("Designator", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));
         static public DependencyProperty IsValidInputProperty = DependencyProperty.Register("IsValidInput", typeof(bool), typeof(SchematicElementControl), new PropertyMetadata(true, OnTypeChanged));
 

@@ -62,9 +62,10 @@ namespace SmithChartTool.ViewModel
             LogData = new Log();
             SC = new SmithChart();
             Schematic = new Schematic();
-            AddSchematicElement(SchematicElementType.ImpedanceSerial);
-            AddSchematicElement(SchematicElementType.CapacitorSerial);
-            AddSchematicElement(SchematicElementType.TLine);
+            
+            InsertSchematicElement(-1, SchematicElementType.CapacitorSerial, 22e-12);
+            InsertSchematicElement(-1, SchematicElementType.ResistorSerial, 23);
+            InsertSchematicElement(-1, SchematicElementType.InductorSerial, 10e-9);
 
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
@@ -83,15 +84,27 @@ namespace SmithChartTool.ViewModel
             if (e.Data.GetDataPresent("SchematicElement"))
             {
                 SchematicElementType type = (SchematicElementType)e.Data.GetData("SchematicElement");
-                Schematic.InsertElement(index, type);
-                SC.InvalidateInputImpedances(Schematic);
-                LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
+                InsertSchematicElement(index, type);
             }
         }
 
-        public void AddSchematicElement(SchematicElementType type)
+        public void InsertSchematicElement(int index, SchematicElementType type)
         {
-            Schematic.AddElement(type);
+            Schematic.InsertElement(index, type);
+            SC.InvalidateInputImpedances(Schematic);
+            LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
+        }
+
+        public void InsertSchematicElement(int index, SchematicElementType type, double value)
+        {
+            Schematic.InsertElement(index, type, value);
+            SC.InvalidateInputImpedances(Schematic);
+            LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
+        }
+
+        public void InsertSchematicElement(int index, SchematicElementType type, Complex32 impedance, double value = 0)
+        {
+            Schematic.InsertElement(index, type, impedance, value);
             SC.InvalidateInputImpedances(Schematic);
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }

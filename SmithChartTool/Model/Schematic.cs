@@ -40,7 +40,7 @@ namespace SmithChartTool.Model
             Elements.Add(new SchematicElement() { Type = SchematicElementType.Port, Designator = 2, Impedance = new Complex32(50, 0), Value = 0 });
         }
 
-        public void InvalidateDesignators()
+        private void InvalidateDesignators()
         {
             int resistorDesignator = 1;
             int capacitorDesignator = 1;
@@ -91,36 +91,42 @@ namespace SmithChartTool.Model
             }
         }
 
-        public void AddElement(SchematicElementType schematicElementType)
+        public void InsertElement(int index, SchematicElementType schematicElementType, double value = 0.0)
         {
-            int index;
             if ((Elements.Count - 1) < 0)
                 index = 0;
-            else
+            else if (index < 1)
+            {
                 index = Elements.Count - 1;
-                
-            Elements.Insert(index, new SchematicElement 
+            }
+            Elements.Insert(index, new SchematicElement
             {
                 Type = schematicElementType,
-                Impedance = 0,
-                Value = 0,
+                Value = value,
+                Impedance = 0
             });
             IncreaseElementNumber(schematicElementType);
             InvalidateDesignators();
         }
 
-        public void InsertElement(int index, SchematicElementType schematicElementType)
-        {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+        public void InsertElement(int index, SchematicElementType schematicElementType, Complex32 impedance, double value = 0.0)
+        {
+            if ((Elements.Count - 1) < 0)
+                index = 0;
+            else if (index < 1)
+            {
+                index = Elements.Count - 1;
+            }
             Elements.Insert(index, new SchematicElement
             {
                 Type = schematicElementType,
-                Impedance = 0,
-                Value = 0
+                Value = value,
+                Impedance = impedance
             });
             IncreaseElementNumber(schematicElementType);
             InvalidateDesignators();
         }
-        
+
         public void RemoveElement(int index)
         {
             DecreaseElementNumber(Elements[index].Type);
@@ -128,7 +134,7 @@ namespace SmithChartTool.Model
             InvalidateDesignators();
         }
 
-        public void IncreaseElementNumber(SchematicElementType schematicElementType)
+        private void IncreaseElementNumber(SchematicElementType schematicElementType)
         {
             switch (schematicElementType)
             {
@@ -158,7 +164,7 @@ namespace SmithChartTool.Model
                     throw new NotImplementedException();
             }
         }
-        public void DecreaseElementNumber(SchematicElementType schematicElementType)
+        private void DecreaseElementNumber(SchematicElementType schematicElementType)
         {
             switch (schematicElementType)
             {
