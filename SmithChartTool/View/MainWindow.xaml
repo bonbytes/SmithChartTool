@@ -73,23 +73,31 @@
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Smith Chart settings">
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
-                        <v:LabeledControl Header="Frequency">
+                        <v:LabeledControl Header="Frequency [Hz]">
                             <!--<v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBoxControl>-->
-                            <!--<TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency, Converter={StaticResource TextBoxValueConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"/>-->
-                            <!--<TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency}"/>-->
-                            <v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency}"/>
+                            <TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency}"/>
                         </v:LabeledControl>
-                        <v:LabeledControl Header="Ref. Impedance">
-                            <v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm"></v:UnitTextBoxControl>
+                        <v:LabeledControl Header="Ref. Impedance [Ohm]">
+                            <!--<v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"></v:UnitTextBoxControl>-->
+                            <TextBox x:Name="tbRefImpedance" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"/>
                         </v:LabeledControl>
-                        <!--<v:LabeledControl Header="Normalized">
-                            <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></CheckBox>
-                        </v:LabeledControl>-->
+                        <v:LabeledControl Header="Normalized">
+                            <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=SC.IsNormalized}"></CheckBox>
+                        </v:LabeledControl>
+                        <v:LabeledControl Header="Project Description" Orientation="Vertical">
+                            <RichTextBox x:Name="rtbDescription" VerticalScrollBarVisibility="Visible">
+                                <RichTextBox.Resources>
+                                    <Style TargetType="{x:Type Paragraph}">
+                                        <Setter Property="Margin" Value="0"/>
+                                    </Style>
+                                </RichTextBox.Resources>
+                            </RichTextBox>
+                        </v:LabeledControl>
                         <Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainWindowViewModel.CommandTestFeature"></Button>
-                        <Button x:Name="btnExecuteSync" Content="Normal Execute" IsEnabled="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></Button>
+                        <!--<Button x:Name="btnExecuteSync" Content="Normal Execute" IsEnabled="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></Button>
                         <Button x:Name="btnExecuteAsync" IsEnabled="{Binding Path=bli}">Async Execute</Button>
-                        <Button x:Name="btnExecuteParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>
-                        <Button x:Name="btnAnimationTest">
+                        <Button x:Name="btnExecuteParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>-->
+                        <!--<Button x:Name="btnAnimationTest">
                             <Button.Triggers>
                                 <EventTrigger RoutedEvent="Button.Click" SourceName="btnAnimationTest">
                                     <BeginStoryboard>
@@ -100,14 +108,8 @@
                                 </EventTrigger>
                             </Button.Triggers>
                             123
-                        </Button>
-                        <RichTextBox x:Name="rtbDescription" VerticalScrollBarVisibility="Visible">
-                            <RichTextBox.Resources>
-                                <Style TargetType="{x:Type Paragraph}">
-                                    <Setter Property="Margin" Value="0"/>
-                                </Style>
-                            </RichTextBox.Resources>
-                        </RichTextBox>
+                        </Button>-->
+
                         <ListView x:Name="InputImpedances" ItemsSource="{Binding SC.InputImpedances}" >
                             <ListView.View>
                                 <GridView ScrollViewer.VerticalScrollBarVisibility="Visible">
