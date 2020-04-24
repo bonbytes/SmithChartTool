@@ -327,7 +327,12 @@ namespace SmithChartTool.Model
 
         private void ClearIntermediateCurves()
         {
+            foreach (var series in IntermediateCurveSeries)
+            {
+                Plot.Series.Remove(series);
+            }
             IntermediateCurveSeries.Clear();
+
             Invalidate();
         }
 
