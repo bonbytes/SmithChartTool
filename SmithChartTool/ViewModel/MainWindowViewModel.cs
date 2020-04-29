@@ -46,11 +46,17 @@ namespace SmithChartTool.ViewModel
         public static event Action<StatusType> StatusChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static RoutedUICommand CommandTestFeature = new RoutedUICommand("Run Test Feature", "RTFE", typeof(MainWindow));
-        public static RoutedUICommand CommandShowLogWindow = new RoutedUICommand("Show Log Window", "SLW", typeof(MainWindow));
+        public static RoutedUICommand CommandTestFeature = new RoutedUICommand("Run Test Feature", "RTFE", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.T, ModifierKeys.Control) });
+        
+        public static RoutedUICommand CommandShowLogWindow = new RoutedUICommand("Show Log Window", "SLW", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.L, ModifierKeys.Control) });
         public static RoutedUICommand CommandShowAboutWindow = new RoutedUICommand("Show About Window", "SAW", typeof(MainWindow));
-        public static RoutedUICommand CommandSaveSmithChartImage = new RoutedUICommand("Save Smith Chart image", "RSSCI", typeof(MainWindow));
-        public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.R, ModifierKeys.Control) });
+
+        public static RoutedUICommand CommandSaveProject = new RoutedUICommand("Save project file", "PS", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.S, ModifierKeys.Control) });
+        public static RoutedUICommand CommandOpenProject = new RoutedUICommand("Open project file", "PO", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.O, ModifierKeys.Control) });
+        public static RoutedUICommand CommandExportSmithChartImage = new RoutedUICommand("Export Smith Chart image", "ESCI", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.I, ModifierKeys.Control) });
+        public static RoutedUICommand CommandExit = new RoutedUICommand("CloseApplication", "EXIT", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F4, ModifierKeys.Alt) });
+
+        public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.F5, ModifierKeys.Control) });
 
         private const int ProgressUpdateIntervall = 400;
         private const int FinishedDelay = 400;
@@ -70,9 +76,11 @@ namespace SmithChartTool.ViewModel
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandXYAsync, (s, e) => { RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
-            Window.CommandBindings.Add(new CommandBinding(CommandSaveSmithChartImage, (s, e) => { RunSaveSmithChartImage(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandExportSmithChartImage, (s, e) => { RunExportSmithChartImage(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandShowLogWindow, (s, e) => { RunShowLogWindow(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandShowAboutWindow, (s, e) => { RunShowAboutWindow(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandSaveProject, (s, e) => { RunSaveProject(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandOpenProject, (s, e) => { RunOpenProject(); }));
             Window.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
             Window.oxySmithChart.ActualController.BindMouseEnter(OxyPlot.PlotCommands.HoverPointsOnlyTrack);
 
@@ -137,7 +145,7 @@ namespace SmithChartTool.ViewModel
             return typeDescription;
         }
 
-        public void RunSaveSmithChartImage()
+        public void RunExportSmithChartImage()
         {
             SaveFileDialog sfd = new SaveFileDialog();
 
@@ -176,10 +184,49 @@ namespace SmithChartTool.ViewModel
                 StatusChanged.Invoke(t);
         }
 
-        public void SaveProjectToFile(string path, string projectName, string description, double frequency, bool isNormalized, List<SchematicElement> elements)
+        public void RunSaveProject()
         {
-            LogData.AddLine("[fio] Saving project to file (\"" + path + "\")...");
+            SaveFileDialog fd = new SaveFileDialog();
 
+            //fd.Filter = "PNG|*.png|BMP|*.bmp|JPEG|*.jpeg,*.jpg";
+            fd.Title = "Save project file...";
+
+            fd.ShowDialog();
+
+            if (fd.FileName != string.Empty)
+            {
+                LogData.AddLine("[fio] Saving project to file (\"" + fd.FileName + "\")...");
+
+                string FileExt = Path.GetExtension(fd.FileName);
+                SaveProjectToFile(fd.FileName, this.ProjectName, this.ProjectDescription, this.SC.Frequency, this.SC.IsNormalized, this.Schematic.Elements);
+
+                LogData.AddLine("[fio] Done.");
+            }
+        }
+
+        public void RunOpenProject()
+        {
+            OpenFileDialog fd = new OpenFileDialog();
+
+            //fd.Filter = "PNG|*.png|BMP|*.bmp|JPEG|*.jpeg,*.jpg";
+            fd.Title = "Open project file...";
+
+            fd.ShowDialog();
+
+            if (fd.FileName != string.Empty)
+            {
+                LogData.AddLine("[fio] Reading project file (\"" + fd.FileName + "\", ...).");
+
+                string FileExt = Path.GetExtension(fd.FileName);
+                readFromFile(fd.FileName);
+                LogData.AddLine("[fio] " + this.Schematic.Elements.Count + " Schematic Elements loaded.");
+
+                LogData.AddLine("[fio] Done.");
+            }
+        }
+
+        public void SaveProjectToFile(string path, string projectName, string description, double frequency, bool isNormalized, ObservableCollection<SchematicElement> elements)
+        {
             using (StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8))
             {
                 sw.WriteLine(HeaderMarker + DateTime.Today.ToString(" MMMM dd, yyyy") + " " + DateTime.Now.ToLongTimeString());
@@ -222,8 +269,6 @@ namespace SmithChartTool.ViewModel
                 ChangeProgress(0);
                 ChangeStatus(StatusType.Ready);
             }
-
-            LogData.AddLine("[fio] Done.");
         }
 
         public string ReadDescriptionFromFile(string path)
@@ -271,8 +316,6 @@ namespace SmithChartTool.ViewModel
 
         public List<SchematicElement> ReadProjectFromFile(string path, out string projectName, out double frequency, out bool isNormalized)
         {
-            LogData.AddLine("[fio] Reading project file (\"" + path + "\", ...).");
-
             List<SchematicElement> list = new List<SchematicElement>();
             projectName = "";
             frequency = 0.0;
@@ -318,8 +361,6 @@ namespace SmithChartTool.ViewModel
 
             ChangeProgress(100);
             Thread.Sleep(FinishedDelay);
-
-            LogData.AddLine("[fio] " + list.Count + " Schematic Elements loaded.");
 
             if (list.Count != numElements)
             {

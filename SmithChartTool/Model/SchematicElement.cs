@@ -98,7 +98,6 @@ namespace SmithChartTool.Model
         {
             return (Type.ToString() + " " + Designator.ToString() + " " + Value.ToString());
         }
-
         
     }
 }

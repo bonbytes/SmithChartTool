@@ -20,11 +20,11 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New project"></MenuItem>
-                <MenuItem Header="_Open project" Command="vm:MainWindowViewModel.CommandXYAsync"></MenuItem>
-                <MenuItem Header="_Save project"></MenuItem>
-                <MenuItem Header="E_xport plot" Command="vm:MainWindowViewModel.CommandSaveSmithChartImage"></MenuItem>
+                <MenuItem Header="_Open project" Command="vm:MainWindowViewModel.CommandOpenProject"></MenuItem>
+                <MenuItem Header="_Save project" Command="vm:MainWindowViewModel.CommandSaveProject"></MenuItem>
+                <MenuItem Header="E_xport plot" Command="vm:MainWindowViewModel.CommandExportSmithChartImage"></MenuItem>
                 <MenuItem Header="Show Log" Command="vm:MainWindowViewModel.CommandShowLogWindow"></MenuItem>
-                <MenuItem Header="_Exit"></MenuItem>
+                <MenuItem Header="_Exit" Command="vm:MainWindowViewModel.CommandExit"></MenuItem>
             </MenuItem>
 			<MenuItem Header="_Insert"></MenuItem>
 			<MenuItem Header="_View"></MenuItem>

@@ -93,6 +93,7 @@
     <Compile Include="Model\ObservableStack.cs" />
     <Compile Include="Model\SchematicElement.cs" />
     <Compile Include="Converters.cs" />
+    <Compile Include="Utility\FileIO.cs" />
     <Compile Include="ViewModel\AboutWindowViewModel.cs" />
     <Compile Include="ViewModel\DragDropHelper.cs" />
     <Compile Include="Model\Log.cs" />
