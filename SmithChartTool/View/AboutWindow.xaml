@@ -45,7 +45,7 @@
 			</Grid.ColumnDefinitions>
 
             <TextBlock TextWrapping="Wrap" TextAlignment="Justify" FontSize="10" Margin="5,3,0,5" Grid.Row="1"></TextBlock>
-            <Button Content="OK" Width="100" Margin="10,0,5,5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" IsDefault="True" IsCancel="True" Command="vm:AboutWindowViewModel.CommandOK" />
+            <Button Content="OK" Width="100" Margin="10,0,5,5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" IsDefault="True" IsCancel="True" Command="vm:AboutViewModel.CommandOK" />
 		</Grid>
 	</Grid>
 </Window>

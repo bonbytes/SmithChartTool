@@ -20,7 +20,7 @@ namespace SmithChartTool.View
 	/// </summary>
 	public partial class AboutWindow : Window
 	{
-		public AboutWindow(AboutWindowViewModel vm)
+		public AboutWindow(AboutViewModel vm)
 		{
 			this.DataContext = vm;
 			InitializeComponent();

@@ -87,18 +87,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Attributes.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Utility\Attributes.cs" />
+    <Compile Include="Utility\Extensions.cs" />
     <Compile Include="Model\InputImpedance.cs" />
     <Compile Include="Model\ObservableStack.cs" />
     <Compile Include="Model\SchematicElement.cs" />
-    <Compile Include="Converters.cs" />
+    <Compile Include="Utility\Converters.cs" />
     <Compile Include="Utility\FileIO.cs" />
-    <Compile Include="ViewModel\AboutWindowViewModel.cs" />
-    <Compile Include="ViewModel\DragDropHelper.cs" />
+    <Compile Include="ViewModel\AboutViewModel.cs" />
+    <Compile Include="Utility\DragDropHelper.cs" />
     <Compile Include="Model\Log.cs" />
-    <Compile Include="ViewModel\LogWindowViewModel.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\LogViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>

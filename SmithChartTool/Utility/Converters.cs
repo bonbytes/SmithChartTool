@@ -23,9 +23,7 @@ using System.Windows.Data;
 //Microsoft.Windows.Themes.ProgressBarBrushConverter
 //Microsoft.Windows.Themes.ProgressBarHighlightConverter
 
-
-
-namespace SmithChartTool
+namespace SmithChartTool.Utility
 {
     public class TextBoxValueConverter : IValueConverter
     {

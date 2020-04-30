@@ -6,30 +6,31 @@
         xmlns:local="clr-namespace:SmithChartTool"
         xmlns:v="clr-namespace:SmithChartTool.View"
         xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
+        xmlns:util="clr-namespace:SmithChartTool.Utility"
         xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
         Title="SmithChartTool" 
         Width="800" Height="600" MinWidth="800" MinHeight="600"
         Icon="pack://application:,,,/Images/Icons/Infinity_16x.png" >
     
     <Window.Resources>
-        <local:TextBoxValueConverter x:Key="TextBoxValueConverter"/>
-        <local:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
+        <util:TextBoxValueConverter x:Key="TextBoxValueConverter"/>
+        <util:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
     </Window.Resources>
     
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New project"></MenuItem>
-                <MenuItem Header="_Open project" Command="vm:MainWindowViewModel.CommandOpenProject"></MenuItem>
-                <MenuItem Header="_Save project" Command="vm:MainWindowViewModel.CommandSaveProject"></MenuItem>
-                <MenuItem Header="E_xport plot" Command="vm:MainWindowViewModel.CommandExportSmithChartImage"></MenuItem>
-                <MenuItem Header="Show Log" Command="vm:MainWindowViewModel.CommandShowLogWindow"></MenuItem>
-                <MenuItem Header="_Exit" Command="vm:MainWindowViewModel.CommandExit"></MenuItem>
+                <MenuItem Header="_Open project" Command="vm:MainViewModel.CommandOpenProject"></MenuItem>
+                <MenuItem Header="_Save project" Command="vm:MainViewModel.CommandSaveProject"></MenuItem>
+                <MenuItem Header="E_xport plot" Command="vm:MainViewModel.CommandExportSmithChartImage"></MenuItem>
+                <MenuItem Header="Show Log" Command="vm:MainViewModel.CommandShowLogWindow"></MenuItem>
+                <MenuItem Header="_Exit" Command="vm:MainViewModel.CommandExit"></MenuItem>
             </MenuItem>
 			<MenuItem Header="_Insert"></MenuItem>
 			<MenuItem Header="_View"></MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Icon="pack://application:,,,/Images/Icons/HelpApplication_16x.png" Header="_About..." Command="vm:MainWindowViewModel.CommandShowAboutWindow"></MenuItem>
+                <MenuItem Icon="pack://application:,,,/Images/Icons/HelpApplication_16x.png" Header="_About..." Command="vm:MainViewModel.CommandShowAboutWindow"></MenuItem>
 			</MenuItem>
 			
         </Menu>
@@ -93,10 +94,10 @@
                                 </RichTextBox.Resources>
                             </RichTextBox>
                         </v:LabeledControl>
-                        <Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainWindowViewModel.CommandTestFeature"></Button>
+                        <Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainViewModel.CommandTestFeature"></Button>
                         <!--<Button x:Name="btnExecuteSync" Content="Normal Execute" IsEnabled="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></Button>
                         <Button x:Name="btnExecuteAsync" IsEnabled="{Binding Path=bli}">Async Execute</Button>
-                        <Button x:Name="btnExecuteParallelAsync" Command="vm:MainWindowViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>-->
+                        <Button x:Name="btnExecuteParallelAsync" Command="vm:MainViewModel.CommandXYAsync" IsEnabled="{Binding Path=bli}">Parallel Async Execute</Button>-->
                         <!--<Button x:Name="btnAnimationTest">
                             <Button.Triggers>
                                 <EventTrigger RoutedEvent="Button.Click" SourceName="btnAnimationTest">
@@ -122,7 +123,7 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements" >
-					<ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding Schematic.AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+					<ListBox util:DragDropHelper.IsDragSource="True" ItemsSource="{Binding Schematic.AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
 						<ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
@@ -163,7 +164,7 @@
 										<Binding Path="ActualHeight" ElementName="grSmithChartPlot"/>
 									</MultiBinding.Bindings>
 									<MultiBinding.Converter>
-										<local:PlotSizeConverter></local:PlotSizeConverter>
+										<util:PlotSizeConverter></util:PlotSizeConverter>
 									</MultiBinding.Converter>
 								</MultiBinding>
 							</oxy:PlotView.Height>
@@ -174,7 +175,7 @@
 				<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" Background="Transparent" />
 
 				<GroupBox  Grid.Row="2" Header="Schematic">
-					<ListBox Width="auto" Background="White" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
+					<ListBox Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
 						<ListBox.Template>
 							<ControlTemplate TargetType="ListBox">
 								<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >

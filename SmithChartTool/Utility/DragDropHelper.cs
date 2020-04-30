@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows.Controls;
 
-namespace SmithChartTool.ViewModel
+namespace SmithChartTool.Utility
 {
 	public interface IDragDrop
 	{	

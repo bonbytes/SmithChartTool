@@ -28,8 +28,8 @@
 
         </ListView>
 
-        <Button x:Name="btnResumeLog" IsEnabled="{Binding Path=IsbtnResumeLogEnabled}" Command="vm:LogWindowViewModel.CommandResumeLog" Content="Resume" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center" Margin="4"/>
-        <Button x:Name="btnStopLog" IsEnabled="{Binding Path=IsbtnStopLogEnabled}" Command="vm:LogWindowViewModel.CommandStopLog" Content="Stop" Grid.Row="1" Grid.Column="2"  VerticalAlignment="Center" Margin="4"/>
-        <Button x:Name="btnCloseLog" IsEnabled="{Binding Path=IsbtnCloseLogEnabled}" Command="vm:LogWindowViewModel.CommandCloseLog" Content="Close" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="4"/>
+        <Button x:Name="btnResumeLog" IsEnabled="{Binding Path=IsbtnResumeLogEnabled}" Command="vm:LogViewModel.CommandResumeLog" Content="Resume" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center" Margin="4"/>
+        <Button x:Name="btnStopLog" IsEnabled="{Binding Path=IsbtnStopLogEnabled}" Command="vm:LogViewModel.CommandStopLog" Content="Stop" Grid.Row="1" Grid.Column="2"  VerticalAlignment="Center" Margin="4"/>
+        <Button x:Name="btnCloseLog" IsEnabled="{Binding Path=IsbtnCloseLogEnabled}" Command="vm:LogViewModel.CommandCloseLog" Content="Close" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="4"/>
     </Grid>
 </Window>

@@ -21,7 +21,7 @@ namespace SmithChartTool
 
             Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Themes/LightTheme.xaml") });
 
-            MainWindowViewModel vm = new MainWindowViewModel();
+            MainViewModel vm = new MainViewModel();
         }
     }
 }

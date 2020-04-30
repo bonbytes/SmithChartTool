@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics;
+using SmithChartTool.Utility;
 
 namespace SmithChartTool.Model
 {

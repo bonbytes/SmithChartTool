@@ -10,7 +10,7 @@ using SmithChartTool.View;
 
 namespace SmithChartTool.ViewModel
 {
-    public class LogWindowViewModel: INotifyPropertyChanged
+    public class LogViewModel: INotifyPropertyChanged
     {
         private LogWindow Window { get; set; }
         public Log LogData { get; private set; }
@@ -68,7 +68,7 @@ namespace SmithChartTool.ViewModel
         public static RoutedUICommand CommandResumeLog = new RoutedUICommand("Resume Log", "RL", typeof(LogWindow));
 
 
-        public LogWindowViewModel(Log logData)
+        public LogViewModel(Log logData)
         {
             LogData = logData;
             IsbtnResumeLogEnabled = false;

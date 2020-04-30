@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using SmithChartTool.View;
 using SmithChartTool.Model;
+using SmithChartTool.Utility;
 using MathNet.Numerics;
 using System.IO;
 using OxyPlot;
@@ -22,7 +23,7 @@ using System.Windows.Media;
 
 namespace SmithChartTool.ViewModel
 {
-    public class MainWindowViewModel : IDragDrop, INotifyPropertyChanged
+    public class MainViewModel : IDragDrop, INotifyPropertyChanged
     {
         public enum StatusType
         {
@@ -39,12 +40,19 @@ namespace SmithChartTool.ViewModel
         public string ProjectPath { get; private set; }
         public string ProjectDescription { get; private set; }
         public int Progress { get; private set; }
+        public StatusType Status { get; private set; }
 
         public Log LogData { get; set; }
 
         public static event Action<int> ProgressChanged;
         public static event Action<StatusType> StatusChanged;
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler SchematicChanged;
+        protected virtual void OnSchematicChanged(EventArgs e)
+        {
+            SchematicChanged?.Invoke(this, e);
+        }
 
         public static RoutedUICommand CommandTestFeature = new RoutedUICommand("Run Test Feature", "RTFE", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.T, ModifierKeys.Control) });
         
@@ -63,7 +71,7 @@ namespace SmithChartTool.ViewModel
         private const char HeaderMarker = '#';
         private const char DataMarker = '!';
 
-        public MainWindowViewModel()
+        public MainViewModel()
         {
             LogData = new Log();
             SC = new SmithChart();
@@ -400,12 +408,12 @@ namespace SmithChartTool.ViewModel
 
          public void RunShowLogWindow()
         {
-            var logWindowViewModel = new LogWindowViewModel(LogData);
+            var logWindowViewModel = new LogViewModel(LogData);
         }
 
         public void RunShowAboutWindow()
         {
-            var aboutWindowViewModel = new AboutWindowViewModel();
+            var aboutWindowViewModel = new AboutViewModel();
         }
 
         public async void RunXYAsync()

@@ -9,13 +9,13 @@ using SmithChartTool.View;
 
 namespace SmithChartTool.ViewModel
 {
-    public class AboutWindowViewModel
+    public class AboutViewModel
     {
         private AboutWindow Window { get; set; }
 
         public static RoutedUICommand CommandOK = new RoutedUICommand("OK", "OK", typeof(AboutWindow));
 
-        public AboutWindowViewModel()
+        public AboutViewModel()
         {
             Window = new AboutWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandOK, (s, e) => { RunOK(); }));

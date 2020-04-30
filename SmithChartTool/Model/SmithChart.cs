@@ -9,6 +9,7 @@ using MathNet.Numerics;
 using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Series;
+using SmithChartTool.Utility;
 
 namespace SmithChartTool.Model
 {
@@ -166,7 +167,7 @@ namespace SmithChartTool.Model
         {
             List<MyLineSeries> series = new List<MyLineSeries>();
             List<double> reRangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10, 50};
-            List<double> values = GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 250); // imaginary value of every circle
+            List<double> values = GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 500); // imaginary value of every circle
             var temp = values.Invert();
             var temp2 = values;
             temp2.Reverse();
@@ -189,7 +190,7 @@ namespace SmithChartTool.Model
 
         private void DrawConstImaginaryCircles(SmithChartType type)
         {
-            List<double> values = GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 250); // real value of every circle
+            List<double> values = GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 1000); // real value of every circle
             List<double> imRange = new List<double>() { 0.2, 0.5, 1, 2, 5, 10, 20, 50 };
             List<double> imRangeFull = new List<double>(imRange.Invert());
             imRangeFull.Add(1e-20);  // "zero" line

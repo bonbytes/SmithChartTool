@@ -21,7 +21,7 @@ namespace SmithChartTool.View
     /// </summary>
     public partial class LogWindow : Window
     {
-        public LogWindow(LogWindowViewModel vm)
+        public LogWindow(LogViewModel vm)
         {
             this.DataContext = vm;
             InitializeComponent();
