@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -103,6 +104,31 @@ namespace SmithChartTool.Utility
             }
             else
                 return 0;
+        }
+    }
+
+    public class TextBoxToComplex32Converter : IValueConverter
+    {
+        // Backend -> UI
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            char[] charsToTrim = { '(', ')' };
+            var val = (Complex32)value;
+            string compstring = val.ToString();
+            return compstring.Trim(charsToTrim);
+
+        }
+        // UI -> Backend
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is string)
+            {
+                Complex32 compvalue = new Complex32();
+                string compstring = (string)value;
+                if (Complex32.TryParse(compstring.Replace(" ", string.Empty), out compvalue))
+                    return new Complex32(compvalue.Real, compvalue.Imaginary);
+            }
+            return null;
         }
     }
 

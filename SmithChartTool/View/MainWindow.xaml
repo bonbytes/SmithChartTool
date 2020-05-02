@@ -14,6 +14,7 @@
     
     <Window.Resources>
         <util:TextBoxValueConverter x:Key="TextBoxValueConverter"/>
+        <util:TextBoxToComplex32Converter x:Key="TextBoxToComplex32Converter"/>
         <util:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
     </Window.Resources>
     
@@ -76,23 +77,17 @@
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
                         <v:LabeledControl Header="Frequency [Hz]">
                             <!--<v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBoxControl>-->
-                            <TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency}"/>
+                            <TextBox x:Name="tbFrequency" Text="{Binding Path=SC.Frequency, StringFormat='g5'}"/>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Ref. Impedance [Ohm]">
                             <!--<v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"></v:UnitTextBoxControl>-->
-                            <TextBox x:Name="tbRefImpedance" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"/>
+                            <TextBox x:Name="tbRefImpedance" Text="{Binding Path=SC.ReferenceImpedance.Impedance, Mode=TwoWay, Converter={StaticResource TextBoxToComplex32Converter}}"/>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Normalized">
                             <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=SC.IsNormalized}"></CheckBox>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Project Description" Orientation="Vertical">
-                            <RichTextBox x:Name="rtbDescription" VerticalScrollBarVisibility="Visible">
-                                <RichTextBox.Resources>
-                                    <Style TargetType="{x:Type Paragraph}">
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </RichTextBox.Resources>
-                            </RichTextBox>
+                            <TextBox x:Name="tbDescription" Text="{Binding Path=ProjectDescription, Mode=TwoWay}" Height="100" MaxHeight="100" AcceptsReturn="True" AcceptsTab="True"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" SpellCheck.IsEnabled="True"/>
                         </v:LabeledControl>
                         <Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainViewModel.CommandTestFeature"></Button>
                         <!--<Button x:Name="btnExecuteSync" Content="Normal Execute" IsEnabled="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></Button>
@@ -111,7 +106,7 @@
                             123
                         </Button>-->
 
-                        <ListView x:Name="InputImpedances" ItemsSource="{Binding SC.InputImpedances}" >
+                        <ListView x:Name="InputImpedances" ItemsSource="{Binding InputImpedances}" >
                             <ListView.View>
                                 <GridView ScrollViewer.VerticalScrollBarVisibility="Visible">
                                    

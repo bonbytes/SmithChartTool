@@ -31,14 +31,52 @@ namespace SmithChartTool.ViewModel
             Busy,
             Error
         }
-
         private MainWindow Window { get; set; }
         public SmithChart SC { get; private set; }
         public Schematic Schematic { get; private set; }
-
-        public string ProjectName { get; private set; }
-        public string ProjectPath { get; private set; }
-        public string ProjectDescription { get; private set; }
+        public ObservableCollection<InputImpedance> _inputImpedances;
+        public ObservableCollection<InputImpedance> InputImpedances
+        {
+            get { return _inputImpedances; }
+            set
+            {
+                _inputImpedances = value;
+                OnPropertyChanged("InputImpedances");
+            }
+        }
+        private string _projectName;
+        public string ProjectName
+        {
+            get { return _projectName; }
+            set
+            {
+                if (_projectName != value)
+                    _projectName = value;
+                OnPropertyChanged("ProjectName");
+            }
+        }
+        private string _projectPath;
+        public string ProjectPath
+        {
+            get { return _projectPath; }
+            set
+            {
+                if (_projectPath != value)
+                    _projectPath = value;
+                OnPropertyChanged("ProjectPath");
+            }
+        }
+        private string _projectDescription;
+        public string ProjectDescription
+        {
+            get { return _projectDescription; }
+            set
+            {
+                if(_projectDescription != value)
+                _projectDescription = value;
+                OnPropertyChanged("ProjectDescription");
+            }
+        }
         public int Progress { get; private set; }
         public StatusType Status { get; private set; }
 
@@ -46,24 +84,14 @@ namespace SmithChartTool.ViewModel
 
         public static event Action<int> ProgressChanged;
         public static event Action<StatusType> StatusChanged;
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public event EventHandler SchematicChanged;
-        protected virtual void OnSchematicChanged(EventArgs e)
-        {
-            SchematicChanged?.Invoke(this, e);
-        }
 
         public static RoutedUICommand CommandTestFeature = new RoutedUICommand("Run Test Feature", "RTFE", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.T, ModifierKeys.Control) });
-        
         public static RoutedUICommand CommandShowLogWindow = new RoutedUICommand("Show Log Window", "SLW", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.L, ModifierKeys.Control) });
         public static RoutedUICommand CommandShowAboutWindow = new RoutedUICommand("Show About Window", "SAW", typeof(MainWindow));
-
         public static RoutedUICommand CommandSaveProject = new RoutedUICommand("Save project file", "PS", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.S, ModifierKeys.Control) });
         public static RoutedUICommand CommandOpenProject = new RoutedUICommand("Open project file", "PO", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.O, ModifierKeys.Control) });
         public static RoutedUICommand CommandExportSmithChartImage = new RoutedUICommand("Export Smith Chart image", "ESCI", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.I, ModifierKeys.Control) });
         public static RoutedUICommand CommandExit = new RoutedUICommand("CloseApplication", "EXIT", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F4, ModifierKeys.Alt) });
-
         public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.F5, ModifierKeys.Control) });
 
         private const int ProgressUpdateIntervall = 400;
@@ -76,7 +104,9 @@ namespace SmithChartTool.ViewModel
             LogData = new Log();
             SC = new SmithChart();
             Schematic = new Schematic();
-            
+            InputImpedances = new ObservableCollection<InputImpedance>();
+            ProjectDescription = "Empty project.";
+
             InsertSchematicElement(-1, SchematicElementType.CapacitorSerial, 22e-12);
             InsertSchematicElement(-1, SchematicElementType.ResistorSerial, 23);
             InsertSchematicElement(-1, SchematicElementType.InductorSerial, 10e-9);
@@ -104,24 +134,113 @@ namespace SmithChartTool.ViewModel
             }
         }
 
+        public void InvalidateInputImpedances()
+        {
+            InputImpedances.Clear();
+            Complex32 transformer;
+
+            for (int i = Schematic.Elements.Count - 1; i > 0; i--)
+            {
+                if (Schematic.Elements[i].Type == SchematicElementType.Port)
+                    InputImpedances.Add(new InputImpedance(i, Schematic.Elements[i].Impedance));
+                else
+                {
+                    switch (Schematic.Elements[i].Type)
+                    {
+                        case SchematicElementType.ResistorSerial:
+                            transformer = SmithChart.CalculateSerialResistorResistance(Schematic.Elements[i].Value);
+                            break;
+                        case SchematicElementType.CapacitorSerial:
+                            transformer = SmithChart.CalculateSerialCapacitorReactance(Schematic.Elements[i].Value, SC.Frequency);
+                            break;
+                        case SchematicElementType.InductorSerial:
+                            transformer = SmithChart.CalculateSerialInductorReactance(Schematic.Elements[i].Value, SC.Frequency);
+                            break;
+                        case SchematicElementType.ResistorParallel:
+                            transformer = SmithChart.CalculateParallelResistorConductance(Schematic.Elements[i].Value);
+                            break;
+                        case SchematicElementType.CapacitorParallel:
+                            transformer = SmithChart.CalculateParallelCapacitorSusceptance(Schematic.Elements[i].Value, SC.Frequency);
+                            break;
+                        case SchematicElementType.InductorParallel:
+                            transformer = SmithChart.CalculateParallelInductorSusceptance(Schematic.Elements[i].Value, SC.Frequency);
+                            break;
+                        case SchematicElementType.TLine:
+                            transformer = Complex32.Zero;
+                            break;
+                        case SchematicElementType.OpenStub:
+                            transformer = new Complex32(0, -(Schematic.Elements[i].Impedance.Real * (float)Math.Tan(Schematic.Elements[i].Value)));
+                            break;
+                        case SchematicElementType.ShortedStub:
+                            transformer = new Complex32(0, (Schematic.Elements[i].Impedance.Real * (float)Math.Tan(Schematic.Elements[i].Value)));
+                            break;
+                        case SchematicElementType.ImpedanceSerial:
+                            transformer = Schematic.Elements[i].Impedance;
+                            break;
+                        case SchematicElementType.ImpedanceParallel:
+                            transformer = 1 / (Schematic.Elements[i].Impedance);
+                            break;
+                        default:
+                            transformer = Complex32.Zero;
+                            break;
+                    }
+                    if (transformer == Complex32.Zero)
+                    {
+                        InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance));
+                    }
+                    else
+                    {
+                        switch (Schematic.Elements[i].Type)
+                        {
+                            case SchematicElementType.ResistorSerial:
+                            case SchematicElementType.CapacitorSerial:
+                            case SchematicElementType.InductorSerial:
+                            case SchematicElementType.ImpedanceSerial:
+                                InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance + transformer));
+                                break;
+                            case SchematicElementType.ResistorParallel:
+                            case SchematicElementType.CapacitorParallel:
+                            case SchematicElementType.InductorParallel:
+                            case SchematicElementType.ImpedanceParallel:
+                            case SchematicElementType.OpenStub:
+                            case SchematicElementType.ShortedStub:
+                                InputImpedances.Add(new InputImpedance(i, 1 / ((1 / InputImpedances.Last().Impedance) + (1 / transformer))));
+                                break;
+                            case SchematicElementType.TLine:
+                                InputImpedances.Add(new InputImpedance(i, 0));
+                                float z1 = Schematic.Elements[i].Impedance.Real * (float)Math.Tan(Schematic.Elements[i].Value);
+                                Complex32 z2 = Complex32.Multiply(InputImpedances.Last().Impedance, (Complex32)Trig.Tan(Schematic.Elements[i].Value));
+                                //InputImpedances.Add( Complex32.Multiply(schematic.Elements[i].Impedance.Real ,((Complex32.Add(InputImpedances.Last().Impedance, z1)) / (Complex32.Add(schematic.Elements[i].Impedance, z2)))));
+                                InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance)); // not implemented yet
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+            OnPropertyChanged("InputImpedances");
+            SC.InvalidateMarkers(InputImpedances);
+        }
+
         public void InsertSchematicElement(int index, SchematicElementType type)
         {
             Schematic.InsertElement(index, type);
-            SC.InvalidateInputImpedances(Schematic);
+            InvalidateInputImpedances();
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }
 
         public void InsertSchematicElement(int index, SchematicElementType type, double value)
         {
             Schematic.InsertElement(index, type, value);
-            SC.InvalidateInputImpedances(Schematic);
+            InvalidateInputImpedances();
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }
 
         public void InsertSchematicElement(int index, SchematicElementType type, Complex32 impedance, double value = 0)
         {
             Schematic.InsertElement(index, type, impedance, value);
-            SC.InvalidateInputImpedances(Schematic);
+            InvalidateInputImpedances();
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }
 
@@ -129,7 +248,7 @@ namespace SmithChartTool.ViewModel
         {
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(Schematic.Elements[index].Type) + " removed from schematic.");
             Schematic.RemoveElement(index);
-            SC.InvalidateInputImpedances(Schematic);
+            InvalidateInputImpedances();
         }
 
         private string GetSchematicElementTypeDescription(SchematicElementType type)
@@ -239,7 +358,7 @@ namespace SmithChartTool.ViewModel
             {
                 sw.WriteLine(HeaderMarker + DateTime.Today.ToString(" MMMM dd, yyyy") + " " + DateTime.Now.ToLongTimeString());
                 sw.WriteLine(HeaderMarker + path);
-                sw.WriteLine(HeaderMarker + HeaderMarker + " Description");
+                sw.WriteLine(HeaderMarker +""+ HeaderMarker + " Description");
 
                 if (description != null && description.Length > 0)
                 {
@@ -252,7 +371,7 @@ namespace SmithChartTool.ViewModel
                                 while (str.IndexOf('\n') != -1 && str.Length > 0)
                                     str.Remove(str.IndexOf('\n'));
 
-                                sw.Write(HeaderMarker + str);
+                                sw.Write(HeaderMarker + "" + HeaderMarker + str);
                             }
                 }
                 sw.WriteLine();
@@ -370,15 +489,15 @@ namespace SmithChartTool.ViewModel
             ChangeProgress(100);
             Thread.Sleep(FinishedDelay);
 
-            if (list.Count != numElements)
-            {
-                MessageBoxResult mbr = MessageBox.Show("Error opening project file (content). Revert project?", "Error opening project file.", MessageBoxButton.YesNo, MessageBoxImage.Error);
+            //if (list.Count != numElements)
+            //{
+            //    MessageBoxResult mbr = MessageBox.Show("Error opening project file (content). Revert project?", "Error opening project file.", MessageBoxButton.YesNo, MessageBoxImage.Error);
 
-                // Revert back to previous state
-                if (mbr == MessageBoxResult.Yes)
-                    throw new NotImplementedException();
-                    //RevertBack();
-            }
+            //    // Revert back to previous state
+            //    if (mbr == MessageBoxResult.Yes)
+            //        throw new NotImplementedException();
+            //        //RevertBack();
+            //}
             return list;
         }
 
@@ -403,7 +522,7 @@ namespace SmithChartTool.ViewModel
 
         public async void RunTestFeature()
         {
-            await Task.Run(() => MessageBox.Show(SC.Frequency.ToString()));
+            await Task.Run(() => MessageBox.Show(SC.ReferenceImpedance.Impedance.ToString()));
         }
 
          public void RunShowLogWindow()
@@ -437,6 +556,14 @@ namespace SmithChartTool.ViewModel
             //}
             //var results = await Task.WhenAll(tasks);
         }
+
+        #region INotifyPropertyChanged Members  
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
     }
 
 }

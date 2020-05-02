@@ -22,7 +22,7 @@ namespace SmithChartTool.Model
             {
                 if(value != _impedance)
                 {
-                    if (value.Real >= 0) // value.IsRealNonNegative()
+                    if (value.Real >= 0)//value.IsRealNonNegative())
                     {
                         _impedance = value;
                         OnPropertyChanged("Impedance");
