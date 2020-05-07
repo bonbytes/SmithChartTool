@@ -13,9 +13,7 @@ namespace SmithChartTool.Model
 {
     public class Log: INotifyPropertyChanged
     {
-        //private Queue<string> _lines;
         private ObservableCollection<string> _lines;
-        //public Queue<string> Lines
         public ObservableCollection<string> Lines
         {
             get
@@ -31,7 +29,6 @@ namespace SmithChartTool.Model
                 }
             }
         }
-
         private static int MaxLogLines = 100;
 
         public Log()

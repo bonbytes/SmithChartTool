@@ -32,9 +32,13 @@ namespace SmithChartTool.Utility
         // attributes here?
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string s = value.ToString();
-            s = s.Replace(".", ",");
-            return s;
+            if(value != null)
+            {
+                string s = value.ToString();
+                s = s.Replace(",", ".");
+                return s;
+            }
+            return null;
         }
 
         // Frontend -> Backend
@@ -93,37 +97,40 @@ namespace SmithChartTool.Utility
                 catch (FormatException fe)
                 {
                     if (str.IndexOf('E') >= 1 && char.IsNumber(str[str.IndexOf('E') - 1]))
-                        return 0;
+                        return null;
 
                     // No number recognized. set to zero
-                    MessageBox.Show(str + "not recognized"
-                                    + "\n Setting value to zero.",
-                                    "Eingabe nicht erkannt", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return 0;
+                    //MessageBox.Show(str + "not recognized"
+                    //                + "\n Setting value to zero.",
+                    //                "Eingabe nicht erkannt", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return null;
                 }
             }
             else
-                return 0;
+                return null;
         }
     }
 
-    public class TextBoxToComplex32Converter : IValueConverter
+    public class StringToComplex32Converter : IValueConverter
     {
         // Backend -> UI
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            char[] charsToTrim = { '(', ')' };
-            var val = (Complex32)value;
-            string compstring = val.ToString();
-            return compstring.Trim(charsToTrim);
-
+            if(value is Complex32)
+            {
+                char[] charsToTrim = { '(', ')' };
+                var val = (Complex32)value;
+                string compstring = val.ToString();
+                return compstring.Trim(charsToTrim);
+            }
+            return null;
         }
         // UI -> Backend
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is string)
             {
-                Complex32 compvalue = new Complex32();
+                Complex32 compvalue;
                 string compstring = (string)value;
                 if (Complex32.TryParse(compstring.Replace(" ", string.Empty), out compvalue))
                     return new Complex32(compvalue.Real, compvalue.Imaginary);

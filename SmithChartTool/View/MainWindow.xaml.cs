@@ -27,9 +27,6 @@ namespace SmithChartTool.View
         public MainWindow(MainViewModel vm)
         {
             this.DataContext = vm;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata( XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
             this.InitializeComponent();
 
             this.Loaded += (s, e) => 

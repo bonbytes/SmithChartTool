@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using SmithChartTool.View;
 using SmithChartTool.Model;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace SmithChartTool.Utility
 {
@@ -52,6 +54,15 @@ namespace SmithChartTool.Utility
 			}
 			return null;
 		}
+
+		//// Return the index of the item that is under the point in screen coordinates.
+		//public static int IndexFromScreenPoint(this ListBox lst, Point point)
+		//{
+		//	// Convert the location to the ListBox's coordinates.
+		//	point = lst.PointToScreen(point);
+		//	// Return the index of the item at that position.
+		//	return lst.IndexFromPoint(point);
+		//}
 
 	}
 }

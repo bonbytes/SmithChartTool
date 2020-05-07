@@ -14,7 +14,7 @@
     
     <Window.Resources>
         <util:TextBoxValueConverter x:Key="TextBoxValueConverter"/>
-        <util:TextBoxToComplex32Converter x:Key="TextBoxToComplex32Converter"/>
+        <util:StringToComplex32Converter x:Key="StringToComplex32Converter"/>
         <util:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
     </Window.Resources>
     
@@ -24,13 +24,24 @@
                 <MenuItem Header="_New project"></MenuItem>
                 <MenuItem Header="_Open project" Command="vm:MainViewModel.CommandOpenProject"></MenuItem>
                 <MenuItem Header="_Save project" Command="vm:MainViewModel.CommandSaveProject"></MenuItem>
-                <MenuItem Header="E_xport plot" Command="vm:MainViewModel.CommandExportSmithChartImage"></MenuItem>
-                <MenuItem Header="Show Log" Command="vm:MainViewModel.CommandShowLogWindow"></MenuItem>
-                <MenuItem Header="_Exit" Command="vm:MainViewModel.CommandExit"></MenuItem>
+                <Separator/>
+                <MenuItem Header="Ex_port plot" Command="vm:MainViewModel.CommandExportSmithChartImage"></MenuItem>
+                <Separator/>
+                <MenuItem Header="_Exit" Command="vm:MainViewModel.CommandCloseApp"></MenuItem>
             </MenuItem>
-			<MenuItem Header="_Insert"></MenuItem>
-			<MenuItem Header="_View"></MenuItem>
+            
+            <MenuItem Header="_Insert">
+                <MenuItem Header="Reference circle" />
+            </MenuItem>
+            
+            <MenuItem Header="_View">
+                <MenuItem Header="Impedance Smith chart" IsCheckable="True" IsChecked="True"/>
+                <MenuItem Header="Admittance Smith chart" IsCheckable="True"/>
+            </MenuItem>
+            
             <MenuItem Header="_Help">
+                <MenuItem Header="Show _Log" Command="vm:MainViewModel.CommandShowLogWindow"></MenuItem>
+                <Separator/>
                 <MenuItem Icon="pack://application:,,,/Images/Icons/HelpApplication_16x.png" Header="_About..." Command="vm:MainViewModel.CommandShowAboutWindow"></MenuItem>
 			</MenuItem>
 			
@@ -43,12 +54,9 @@
                 </Style>
             </ToolBar.Resources>
             <Button FontFamily="Segoe MDL2 Assets" FontSize="14" Height="20" Width="20" Content="&#xE74E;"></Button>
-            <Button>
-                <Image Source="pack://application:,,,/Images/Icons/Save_16x.png"></Image>
-            </Button>
-			<Button>
+            <!--<Button>
 				<Image Source="pack://application:,,,/Images/Icons/Save_16x.png"></Image>
-			</Button>
+			</Button>-->
 			<ComboBox x:Name="cmbThemes" ItemsSource="{Binding}"></ComboBox>
 		</ToolBar>
 
@@ -81,7 +89,7 @@
                         </v:LabeledControl>
                         <v:LabeledControl Header="Ref. Impedance [Ohm]">
                             <!--<v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"></v:UnitTextBoxControl>-->
-                            <TextBox x:Name="tbRefImpedance" Text="{Binding Path=SC.ReferenceImpedance.Impedance, Mode=TwoWay, Converter={StaticResource TextBoxToComplex32Converter}}"/>
+                            <TextBox x:Name="tbRefImpedance" Text="{Binding Path=SC.ReferenceImpedance.Impedance, Mode=TwoWay, Converter={StaticResource StringToComplex32Converter}}"/>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Normalized">
                             <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=SC.IsNormalized}"></CheckBox>
@@ -170,7 +178,7 @@
 				<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" Background="Transparent" />
 
 				<GroupBox  Grid.Row="2" Header="Schematic">
-					<ListBox Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
+					<ListBox IsHitTestVisible="True" Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Schematic.Elements }">
 						<ListBox.Template>
 							<ControlTemplate TargetType="ListBox">
 								<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
