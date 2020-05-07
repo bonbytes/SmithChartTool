@@ -9,7 +9,7 @@ using MathNet.Numerics;
 
 namespace SmithChartTool.Model
 {
-    public class ImpedanceElement: INotifyPropertyChanged
+    public class ImpedanceElement
     {
         private Complex32 _impedance;
         public Complex32 Impedance
@@ -22,13 +22,15 @@ namespace SmithChartTool.Model
             {
                 if(value != _impedance)
                 {
+                    //Complex32.TryParse
+
                     if (value.Real >= 0)//value.IsRealNonNegative())
                     {
                         _impedance = value;
                         OnPropertyChanged("Impedance");
                     }
                     else
-                        throw new Exception("Given impedance has negative real part.");
+                        throw new FormatException("Given impedance has negative real part.");
                 }  
             }
         }

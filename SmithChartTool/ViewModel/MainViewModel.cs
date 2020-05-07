@@ -32,15 +32,13 @@ namespace SmithChartTool.ViewModel
             Error
         }
         private MainWindow Window { get; set; }
-        public SmithChart SC { get; private set; }
-        public Schematic Schematic { get; private set; }
-        public ObservableCollection<InputImpedance> _inputImpedances;
+        public SCT Model { get; set; }
         public ObservableCollection<InputImpedance> InputImpedances
         {
-            get { return _inputImpedances; }
+            get { return Model.InputImpedances; }
             set
             {
-                _inputImpedances = value;
+                Model.InputImpedances = value;
                 OnPropertyChanged("InputImpedances");
             }
         }
