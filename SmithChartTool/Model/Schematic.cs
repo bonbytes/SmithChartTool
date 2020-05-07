@@ -14,14 +14,16 @@ namespace SmithChartTool.Model
     {
         public List<string> AvailableElements { get; private set; }
         
-        private ObservableCollection<SchematicElement> _elements;
-        public ObservableCollection<SchematicElement> Elements
+        private Collection<SchematicElement> _elements;
+        public Collection<SchematicElement> Elements
         {
             get { return _elements; }
             set 
             {
-                _elements = value;
-                OnPropertyChanged("Elements");
+                if(value != _elements)
+                {
+                    _elements = value;
+                }
             }
         }
 
@@ -33,7 +35,7 @@ namespace SmithChartTool.Model
 
         public Schematic()
         {
-            Elements = new ObservableCollection<SchematicElement>();
+            Elements = new Collection<SchematicElement>();
             AvailableElements = typeof(SchematicElementType).ToNames();
 
             // create two Ports (initial setup)
@@ -195,14 +197,5 @@ namespace SmithChartTool.Model
                     throw new NotImplementedException();
             }
         }
-
-        #region INotifyPropertyChanged Members  
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
     }
 }

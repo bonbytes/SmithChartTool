@@ -9,17 +9,21 @@ namespace SmithChartTool.Model
 {
     public class InputImpedance : ImpedanceElement
     {
-		private int _Id;
+		private int _id;
 		public int Id
 		{
 			get
 			{
-				return _Id;
+				return _id;
 			}
 			set
 			{
-				_Id = value;
-				OnPropertyChanged("UserId");
+				if (value != _id)
+				{
+					if (!(int.TryParse(value.ToString(), out _id)))
+						throw new ArgumentException("Invalid Id of input impedance", "Id");
+				}
+				
 			}
 		}
 

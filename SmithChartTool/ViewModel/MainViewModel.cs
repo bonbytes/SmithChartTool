@@ -125,11 +125,28 @@ namespace SmithChartTool.ViewModel
                 }
             }
         }
+        public ObservableCollection<SchematicElement> SchematicElements
+        {
+            get
+            {
+                return (ObservableCollection<SchematicElement>)Model.Schematic.Elements;
+            }
+            set
+            {
+                if(value != Model.Schematic.Elements)
+                {
+                    Model.Schematic.Elements = value;
+                    Model.InvalidateInputImpedances();
+                    OnPropertyChanged("SchematicElements");
+                }
+            }
+        }
+
         public ObservableCollection<InputImpedance> InputImpedances
         {
             get
             {
-                return Model.InputImpedances;
+                return (ObservableCollection<InputImpedance>)Model.InputImpedances;
             }
             set
             {

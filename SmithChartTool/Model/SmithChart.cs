@@ -36,7 +36,8 @@ namespace SmithChartTool.Model
             {
                 if (value != _frequency)
                 {
-                    _frequency = value;
+                    if (!(double.TryParse(value.ToString(), out _frequency)))
+                        throw new ArgumentException("Given frequency is invalid", "Frequency");
                 }
             }
         }
@@ -66,7 +67,8 @@ namespace SmithChartTool.Model
             {
                 if (value != _isNormalized)
                 {
-                    _isNormalized = value;
+                    if (!(bool.TryParse(value.ToString(), out _isNormalized)))
+                        throw new ArgumentException("Only true or false allowed", "IsNormalized");
                 }
             }
         }
@@ -199,7 +201,7 @@ namespace SmithChartTool.Model
             IntermediateCurveSeries.Add(series);
         }
 
-        public void InvalidateMarkers(ObservableCollection<InputImpedance> inputImpedances)
+        public void InvalidateMarkers(Collection<InputImpedance> inputImpedances)
         {
             ClearMarkers();
             ClearIntermediateCurves();

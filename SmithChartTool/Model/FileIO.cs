@@ -17,7 +17,7 @@ namespace SmithChartTool.Model
         private const char HeaderMarker = '#';
         private const char DataMarker = '!';
 
-        public static void SaveProjectToFile(string path, string projectName, string description, double frequency, Complex32 refImpedance, bool isNormalized, ObservableCollection<SchematicElement> elements)
+        public static void SaveProjectToFile(string path, string projectName, string description, double frequency, Complex32 refImpedance, bool isNormalized, Collection<SchematicElement> elements)
         {
             using (StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8))
             {
@@ -57,9 +57,9 @@ namespace SmithChartTool.Model
             }
         }
 
-        public static ObservableCollection<SchematicElement> ReadProjectFromFile(string path, out string projectName, out string projectDescription, out double frequency, out Complex32 refImpedance, out bool isNormalized)
+        public static Collection<SchematicElement> ReadProjectFromFile(string path, out string projectName, out string projectDescription, out double frequency, out Complex32 refImpedance, out bool isNormalized)
         {
-            ObservableCollection<SchematicElement> list = new ObservableCollection<SchematicElement>();
+            Collection<SchematicElement> list = new Collection<SchematicElement>();
             projectName = "";
             frequency = 0.0;
             refImpedance = new Complex32();

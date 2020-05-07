@@ -22,15 +22,17 @@ namespace SmithChartTool.Model
             {
                 if(value != _impedance)
                 {
-                    //Complex32.TryParse
-
-                    if (value.Real >= 0)//value.IsRealNonNegative())
+                    if (Complex32.TryParse(value.ToString(), out Complex32 temp))
                     {
-                        _impedance = value;
-                        OnPropertyChanged("Impedance");
+                        if (temp.Real >= 0)
+                        {
+                            _impedance = temp;
+                        }
+                        else
+                            throw new ArgumentException("Impedance has negative real part.", "Impedance");
                     }
                     else
-                        throw new FormatException("Given impedance has negative real part.");
+                        throw new ArgumentException("Invalid Complex value representation", "Impedance");
                 }  
             }
         }
@@ -43,13 +45,5 @@ namespace SmithChartTool.Model
         {
             Impedance = impedance;
         }
-
-        #region INotifyPropertyChanged Members  
-        public event PropertyChangedEventHandler PropertyChanged;
-		protected void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-		#endregion
     }
 }

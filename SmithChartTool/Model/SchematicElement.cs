@@ -45,8 +45,8 @@ namespace SmithChartTool.Model
             {
                 if (_value != value)
                 {
-                    _value = value;
-                    OnPropertyChanged("Value");
+                    if (!(double.TryParse(value.ToString(), out _value)))
+                        throw new ArgumentException("Invalid value", "Value");    
                 }
             }
         }
@@ -62,8 +62,8 @@ namespace SmithChartTool.Model
             {
                 if (_designator != value)
                 {
-                    _designator = value;
-                    OnPropertyChanged("Designator");
+                    if (!(int.TryParse(value.ToString(), out _designator)))
+                        throw new ArgumentException("Invalid designator", "Designator");
                 }
             }
         }
@@ -79,8 +79,8 @@ namespace SmithChartTool.Model
             {
                 if (_type != value)
                 {
-                    _type = value;
-                    OnPropertyChanged("Type");
+                    if (!(Enum.TryParse<SchematicElementType>(value.ToString(), out _type)))
+                        throw new ArgumentException("Wrong SchematicElementType", "Type");
                 }
             }
         }
