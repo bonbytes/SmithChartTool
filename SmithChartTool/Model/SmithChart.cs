@@ -13,7 +13,7 @@ using SmithChartTool.Utility;
 
 namespace SmithChartTool.Model
 {
-    public class SmithChart: INotifyPropertyChanged
+    public class SmithChart
     {
         public enum SmithChartType
         {
@@ -23,23 +23,7 @@ namespace SmithChartTool.Model
 
         public PlotModel Plot { get; private set; }
         public LineSeries MarkerSeries { get; set; }
-        public List <LineSeries> IntermediateCurveSeries { get; set; }
-        private bool _isNormalized;
-        public bool IsNormalized
-        {
-            get
-            {
-                return _isNormalized;
-            }
-            set
-            {
-                if (value != _isNormalized)
-                {
-                    _isNormalized = value;
-                    OnPropertyChanged("IsNormalized");
-                }
-            }
-        }
+        public List <SCTLineSeries> IntermediateCurveSeries { get; set; }
 
         private double _frequency;
         public double Frequency
@@ -53,7 +37,6 @@ namespace SmithChartTool.Model
                 if (value != _frequency)
                 {
                     _frequency = value;
-                    OnPropertyChanged("Frequency");
                 }
             }
         }
@@ -69,7 +52,21 @@ namespace SmithChartTool.Model
                 if (value != _referenceImpedance)
                 {
                     _referenceImpedance = value;
-                    OnPropertyChanged("ReferenceImpedance");
+                }
+            }
+        }
+        private bool _isNormalized;
+        public bool IsNormalized
+        {
+            get
+            {
+                return _isNormalized;
+            }
+            set
+            {
+                if (value != _isNormalized)
+                {
+                    _isNormalized = value;
                 }
             }
         }
@@ -78,56 +75,6 @@ namespace SmithChartTool.Model
         public int NumReactanceCircles { get; private set; }
         public int NumConductanceCircles { get; private set; }
         public int NumSusceptanceCircles { get; private set; }
-
-        public const double c0 = 299792458;  // speed of light in m/s
-        public static double FrequencyToWavelength(double frequency)
-        {
-            return c0 / frequency;
-        }
-
-        public static double WavelengthToFrequency(double wavelength)
-        {
-            return c0 / wavelength;
-        }
-
-        public static double CalculatePropagationConstant(double wavelength)
-        {
-            return (2 * Math.PI) / (wavelength);
-        }
-
-        public static Complex32 CalculateSerialResistorResistance(double value)
-        {
-            return new Complex32((float)value, 0);
-        }
-
-        public static Complex32 CalculateParallelResistorConductance(double value)
-        {
-            return new Complex32((float)(1/value), 0);
-        }
-
-        public static Complex32 CalculateSerialCapacitorReactance(double value, double frequency)
-        {
-            if (value == 0)
-                return Complex32.Zero;
-            return new Complex32(0, (float)(1 / (2 * Math.PI * frequency * value)));
-        }
-
-        public static Complex32 CalculateSerialInductorReactance(double value, double frequency)
-        {
-            return new Complex32(0, (float)(2 * Math.PI * frequency * value));
-        }
-
-        public static Complex32 CalculateParallelCapacitorSusceptance(double value, double frequency)
-        {
-            return new Complex32(0, (float)(2 * Math.PI * frequency * value));
-        }
-
-        public static Complex32 CalculateParallelInductorSusceptance(double value, double frequency)
-        {
-            if (value == 0)
-                return Complex32.Zero;
-            return new Complex32(0, (float)(1 / (2 * Math.PI * frequency * value)));
-        }
 
         public Complex32 GetConformalGammaValue(Complex32 input, SmithChartType inputType, bool isNormalized)
         {
@@ -143,39 +90,11 @@ namespace SmithChartTool.Model
                 return 0;
         }
 
-        public static double CalculateVSWR(Complex32 gamma)
-        {
-            return ((1 + gamma.Magnitude) / (1 - gamma.Magnitude));
-        }
-
-        public static List<double> GetLinRange(double start, double stop, int steps)
-        {
-            List<double> temp = new List<double>();
-            for (int i = 0; i < steps; i++)
-            {
-                temp.Add(start + (stop - start) * ((double)i / (steps - 1)));
-            }
-            return temp;
-            //return Enumerable.Range(0, steps).Select(i => start + (stop-start) * ((double)i / (steps-1))); // obsolete: Enumerable.Range only can return integer values...
-        }
-
-        public static List<double> GetLogRange(double start, double stop, int steps)
-        {
-            // call with: GetLogRange(Math.Log(MinValue, 10), Math.Log(MaxValue, 10), NumberOfPoints);
-            double p = (stop - start) / (steps - 1);
-            List<double> temp = new List<double>();
-            for (int i = 0; i < steps; i++)
-            {
-                temp.Add(Math.Pow(10.0, start + p * i));
-            }
-            return temp;
-        }
-
         private void DrawConstRealCircles(SmithChartType type)
         {
-            List<MyLineSeries> series = new List<MyLineSeries>();
+            List<SCTLineSeries> series = new List<SCTLineSeries>();
             List<double> reRangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10, 50};
-            List<double> values = GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 500); // imaginary value of every circle
+            List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 500); // imaginary value of every circle
             var temp = values.Invert();
             var temp2 = values;
             temp2.Reverse();
@@ -185,7 +104,7 @@ namespace SmithChartTool.Model
 
             foreach (var re in reRangeFull) // for every real const circle
             {
-                series.Add(new MyLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
+                series.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
                 foreach (var im in values) // plot every single circle through conformal mapping
                 {
                     Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type, true);
@@ -198,16 +117,16 @@ namespace SmithChartTool.Model
 
         private void DrawConstImaginaryCircles(SmithChartType type)
         {
-            List<double> values = GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 1000); // real value of every circle
+            List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 1000); // real value of every circle
             List<double> imRange = new List<double>() { 0.2, 0.5, 1, 2, 5, 10, 20, 50 };
             List<double> imRangeFull = new List<double>(imRange.Invert());
             imRangeFull.Add(1e-20);  // "zero" line
             imRangeFull.AddRange(imRange);
-            List<MyLineSeries> series = new List<MyLineSeries>();
+            List<SCTLineSeries> series = new List<SCTLineSeries>();
             int i = 0;
             foreach (var im in imRangeFull)
             {
-                series.Add(new MyLineSeries { LineStyle = LineStyle.Dash, StrokeThickness = 0.75 });
+                series.Add(new SCTLineSeries { LineStyle = LineStyle.Dash, StrokeThickness = 0.75 });
                 foreach (var re in values) // plot every single circle through conformal mapping
                 {
                     Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type, true);
@@ -216,6 +135,13 @@ namespace SmithChartTool.Model
                 Plot.Series.Add(series[i]);
                 i++;
             }
+        }
+
+        public Complex32 ImpedanceNormalized(Complex32 impedance)
+        {
+            if (IsNormalized == true)
+                return (impedance / ReferenceImpedance.Impedance);
+            return impedance;
         }
 
         public void DrawLegend()
@@ -232,11 +158,6 @@ namespace SmithChartTool.Model
         private void Invalidate()
         {
             Plot.InvalidatePlot(true);
-        }
-
-        public void ExportImage()
-        {
-            
         }
 
         private void ClearMarkers()
@@ -264,11 +185,11 @@ namespace SmithChartTool.Model
 
         private void AddIntermediateCurves(Complex32 impedanceNew, Complex32 impedanceOld, int numberOfPoints = 100)
         {
-            MyLineSeries series = new MyLineSeries { LineStyle = LineStyle.Solid, Color = OxyColor.FromRgb(50, 50, 50), StrokeThickness = 4 };
+            SCTLineSeries series = new SCTLineSeries { LineStyle = LineStyle.Solid, Color = OxyColor.FromRgb(50, 50, 50), StrokeThickness = 4 };
 
             Complex32 gamma = new Complex32();
-            List <double> listReal= GetLinRange(impedanceOld.Real, impedanceNew.Real, numberOfPoints);
-            List <double> listImaginary = GetLinRange(impedanceOld.Imaginary, impedanceNew.Imaginary, numberOfPoints);
+            List <double> listReal= Lists.GetLinRange(impedanceOld.Real, impedanceNew.Real, numberOfPoints);
+            List <double> listImaginary = Lists.GetLinRange(impedanceOld.Imaginary, impedanceNew.Imaginary, numberOfPoints);
 
             for ( int i = 0; i < numberOfPoints; i++)
             {
@@ -332,7 +253,7 @@ namespace SmithChartTool.Model
             MarkerSeries.MarkerSize = 5;
             Plot.Series.Add(MarkerSeries);
 
-            IntermediateCurveSeries = new List <LineSeries>();
+            IntermediateCurveSeries = new List <SCTLineSeries>();
 
             Draw(SmithChartType.Impedance);
             Invalidate();
@@ -348,42 +269,5 @@ namespace SmithChartTool.Model
             Init();
             Invalidate();
         }
-
-        #region INotifyPropertyChanged Members  
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-    }
-
-    public class MyLineSeries : LineSeries
-    {
-
-        //List<ScreenPoint> outputBuffer = null;
-
-        public bool Aliased { get; set; } = true;
-
-        //protected override void RenderLine(IRenderContext rc, OxyRect clippingRect, IList<ScreenPoint> pointsToRender)
-        //{
-        //    var dashArray = this.ActualDashArray;
-
-        //    if (this.outputBuffer == null)
-        //    {
-        //        this.outputBuffer = new List<ScreenPoint>(pointsToRender.Count);
-        //    }
-
-        //    rc.DrawClippedLine(clippingRect,
-        //                       pointsToRender,
-        //                       this.MinimumSegmentLength * this.MinimumSegmentLength,
-        //                       this.GetSelectableColor(this.ActualColor),
-        //                       this.StrokeThickness,
-        //                       dashArray,
-        //                       this.LineJoin,
-        //                       this.Aliased,  // <-- this is the issue
-        //                       this.outputBuffer);
-
-        //}
     }
 }

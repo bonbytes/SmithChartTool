@@ -10,7 +10,7 @@ using SmithChartTool.Utility;
 
 namespace SmithChartTool.Model
 {
-    public class Schematic: INotifyPropertyChanged
+    public class Schematic
     {
         public List<string> AvailableElements { get; private set; }
         

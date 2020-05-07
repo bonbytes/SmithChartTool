@@ -87,14 +87,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\RF.cs" />
     <Compile Include="Model\SCT.cs" />
     <Compile Include="Utility\Attributes.cs" />
     <Compile Include="Utility\Extensions.cs" />
     <Compile Include="Model\InputImpedance.cs" />
-    <Compile Include="Model\ObservableStack.cs" />
+    <Compile Include="Utility\Lists.cs" />
+    <Compile Include="Utility\SCTLineSeries.cs" />
+    <Compile Include="ViewModel\ObservableStack.cs" />
     <Compile Include="Model\SchematicElement.cs" />
     <Compile Include="Utility\Converters.cs" />
-    <Compile Include="Utility\FileIO.cs" />
+    <Compile Include="Model\FileIO.cs" />
     <Compile Include="ViewModel\AboutViewModel.cs" />
     <Compile Include="Utility\DragDropHelper.cs" />
     <Compile Include="Model\Log.cs" />

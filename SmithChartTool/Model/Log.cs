@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace SmithChartTool.Model
 {
-    public class Log: INotifyPropertyChanged
+    public class Log
     {
         private ObservableCollection<string> _lines;
         public ObservableCollection<string> Lines

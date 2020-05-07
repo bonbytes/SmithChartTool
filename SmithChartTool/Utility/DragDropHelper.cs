@@ -70,7 +70,6 @@ namespace SmithChartTool.Utility
 		}
 
 		private static Point _dragStartPoint;
-		private static int dropIndex = -1;
 
 		private static void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
 		{
@@ -123,13 +122,14 @@ namespace SmithChartTool.Utility
 					e.Effects = DragDropEffects.None;
 					return;
 				}
-
+				ListBox schematic = FindControlAncestor<ListBox>(lb);
 				var dropDest = FindDragDropAncestor(sender as DependencyObject);
 				int dropDestIndex = -1;
-				for (int i = 0; i < ((ListBox)sender).ItemsSource.Count; i++)
+				for (int i = 0; i < schematic.Items.Count; i++)
 				{
 					var lbi = lb.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
 					if (lbi == null) continue;
+					
 					if (IsMouseOverTarget(lbi, e.GetPosition((IInputElement)lbi)))
 					{
 						dropDestIndex = i;
