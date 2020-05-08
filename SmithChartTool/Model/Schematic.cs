@@ -14,8 +14,8 @@ namespace SmithChartTool.Model
     {
         public List<string> AvailableElements { get; private set; }
         
-        private Collection<SchematicElement> _elements;
-        public Collection<SchematicElement> Elements
+        private ObservableCollection<SchematicElement> _elements;
+        public ObservableCollection<SchematicElement> Elements
         {
             get { return _elements; }
             set 
@@ -35,7 +35,7 @@ namespace SmithChartTool.Model
 
         public Schematic()
         {
-            Elements = new Collection<SchematicElement>();
+            Elements = new ObservableCollection<SchematicElement>();
             AvailableElements = typeof(SchematicElementType).ToNames();
 
             // create two Ports (initial setup)

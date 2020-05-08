@@ -129,7 +129,7 @@ namespace SmithChartTool.ViewModel
         {
             get
             {
-                return (ObservableCollection<SchematicElement>)Model.Schematic.Elements;
+                return Model.Schematic.Elements;
             }
             set
             {
@@ -146,7 +146,7 @@ namespace SmithChartTool.ViewModel
         {
             get
             {
-                return (ObservableCollection<InputImpedance>)Model.InputImpedances;
+                return Model.InputImpedances;
             }
             set
             {

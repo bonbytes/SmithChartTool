@@ -192,8 +192,10 @@
                                 <Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="ListBoxItem">
+                                            <!--<v:SchematicElementControl DataContext="{Binding}" />-->
                                             <v:SchematicElementControl Type="{Binding Type}" Designator="{Binding Designator}" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-										</ControlTemplate>
+                                            
+                                        </ControlTemplate>
 									</Setter.Value>
 								</Setter>
 							</Style>

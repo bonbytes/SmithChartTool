@@ -30,7 +30,7 @@ namespace SmithChartTool.Model
 
         public SmithChart SC { get; private set; }
         public Schematic Schematic { get; private set; }
-        public Collection<InputImpedance> InputImpedances { get; set; }
+        public ObservableCollection<InputImpedance> InputImpedances { get; set; }
         public Log LogData { get; private set; }
 
         private string _projectName;
@@ -71,7 +71,7 @@ namespace SmithChartTool.Model
         {
             SC = new SmithChart();
             Schematic = new Schematic();
-            InputImpedances = new Collection<InputImpedance>();
+            InputImpedances = new ObservableCollection<InputImpedance>();
             LogData = new Log();
 
             ProjectDescription = "Empty project.";
