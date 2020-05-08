@@ -64,13 +64,13 @@ namespace SmithChartTool.ViewModel
         {
             get
             {
-                return Model.ProjectPath;
+                return Model.ProjectDescription;
             }
             set
             {
-                if (Model.ProjectPath != value)
+                if (Model.ProjectDescription != value)
                 {
-                    Model.ProjectPath = value;
+                    Model.ProjectDescription = value;
                     OnPropertyChanged("ProjectDescription");
                 }
 
@@ -159,10 +159,12 @@ namespace SmithChartTool.ViewModel
         }
 
         public static RoutedUICommand CommandTestFeature = new RoutedUICommand("Run Test Feature", "RTFE", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.T, ModifierKeys.Control) });
+        public static RoutedUICommand CommandViewHelp = new RoutedUICommand("View Help", "VH", typeof(MainWindow));
         public static RoutedUICommand CommandShowLogWindow = new RoutedUICommand("Show Log Window", "SLW", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.L, ModifierKeys.Control) });
         public static RoutedUICommand CommandShowAboutWindow = new RoutedUICommand("Show About Window", "SAW", typeof(MainWindow));
         public static RoutedUICommand CommandNewProject = new RoutedUICommand("New project file", "PN", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.N, ModifierKeys.Control) });
         public static RoutedUICommand CommandSaveProject = new RoutedUICommand("Save project file", "PS", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.S, ModifierKeys.Control) });
+        public static RoutedUICommand CommandSaveProjectAs = new RoutedUICommand("Save project file as", "PSA", typeof(MainWindow));
         public static RoutedUICommand CommandOpenProject = new RoutedUICommand("Open project file", "PO", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.O, ModifierKeys.Control) });
         public static RoutedUICommand CommandExportSmithChartImage = new RoutedUICommand("Export Smith Chart image", "ESCI", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.P, ModifierKeys.Control) });
         public static RoutedUICommand CommandCloseApp = new RoutedUICommand("CloseApplication", "EXIT", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F4, ModifierKeys.Alt) });
@@ -176,9 +178,11 @@ namespace SmithChartTool.ViewModel
             Window.CommandBindings.Add(new CommandBinding(CommandXYAsync, (s, e) => { RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
             Window.CommandBindings.Add(new CommandBinding(CommandExportSmithChartImage, (s, e) => { RunExportSmithChartImage(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandShowLogWindow, (s, e) => { RunShowLogWindow(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandViewHelp, (s, e) => { RunViewHelp(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandShowAboutWindow, (s, e) => { RunShowAboutWindow(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandNewProject, (s, e) => { RunNewProject(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandSaveProject, (s, e) => { RunSaveProject(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandSaveProjectAs, (s, e) => { RunSaveProjectAs(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandOpenProject, (s, e) => { RunOpenProject(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandCloseApp, (s, e) => { RunCloseApp(); }));
             Window.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
@@ -206,7 +210,7 @@ namespace SmithChartTool.ViewModel
             Model.NewProject();
         }
 
-        public void RunSaveProject()
+        public void RunSaveProjectAs()
         {
             SaveFileDialog fd = new SaveFileDialog();
  
@@ -217,7 +221,20 @@ namespace SmithChartTool.ViewModel
             if (fd.FileName != string.Empty)
             {
                 string fileExt = Path.GetExtension(fd.FileName);
-                Model.SaveProject(fd.FileName, fileExt);
+                Model.SaveProjectAs(fd.FileName, fileExt);
+                ProjectPath = fd.FileName;
+            }
+        }
+
+        public void RunSaveProject()
+        {
+            if (ProjectPath != string.Empty)
+            {
+                Model.SaveProjectAs(ProjectPath);
+            }
+            else
+            {
+                RunSaveProjectAs();
             }
         }
 
@@ -234,6 +251,7 @@ namespace SmithChartTool.ViewModel
             {
                 string fileExt = Path.GetExtension(fd.FileName);
                 Model.OpenProject(fd.FileName, fileExt);
+                ProjectPath = fd.FileName;
             }
         }
 
@@ -251,6 +269,11 @@ namespace SmithChartTool.ViewModel
                 string ImExt = Path.GetExtension(fd.FileName);
                 Model.ExportSmithChart(fd.FileName);
             }
+        }
+
+        public void RunViewHelp()
+        {
+            MessageBox.Show("Setup project Name and Description \r\n Setup Smith-Chart frequency and reference impedance in <Smith-Chart settings> \r\n Drag and drop Schematic Elements from <Element selection> to <Schematic> \r\n Change values of schematic elements via embedded TextBox \r\n To delete elements, press red X while hovering respective element");
         }
 
         public void RunShowLogWindow()

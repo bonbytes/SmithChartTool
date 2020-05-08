@@ -110,7 +110,9 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Designator}" />
-                                <TextBox Grid.Row="1" HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Value}" />
+                                <v:LabeledControl Grid.Row="1" Header="Value" Orientation="Vertical">
+                                    <TextBox HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Value}" />
+                                </v:LabeledControl>
                                 <Viewbox Grid.Row="2" Stretch="Uniform" x:Name="ElementSymbol" Height="{DynamicResource RD_IconSizeSchematicElement}" Width="{DynamicResource RD_IconSizeSchematicElement}">
                                     <ContentPresenter Content="{TemplateBinding Content}" />
                                 </Viewbox>

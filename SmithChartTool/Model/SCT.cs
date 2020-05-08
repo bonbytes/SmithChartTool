@@ -28,6 +28,10 @@ namespace SmithChartTool.Model
                 StatusChanged.Invoke(t);
         }
 
+        public static readonly string DefaultProjectName = "Empty project";
+        public static readonly string DefaultProjectPath = string.Empty;
+        public static readonly string DefaultProjectDescription = "Empty...";
+
         public SmithChart SC { get; private set; }
         public Schematic Schematic { get; private set; }
         public ObservableCollection<InputImpedance> InputImpedances { get; set; }
@@ -74,7 +78,7 @@ namespace SmithChartTool.Model
             InputImpedances = new ObservableCollection<InputImpedance>();
             LogData = new Log();
 
-            ProjectDescription = "Empty project.";
+            InitProject();
 
             InsertSchematicElement(-1, SchematicElementType.CapacitorSerial, 22e-12);
             InsertSchematicElement(-1, SchematicElementType.ResistorSerial, 23);
@@ -218,20 +222,35 @@ namespace SmithChartTool.Model
             return typeDescription;
         }
 
+        private void InitProject()
+        {
+            ProjectDescription = DefaultProjectDescription;
+            ProjectName = DefaultProjectName;
+            ProjectPath = DefaultProjectPath;
+        }
+
         public void NewProject()
         {
             ChangeStatus(StatusType.Busy);
-            this.Schematic.Elements.Clear();
+            Schematic.Elements.Clear();
+            InitProject();
             ChangeStatus(StatusType.Ready);
         }
 
-        public void SaveProject(string fileName, string fileExt = "sctprj")
+        public void SaveProjectAs(string fileName, string fileExt = "sctprj")
         {
-            ChangeStatus(StatusType.Busy);
-            LogData.AddLine("[fio] Saving project to file (\"" + fileName + "\")...");
-            FileIO.SaveProjectToFile(fileName, ProjectName, ProjectDescription, SC.Frequency, SC.ReferenceImpedance.Impedance, SC.IsNormalized, Schematic.Elements);
-            LogData.AddLine("[fio] Done.");
-            ChangeStatus(StatusType.Ready);
+            if (ProjectPath != String.Empty)
+            {
+                ChangeStatus(StatusType.Busy);
+                LogData.AddLine("[fio] Saving project to file (\"" + fileName + "\")...");
+                FileIO.SaveProjectToFile(fileName, ProjectName, ProjectDescription, SC.Frequency, SC.ReferenceImpedance.Impedance, SC.IsNormalized, Schematic.Elements);
+                LogData.AddLine("[fio] Done.");
+                ChangeStatus(StatusType.Ready);
+            }
+            else
+            {
+                LogData.AddLine("[fio] Save-operation not successfull.");
+            }
         }
 
         public void OpenProject(string fileName, string fileExt = "sctprj")

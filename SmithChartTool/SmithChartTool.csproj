@@ -246,10 +246,25 @@
     <Resource Include="Images\Icons\Save_16x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Icons\Infinity_16x.png" />
+    <Resource Include="Images\Icons\HelpApplication_16x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Icons\HelpApplication_16x.png" />
+    <Resource Include="Images\Icons\OpenFolder_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\smithchart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Settings_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\DragDropControl_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\NewFile_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Console_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
