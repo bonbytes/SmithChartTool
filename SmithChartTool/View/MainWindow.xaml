@@ -89,7 +89,7 @@
                         </v:LabeledControl>
                         <v:LabeledControl Header="Ref. Impedance [Ohm]">
                             <!--<v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"></v:UnitTextBoxControl>-->
-                            <TextBox x:Name="tbRefImpedance" Text="{Binding Path=ReferenceImpedance.Impedance, Mode=TwoWay, Converter={StaticResource StringToComplex32Converter}}"/>
+                            <TextBox x:Name="tbRefImpedance" Text="{Binding Path=ReferenceImpedance, Mode=TwoWay, Converter={StaticResource StringToComplex32Converter}}"/>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Normalized">
                             <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=IsNormalized}"></CheckBox>

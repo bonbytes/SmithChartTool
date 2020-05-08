@@ -93,17 +93,17 @@ namespace SmithChartTool.ViewModel
 
             }
         }
-        public ImpedanceElement ReferenceImpedance
+        public Complex32 ReferenceImpedance
         {
             get
             {
-                return Model.SC.ReferenceImpedance;
+                return Model.SC.ReferenceImpedance.Impedance;
             }
             set
             {
-                if (value != Model.SC.ReferenceImpedance)
+                if (value != Model.SC.ReferenceImpedance.Impedance)
                 {
-                    Model.SC.ReferenceImpedance = value;
+                    Model.SC.ReferenceImpedance.Impedance = value;
                     Model.InvalidateInputImpedances();
                     OnPropertyChanged("ReferenceImpedance");
                 }
@@ -209,9 +209,9 @@ namespace SmithChartTool.ViewModel
         public void RunSaveProject()
         {
             SaveFileDialog fd = new SaveFileDialog();
-
-            //fd.Filter = "PNG|*.png|BMP|*.bmp|JPEG|*.jpeg,*.jpg";
+ 
             fd.Title = "Save project file...";
+            fd.Filter = "SCTPRJ|*.sctprj";
             fd.ShowDialog();
 
             if (fd.FileName != string.Empty)

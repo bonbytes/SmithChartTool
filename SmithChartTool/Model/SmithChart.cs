@@ -185,7 +185,7 @@ namespace SmithChartTool.Model
             MarkerSeries.Points.Add(new DataPoint(gamma.Real, gamma.Imaginary));
         }
 
-        private void AddIntermediateCurves(Complex32 impedanceNew, Complex32 impedanceOld, int numberOfPoints = 100)
+        private void AddIntermediateCurves(Complex32 impedanceNew, Complex32 impedanceOld, int numberOfPoints = 1000)
         {
             SCTLineSeries series = new SCTLineSeries { LineStyle = LineStyle.Solid, Color = OxyColor.FromRgb(50, 50, 50), StrokeThickness = 4 };
 
