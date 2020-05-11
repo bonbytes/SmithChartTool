@@ -93,17 +93,33 @@ namespace SmithChartTool.ViewModel
 
             }
         }
-        public Complex32 ReferenceImpedance
+        //public Complex32 ReferenceImpedance
+        //{
+        //    get
+        //    {
+        //        return Model.SC.ReferenceImpedance.Impedance;
+        //    }
+        //    set
+        //    {
+        //        if (value != Model.SC.ReferenceImpedance.Impedance)
+        //        {
+        //            Model.SC.ReferenceImpedance.Impedance = value;
+        //            Model.InvalidateInputImpedances();
+        //            OnPropertyChanged("ReferenceImpedance");
+        //        }
+        //    }
+        //}
+        public ImpedanceElement ReferenceImpedance
         {
             get
             {
-                return Model.SC.ReferenceImpedance.Impedance;
+                return Model.SC.ReferenceImpedance;
             }
             set
             {
-                if (value != Model.SC.ReferenceImpedance.Impedance)
+                if (value != Model.SC.ReferenceImpedance)
                 {
-                    Model.SC.ReferenceImpedance.Impedance = value;
+                    Model.SC.ReferenceImpedance = value;
                     Model.InvalidateInputImpedances();
                     OnPropertyChanged("ReferenceImpedance");
                 }
@@ -154,6 +170,38 @@ namespace SmithChartTool.ViewModel
                 {
                     Model.InputImpedances = value;
                     OnPropertyChanged("InputImpedances");
+                }
+            }
+        }
+        private bool _isImpedanceSmithChartShown;
+        public bool IsImpedanceSmithChartShown
+        {
+            get
+            {
+                return _isImpedanceSmithChartShown;
+            }
+            set
+            {
+                if (value != _isImpedanceSmithChartShown)
+                {
+                    _isImpedanceSmithChartShown = value;
+                    OnPropertyChanged("IsImpedanceSmithChartShown");
+                }
+            }
+        }
+        private bool _isAdmittanceSmithChartShown;
+        public bool IsAdmittanceSmithChartShown
+        {
+            get
+            {
+                return _isAdmittanceSmithChartShown;
+            }
+            set
+            {
+                if (value != _isAdmittanceSmithChartShown)
+                {
+                    _isAdmittanceSmithChartShown = value;
+                    OnPropertyChanged("IsAdmittanceSmithChartShown");
                 }
             }
         }

@@ -36,8 +36,8 @@
             </MenuItem>
             
             <MenuItem Header="_View">
-                <MenuItem Header="Impedance Smith chart" IsCheckable="True" IsChecked="True"/>
-                <MenuItem Header="Admittance Smith chart" IsCheckable="True"/>
+                <MenuItem Header="Impedance Smith chart" IsCheckable="True" IsChecked="{Binding Path=IsImpedanceSmithChartShown}"/>
+                <MenuItem Header="Admittance Smith chart" IsCheckable="True" IsChecked="{Binding Path=IsAdmittanceSmithChartShown}"/>
             </MenuItem>
             
             <MenuItem Header="_Help">
@@ -104,14 +104,21 @@
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
                         <v:LabeledControl Header="Frequency [Hz]">
                             <!--<v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBoxControl>-->
-                            <TextBox x:Name="tbFrequency" Text="{Binding Path=Frequency, StringFormat='g5'}"/>
+                            <TextBox x:Name="tbFrequency" Text="{Binding Path=Frequency, UpdateSourceTrigger=PropertyChanged, StringFormat='g5'}"/>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Ref. Impedance [Ohm]">
                             <!--<v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"></v:UnitTextBoxControl>-->
-                            <TextBox x:Name="tbRefImpedance" Text="{Binding Path=ReferenceImpedance, Mode=TwoWay, Converter={StaticResource StringToComplex32Converter}}"/>
+                            <TextBox x:Name="tbRefImpedance" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
+                                <TextBox.Text>
+                                    <Binding Path="Impedance" Source="ReferenceImpedance"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource StringToComplex32Converter}">
+                                        <Binding.ValidationRules >
+                                                                                                                                                                                                                                                                </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox> 
                         </v:LabeledControl>
                         <v:LabeledControl Header="Normalized">
-                            <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=IsNormalized}"></CheckBox>
+                            <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding Path=IsNormalized, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
                         </v:LabeledControl>
               
                         <Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainViewModel.CommandTestFeature"></Button>

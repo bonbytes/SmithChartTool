@@ -113,6 +113,7 @@
     <Compile Include="View\SchematicElementControl.cs" />
     <Compile Include="View\SchematicElementSourceControl.cs" />
     <Compile Include="View\UnitTextBoxControl.cs" />
+    <Compile Include="View\Validaters.cs" />
     <Resource Include="Images\SchematicElements\ResistorSerial.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
