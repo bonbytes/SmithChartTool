@@ -93,33 +93,17 @@ namespace SmithChartTool.ViewModel
 
             }
         }
-        //public Complex32 ReferenceImpedance
-        //{
-        //    get
-        //    {
-        //        return Model.SC.ReferenceImpedance.Impedance;
-        //    }
-        //    set
-        //    {
-        //        if (value != Model.SC.ReferenceImpedance.Impedance)
-        //        {
-        //            Model.SC.ReferenceImpedance.Impedance = value;
-        //            Model.InvalidateInputImpedances();
-        //            OnPropertyChanged("ReferenceImpedance");
-        //        }
-        //    }
-        //}
-        public ImpedanceElement ReferenceImpedance
+        public Complex32 ReferenceImpedance
         {
             get
             {
-                return Model.SC.ReferenceImpedance;
+                return Model.SC.ReferenceImpedance.Impedance;
             }
             set
             {
-                if (value != Model.SC.ReferenceImpedance)
+                if (value != Model.SC.ReferenceImpedance.Impedance)
                 {
-                    Model.SC.ReferenceImpedance = value;
+                    Model.SC.ReferenceImpedance.Impedance = value;
                     Model.InvalidateInputImpedances();
                     OnPropertyChanged("ReferenceImpedance");
                 }
