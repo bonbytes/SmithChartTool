@@ -18,10 +18,11 @@
         <util:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
         
         <ControlTemplate x:Key="ValidationTemplate">
-            <DockPanel>
-                <TextBlock Foreground="Red" FontSize="20">!</TextBlock>
+            <StackPanel Orientation="Horizontal">
                 <AdornedElementPlaceholder/>
-            </DockPanel>
+                <!--<TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>-->
+                <TextBlock Foreground="Red" FontSize="12">!</TextBlock>
+            </StackPanel>
         </ControlTemplate>
 
         <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
@@ -119,7 +120,15 @@
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
                         <v:LabeledControl Header="Frequency [Hz]">
                             <!--<v:UnitTextBoxControl x:Name="tbFrequency" Unit="Hz" Text="{Binding Path=SC.Frequency, Converter={StaticResource StringConverter}, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}"></v:UnitTextBoxControl>-->
-                            <TextBox x:Name="tbFrequency" Text="{Binding Path=Frequency, UpdateSourceTrigger=PropertyChanged, StringFormat='g5'}"/>
+                            <TextBox x:Name="tbFrequency" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
+                                <TextBox.Text>
+                                    <Binding Path="Frequency"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" StringFormat="g8">
+                                        <Binding.ValidationRules>
+                                            <v:DoubleValueRangeRule Min="1e3" Max="100e9" ValidationStep="RawProposedValue"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                         </v:LabeledControl>
                         <v:LabeledControl Header="Ref. Impedance [Ohm]">
                             <!--<v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"></v:UnitTextBoxControl>-->

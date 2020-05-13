@@ -5,22 +5,6 @@
     xmlns:oxy="http://oxyplot.org/wpf"
     >
 
-    <!--Validater styling--> 
-    <!--<ControlTemplate x:Key="ValidationTemplate">
-        <DockPanel>
-            <TextBlock Foreground="Red" FontSize="20">!</TextBlock>
-            <AdornedElementPlaceholder/>
-        </DockPanel>
-    </ControlTemplate>-->
-
-    <!--<Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
-        <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>-->
-
     <!-- This file is meant to be used to create frontends of "Custom Controls" in WPF -->
     <Style TargetType="{x:Type v:LabeledControl}">
         <Setter Property="Margin" Value="0,0,0,5"/>
@@ -125,12 +109,12 @@
                                     <RowDefinition Height="4*"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Designator}" />
-                                <v:LabeledControl Grid.Row="1" Header="Value" Orientation="Vertical">
-                                    <TextBox HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Value}" />
+                                <TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{Binding Path=Designator, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
+                                <v:LabeledControl Grid.Row="1" Header="Value" Orientation="Horizontal">
+                                    <TextBox HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{Binding Path=Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
                                 </v:LabeledControl>
                                 <Viewbox Grid.Row="2" Stretch="Uniform" x:Name="ElementSymbol" Height="{DynamicResource RD_IconSizeSchematicElement}" Width="{DynamicResource RD_IconSizeSchematicElement}">
-                                    <ContentPresenter Content="{TemplateBinding Content}" />
+                                    <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
                                 </Viewbox>
                             </Grid>
                             <Button x:Name="btnDelete" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">

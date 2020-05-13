@@ -41,4 +41,36 @@ namespace SmithChartTool.View
             return ValidationResult.ValidResult;
         }
     }
+
+    public class DoubleValueRangeRule : ValidationRule
+    {
+        public double Min { get; set; }
+        public double Max { get; set; }
+
+        public DoubleValueRangeRule()
+        {
+        }
+
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            double val = 0;
+
+            try
+            {
+                if (((string)value).Length > 0)
+                    val = double.Parse((string)value);
+            }
+            catch (Exception e)
+            {
+                return new ValidationResult(false, $"Illegal characters or {e.Message}");
+            }
+
+            if ((val < Min) || (val > Max))
+            {
+                return new ValidationResult(false,
+                  $"Please enter a value in the range: {Min}-{Max}.");
+            }
+            return ValidationResult.ValidResult;
+        }
+    }
 }
