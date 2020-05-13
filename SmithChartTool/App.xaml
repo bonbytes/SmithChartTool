@@ -12,33 +12,7 @@
         <core:Double x:Key="RD_IconSizeSchematic">100.0</core:Double>
 		<core:Double x:Key="RD_LineThicknessSchematicElements">2.0</core:Double>
 		<Thickness x:Key="RD_BorderThicknessSchematicElements">3</Thickness>
-		<SolidColorBrush x:Key="RD_ColorBrushBlack">#000000FF</SolidColorBrush>
-
-        <Style x:Key="oxySmithChartStyle" TargetType="{x:Type oxy:PlotView}">
-            <Setter Property="DefaultTrackerTemplate">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <oxy:TrackerControl Background="White" LineExtents="{Binding PlotModel.PlotArea}" LineStroke="Black" Position="{Binding Position}">
-                            <Border Margin="2" BorderBrush="Gray">
-                                <Grid Margin="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <!--Style="{StaticResource NormalTextStyle}"-->
-                                    <TextBlock Grid.Column="0" Margin="1" Text="{Binding DataPoint.X, StringFormat={}{0:0.###}}" />
-                                    <TextBlock Grid.Column="1" Margin="1" Text=" + " />
-                                    <TextBlock Grid.Column="2" Margin="1" Text="{Binding DataPoint.Y, StringFormat={}{0:0.###}}" />
-                                    <TextBlock Grid.Column="3" Margin="1" Text=" j" />
-                                </Grid>
-                            </Border>
-                        </oxy:TrackerControl>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <SolidColorBrush x:Key="RD_ColorBrushBlack">#000000FF</SolidColorBrush>
 
     </Application.Resources>
 </Application>

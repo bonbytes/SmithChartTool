@@ -49,7 +49,7 @@ namespace SmithChartTool.Model
                     //Lines.Dequeue();
                     Lines.RemoveAt(0);
 
-                OnPropertyChanged("Lines");
+               // OnPropertyChanged("Lines");
             }
         }
 

@@ -4,20 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SmithChartTool.Model;
 using SmithChartTool.View;
 
 
 namespace SmithChartTool.ViewModel
 {
-    public class AboutViewModel
+    public class PrjSettingsViewModel
     {
-        private AboutWindow Window { get; set; }
+        public Project ProjectData { get; private set; }
+        private PrjSettingsWindow Window { get; set; }
 
-        public static RoutedUICommand CommandClose = new RoutedUICommand("Close", "Close", typeof(AboutWindow));
+        public static RoutedUICommand CommandClose = new RoutedUICommand("Close", "Close", typeof(PrjSettingsWindow));
 
-        public AboutViewModel()
+        public PrjSettingsViewModel(Project projectData)
         {
-            Window = new AboutWindow(this);
+            ProjectData = projectData;
+            Window = new PrjSettingsWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandClose, (s, e) => { RunClose(); }));
 
             Window.Show();

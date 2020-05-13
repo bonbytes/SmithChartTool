@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace SmithChartTool.View
+namespace SmithChartTool.ViewModel
 {
     public class ImpedanceRule : ValidationRule
     {

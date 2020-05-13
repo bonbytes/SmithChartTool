@@ -9,15 +9,15 @@ using SmithChartTool.View;
 
 namespace SmithChartTool.ViewModel
 {
-    public class AboutViewModel
+    public class SettingsViewModel
     {
-        private AboutWindow Window { get; set; }
+        private SettingsWindow Window { get; set; }
 
-        public static RoutedUICommand CommandClose = new RoutedUICommand("Close", "Close", typeof(AboutWindow));
+        public static RoutedUICommand CommandClose = new RoutedUICommand("Close", "Close", typeof(SettingsWindow));
 
-        public AboutViewModel()
+        public SettingsViewModel()
         {
-            Window = new AboutWindow(this);
+            Window = new SettingsWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandClose, (s, e) => { RunClose(); }));
 
             Window.Show();

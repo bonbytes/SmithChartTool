@@ -28,17 +28,32 @@ namespace SmithChartTool.ViewModel
         private MainWindow Window { get; set; }
         public SCT Model { get; set; }
 
+        public Project ProjectData
+        {
+            get
+            {
+                return Model.ProjectData;
+            }
+            set
+            {
+                if(Model.ProjectData != value)
+                {
+                   // Model.ProjectData = value;
+                    OnPropertyChanged("ProjectData");
+                }
+            }
+        }
         public string ProjectName
         {
             get
             {
-                return Model.ProjectName;
+                return Model.ProjectData.Name;
             }
             set
             {
-                if (Model.ProjectName != value)
+                if (Model.ProjectData.Name != value)
                 {
-                    Model.ProjectName = value;
+                    Model.ProjectData.Name = value;
                     OnPropertyChanged("ProjectName");
                 }
 
@@ -48,13 +63,13 @@ namespace SmithChartTool.ViewModel
         {
             get
             {
-                return Model.ProjectPath;
+                return Model.ProjectData.Path;
             }
             set
             {
-                if (Model.ProjectPath != value)
+                if (Model.ProjectData.Path != value)
                 {
-                    Model.ProjectPath = value;
+                    Model.ProjectData.Path = value;
                     OnPropertyChanged("ProjectPath");
                 }
 
@@ -64,13 +79,13 @@ namespace SmithChartTool.ViewModel
         {
             get
             {
-                return Model.ProjectDescription;
+                return Model.ProjectData.Description;
             }
             set
             {
-                if (Model.ProjectDescription != value)
+                if (Model.ProjectData.Description != value)
                 {
-                    Model.ProjectDescription = value;
+                    Model.ProjectData.Description = value;
                     OnPropertyChanged("ProjectDescription");
                 }
 
@@ -194,6 +209,8 @@ namespace SmithChartTool.ViewModel
         public static RoutedUICommand CommandViewHelp = new RoutedUICommand("View Help", "VH", typeof(MainWindow));
         public static RoutedUICommand CommandShowLogWindow = new RoutedUICommand("Show Log Window", "SLW", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.L, ModifierKeys.Control) });
         public static RoutedUICommand CommandShowAboutWindow = new RoutedUICommand("Show About Window", "SAW", typeof(MainWindow));
+        public static RoutedUICommand CommandShowPrjSettingsWindow = new RoutedUICommand("Show Project Settings Window", "SPSW", typeof(MainWindow));
+        public static RoutedUICommand CommandShowSettingsWindow = new RoutedUICommand("Show Settings Window", "SSW", typeof(MainWindow));
         public static RoutedUICommand CommandNewProject = new RoutedUICommand("New project file", "PN", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.N, ModifierKeys.Control) });
         public static RoutedUICommand CommandSaveProject = new RoutedUICommand("Save project file", "PS", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.S, ModifierKeys.Control) });
         public static RoutedUICommand CommandSaveProjectAs = new RoutedUICommand("Save project file as", "PSA", typeof(MainWindow));
@@ -212,6 +229,8 @@ namespace SmithChartTool.ViewModel
             Window.CommandBindings.Add(new CommandBinding(CommandShowLogWindow, (s, e) => { RunShowLogWindow(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandViewHelp, (s, e) => { RunViewHelp(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandShowAboutWindow, (s, e) => { RunShowAboutWindow(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandShowPrjSettingsWindow, (s, e) => { RunShowPrjSettingsWindow(); }));
+            Window.CommandBindings.Add(new CommandBinding(CommandShowSettingsWindow, (s, e) => { RunShowSettingsWindow(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandNewProject, (s, e) => { RunNewProject(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandSaveProject, (s, e) => { RunSaveProject(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandSaveProjectAs, (s, e) => { RunSaveProjectAs(); }));
@@ -316,6 +335,16 @@ namespace SmithChartTool.ViewModel
         public void RunShowAboutWindow()
         {
             var aboutWindowViewModel = new AboutViewModel();
+        }
+
+        public void RunShowSettingsWindow()
+        {
+            var settingsWindowViewModel = new SettingsViewModel();
+        }
+
+        public void RunShowPrjSettingsWindow()
+        {
+            var prjSettingsWindowViewModel = new PrjSettingsViewModel(Model.ProjectData);
         }
 
         public void RunCloseApp()

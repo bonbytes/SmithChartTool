@@ -87,6 +87,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Project.cs" />
     <Compile Include="Model\RF.cs" />
     <Compile Include="Model\SCT.cs" />
     <Compile Include="Utility\Attributes.cs" />
@@ -103,6 +104,8 @@
     <Compile Include="Model\Log.cs" />
     <Compile Include="ViewModel\LogViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PrjSettingsViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="View\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -112,8 +115,22 @@
     </Compile>
     <Compile Include="View\SchematicElementControl.cs" />
     <Compile Include="View\SchematicElementSourceControl.cs" />
+    <Compile Include="View\PrjSettingsWindow.xaml.cs">
+      <DependentUpon>PrjSettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UnitTextBoxControl.cs" />
-    <Compile Include="View\Validaters.cs" />
+    <Compile Include="ViewModel\Validaters.cs" />
+    <Page Include="View\PrjSettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Resource Include="Images\SchematicElements\ResistorSerial.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -253,9 +270,6 @@
     <Resource Include="Images\Icons\OpenFolder_16x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Icons\smithchart.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Icons\Settings_16x.png" />
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +280,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\Console_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\ApplicationBehaviorSettings_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\SCT.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

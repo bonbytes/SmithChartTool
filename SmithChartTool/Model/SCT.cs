@@ -28,45 +28,11 @@ namespace SmithChartTool.Model
                 StatusChanged.Invoke(t);
         }
 
-        public static readonly string DefaultProjectName = "Empty project";
-        public static readonly string DefaultProjectPath = string.Empty;
-        public static readonly string DefaultProjectDescription = "Empty...";
-
-        public SmithChart SC { get; private set; }
+       public SmithChart SC { get; private set; }
         public Schematic Schematic { get; private set; }
         public ObservableCollection<InputImpedance> InputImpedances { get; set; }
         public Log LogData { get; private set; }
-
-        private string _projectName;
-        public string ProjectName
-        {
-            get { return _projectName; }
-            set
-            {
-                if (_projectName != value)
-                    _projectName = value;
-            }
-        }
-        private string _projectPath;
-        public string ProjectPath
-        {
-            get { return _projectPath; }
-            set
-            {
-                if (_projectPath != value)
-                    _projectPath = value;
-            }
-        }
-        private string _projectDescription;
-        public string ProjectDescription
-        {
-            get { return _projectDescription; }
-            set
-            {
-                if (_projectDescription != value)
-                    _projectDescription = value;
-            }
-        }
+        public Project ProjectData { get; private set; }
 
         public StatusType Status { get; private set; }
         public static event Action<StatusType> StatusChanged;
@@ -77,8 +43,7 @@ namespace SmithChartTool.Model
             Schematic = new Schematic();
             InputImpedances = new ObservableCollection<InputImpedance>();
             LogData = new Log();
-
-            InitProject();
+            ProjectData = new Project();
 
             InsertSchematicElement(-1, SchematicElementType.CapacitorSerial, 22e-12);
             InsertSchematicElement(-1, SchematicElementType.ResistorSerial, 23);
@@ -222,28 +187,21 @@ namespace SmithChartTool.Model
             return typeDescription;
         }
 
-        private void InitProject()
-        {
-            ProjectDescription = DefaultProjectDescription;
-            ProjectName = DefaultProjectName;
-            ProjectPath = DefaultProjectPath;
-        }
-
         public void NewProject()
         {
             ChangeStatus(StatusType.Busy);
             Schematic.Elements.Clear();
-            InitProject();
+            ProjectData.Init();
             ChangeStatus(StatusType.Ready);
         }
 
         public void SaveProjectAs(string fileName, string fileExt = "sctprj")
         {
-            if (ProjectPath != String.Empty)
+            if (ProjectData.Path != String.Empty)
             {
                 ChangeStatus(StatusType.Busy);
                 LogData.AddLine("[fio] Saving project to file (\"" + fileName + "\")...");
-                FileIO.SaveProjectToFile(fileName, ProjectName, ProjectDescription, SC.Frequency, SC.ReferenceImpedance.Impedance, SC.IsNormalized, Schematic.Elements);
+                FileIO.SaveProjectToFile(fileName, ProjectData.Name, ProjectData.Description, SC.Frequency, SC.ReferenceImpedance.Impedance, SC.IsNormalized, Schematic.Elements);
                 LogData.AddLine("[fio] Done.");
                 ChangeStatus(StatusType.Ready);
             }
@@ -269,8 +227,8 @@ namespace SmithChartTool.Model
             LogData.AddLine("[fio] " + this.Schematic.Elements.Count + " Schematic Elements loaded.");
             LogData.AddLine("[fio] Done.");
 
-            ProjectName = projectName;
-            ProjectDescription = projectDescription;
+            ProjectData.Name = projectName;
+            ProjectData.Description = projectDescription;
             SC.Frequency = frequency;
             SC.ReferenceImpedance.Impedance = refImpedance;
             SC.IsNormalized = isNormalized;
