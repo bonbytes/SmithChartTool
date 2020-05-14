@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:SmithChartTool.Themes">
 
 
-	<SolidColorBrush x:Key="WindowBackground" Color="Black" />
+	<SolidColorBrush x:Key="WindowBackground" Color="DarkSlateBlue" />
 	<LinearGradientBrush x:Key="SchematicElementSourceHeaderForeground" StartPoint="0,0" EndPoint="1,1">
 		<GradientStop Color="Red" Offset="0" />
 		<GradientStop Color="Yellow" Offset="0.5" />

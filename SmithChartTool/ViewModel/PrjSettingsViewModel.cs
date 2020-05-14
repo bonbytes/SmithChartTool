@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using SmithChartTool.View;
 
 namespace SmithChartTool.ViewModel
 {
-    public class PrjSettingsViewModel
+    public class PrjSettingsViewModel: INotifyPropertyChanged
     {
         public Project ProjectData { get; private set; }
         private PrjSettingsWindow Window { get; set; }
@@ -30,6 +31,14 @@ namespace SmithChartTool.ViewModel
         {
             Window.Close();
         }
+
+        #region INotifyPropertyChanged Members  
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
 
     }
 }

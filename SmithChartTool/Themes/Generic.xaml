@@ -109,12 +109,10 @@
                                     <RowDefinition Height="4*"/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{Binding Path=Designator, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
-                                <v:LabeledControl Grid.Row="1" Header="Value" Orientation="Horizontal">
-                                    <TextBox HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{Binding Path=Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
-                                </v:LabeledControl>
+                                <TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Designator}" />
+                                <TextBox Grid.Row="1" HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{Binding Path=Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
                                 <Viewbox Grid.Row="2" Stretch="Uniform" x:Name="ElementSymbol" Height="{DynamicResource RD_IconSizeSchematicElement}" Width="{DynamicResource RD_IconSizeSchematicElement}">
-                                    <ContentPresenter Content="{Binding Path=Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
+                                    <ContentPresenter Content="{TemplateBinding Content}" />
                                 </Viewbox>
                             </Grid>
                             <Button x:Name="btnDelete" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">

@@ -8,7 +8,7 @@ namespace SmithChartTool.Model
 {
     public class Project
     {
-        public static readonly string DefaultName = "Empty project";
+        public static readonly string DefaultName = "Default";
         public static readonly string DefaultPath = string.Empty;
         public static readonly string DefaultDescription = "No description...";
 

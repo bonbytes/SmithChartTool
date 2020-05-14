@@ -28,6 +28,22 @@ namespace SmithChartTool.ViewModel
         private MainWindow Window { get; set; }
         public SCT Model { get; set; }
 
+
+        private static readonly string TitlebarPrefixString = "SmithChartTool - ";
+        private string _title;
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value;
+                OnPropertyChanged("Title");
+            } 
+        }
+
         public Project ProjectData
         {
             get
@@ -38,60 +54,12 @@ namespace SmithChartTool.ViewModel
             {
                 if(Model.ProjectData != value)
                 {
-                   // Model.ProjectData = value;
+                    Model.ProjectData = value;
                     OnPropertyChanged("ProjectData");
                 }
             }
         }
-        public string ProjectName
-        {
-            get
-            {
-                return Model.ProjectData.Name;
-            }
-            set
-            {
-                if (Model.ProjectData.Name != value)
-                {
-                    Model.ProjectData.Name = value;
-                    OnPropertyChanged("ProjectName");
-                }
-
-            }
-        }
-        public string ProjectPath
-        {
-            get
-            {
-                return Model.ProjectData.Path;
-            }
-            set
-            {
-                if (Model.ProjectData.Path != value)
-                {
-                    Model.ProjectData.Path = value;
-                    OnPropertyChanged("ProjectPath");
-                }
-
-            }
-        }
-        public string ProjectDescription
-        {
-            get
-            {
-                return Model.ProjectData.Description;
-            }
-            set
-            {
-                if (Model.ProjectData.Description != value)
-                {
-                    Model.ProjectData.Description = value;
-                    OnPropertyChanged("ProjectDescription");
-                }
-
-            }
-        }
-        public double Frequency
+       public double Frequency
         {
             get
             {
@@ -102,7 +70,7 @@ namespace SmithChartTool.ViewModel
                 if (Model.SC.Frequency != value)
                 {
                     Model.SC.Frequency = value;
-                    Model.InvalidateInputImpedances();
+                    Model.UpdateInputImpedances();
                     OnPropertyChanged("Frequency");
                 }
 
@@ -119,7 +87,7 @@ namespace SmithChartTool.ViewModel
                 if (value != Model.SC.ReferenceImpedance.Impedance)
                 {
                     Model.SC.ReferenceImpedance.Impedance = value;
-                    Model.InvalidateInputImpedances();
+                    Model.UpdateInputImpedances();
                     OnPropertyChanged("ReferenceImpedance");
                 }
             }
@@ -135,7 +103,7 @@ namespace SmithChartTool.ViewModel
                 if (value != Model.SC.IsNormalized)
                 {
                     Model.SC.IsNormalized = value;
-                    Model.InvalidateInputImpedances();
+                    Model.UpdateInputImpedances();
                     OnPropertyChanged("IsNormalized");
                 }
             }
@@ -151,7 +119,7 @@ namespace SmithChartTool.ViewModel
                 if(value != Model.Schematic.Elements)
                 {
                     Model.Schematic.Elements = value;
-                    Model.InvalidateInputImpedances();
+                    Model.UpdateInputImpedances();
                     OnPropertyChanged("SchematicElements");
                 }
             }
@@ -172,34 +140,48 @@ namespace SmithChartTool.ViewModel
                 }
             }
         }
-        private bool _isImpedanceSmithChartShown;
         public bool IsImpedanceSmithChartShown
         {
             get
             {
-                return _isImpedanceSmithChartShown;
+                return Model.SC.IsImpedanceSmithChart;
             }
             set
             {
-                if (value != _isImpedanceSmithChartShown)
+                if (value != Model.SC.IsImpedanceSmithChart)
                 {
-                    _isImpedanceSmithChartShown = value;
+                    if(value == true)
+                    {
+                        Model.SC.Draw(SmithChart.SmithChartType.Impedance);
+                    }
+                    else if(value == false)
+                    {
+                        Model.SC.Clear(SmithChart.SmithChartType.Impedance);
+                    }
+                    Model.SC.IsImpedanceSmithChart = value;
                     OnPropertyChanged("IsImpedanceSmithChartShown");
                 }
             }
         }
-        private bool _isAdmittanceSmithChartShown;
         public bool IsAdmittanceSmithChartShown
         {
             get
             {
-                return _isAdmittanceSmithChartShown;
+                return Model.SC.IsAdmittanceSmithChart;
             }
             set
             {
-                if (value != _isAdmittanceSmithChartShown)
+                if (value != Model.SC.IsAdmittanceSmithChart)
                 {
-                    _isAdmittanceSmithChartShown = value;
+                    if (value == true)
+                    {
+                        Model.SC.Draw(SmithChart.SmithChartType.Admittance);
+                    }
+                    else if (value == false)
+                    {
+                        Model.SC.Clear(SmithChart.SmithChartType.Admittance);
+                    }
+                    Model.SC.IsAdmittanceSmithChart = value;
                     OnPropertyChanged("IsAdmittanceSmithChartShown");
                 }
             }
@@ -239,6 +221,10 @@ namespace SmithChartTool.ViewModel
             Window.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
             Window.oxySmithChart.ActualController.BindMouseEnter(OxyPlot.PlotCommands.HoverPointsOnlyTrack);
 
+            Directory.CreateDirectory((Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\");
+            ProjectData.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData))+"\\SCT\\"+ProjectData.Name+".sctprj";
+            Title = TitlebarPrefixString + ProjectData.Path;
+            
             Window.Show();
         }
 
@@ -259,6 +245,8 @@ namespace SmithChartTool.ViewModel
         public void RunNewProject()
         {
             Model.NewProject();
+            ProjectData.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\" + ProjectData.Name + ".sctprj";
+            Title = TitlebarPrefixString + ProjectData.Path;
         }
 
         public void RunSaveProjectAs()
@@ -273,15 +261,16 @@ namespace SmithChartTool.ViewModel
             {
                 string fileExt = Path.GetExtension(fd.FileName);
                 Model.SaveProjectAs(fd.FileName, fileExt);
-                ProjectPath = fd.FileName;
+                ProjectData.Path = fd.FileName;
+                Title = TitlebarPrefixString + ProjectData.Path;
             }
         }
 
         public void RunSaveProject()
         {
-            if (ProjectPath != string.Empty)
+            if (ProjectData.Path != string.Empty)
             {
-                Model.SaveProjectAs(ProjectPath);
+                Model.SaveProjectAs(ProjectData.Path);
             }
             else
             {
@@ -302,7 +291,8 @@ namespace SmithChartTool.ViewModel
             {
                 string fileExt = Path.GetExtension(fd.FileName);
                 Model.OpenProject(fd.FileName, fileExt);
-                ProjectPath = fd.FileName;
+                ProjectData.Path = fd.FileName;
+                Title = TitlebarPrefixString + ProjectData.Path;
             }
         }
 

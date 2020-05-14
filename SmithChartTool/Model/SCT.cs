@@ -28,11 +28,11 @@ namespace SmithChartTool.Model
                 StatusChanged.Invoke(t);
         }
 
-       public SmithChart SC { get; private set; }
+        public SmithChart SC { get; private set; }
         public Schematic Schematic { get; private set; }
         public ObservableCollection<InputImpedance> InputImpedances { get; set; }
         public Log LogData { get; private set; }
-        public Project ProjectData { get; private set; }
+        public Project ProjectData { get; set; }
 
         public StatusType Status { get; private set; }
         public static event Action<StatusType> StatusChanged;
@@ -50,12 +50,12 @@ namespace SmithChartTool.Model
             InsertSchematicElement(-1, SchematicElementType.InductorSerial, 10e-9);
         }
 
-        public void InvalidateInputImpedances()
+        public void UpdateInputImpedances()
         {
             InputImpedances.Clear();
             Complex32 transformer;
 
-            for (int i = Schematic.Elements.Count - 1; i > 0; i--)
+            for (int i = Schematic.Elements.Count - 1; i >= 0; i--)
             {
                 if (Schematic.Elements[i].Type == SchematicElementType.Port)
                     InputImpedances.Add(new InputImpedance(i, Schematic.Elements[i].Impedance));
@@ -109,13 +109,13 @@ namespace SmithChartTool.Model
                         switch (Schematic.Elements[i].Type)
                         {
                             case SchematicElementType.ResistorSerial:
-                            case SchematicElementType.CapacitorSerial:
+                            case SchematicElementType.CapacitorParallel:
                             case SchematicElementType.InductorSerial:
                             case SchematicElementType.ImpedanceSerial:
                                 InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance + transformer));
                                 break;
                             case SchematicElementType.ResistorParallel:
-                            case SchematicElementType.CapacitorParallel:
+                            case SchematicElementType.CapacitorSerial:
                             case SchematicElementType.InductorParallel:
                             case SchematicElementType.ImpedanceParallel:
                             case SchematicElementType.OpenStub:
@@ -135,27 +135,27 @@ namespace SmithChartTool.Model
                     }
                 }
             }
-            SC.InvalidateMarkers(InputImpedances);
+            SC.UpdateMarkers(InputImpedances);
         }
 
         public void InsertSchematicElement(int index, SchematicElementType type)
         {
             Schematic.InsertElement(index, type);
-            InvalidateInputImpedances();
+            UpdateInputImpedances();
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }
 
         public void InsertSchematicElement(int index, SchematicElementType type, double value)
         {
             Schematic.InsertElement(index, type, value);
-            InvalidateInputImpedances();
+            UpdateInputImpedances();
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }
 
         public void InsertSchematicElement(int index, SchematicElementType type, Complex32 impedance, double value = 0)
         {
             Schematic.InsertElement(index, type, impedance, value);
-            InvalidateInputImpedances();
+            UpdateInputImpedances();
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }
 
@@ -163,7 +163,7 @@ namespace SmithChartTool.Model
         {
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(Schematic.Elements[index].Type) + " removed from schematic.");
             Schematic.RemoveElement(index);
-            InvalidateInputImpedances();
+            UpdateInputImpedances();
         }
 
         private string GetSchematicElementTypeDescription(SchematicElementType type)

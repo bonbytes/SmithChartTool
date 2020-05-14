@@ -25,7 +25,6 @@ namespace SmithChartTool.Model
                 if (value != _lines)
                 {
                     _lines = value;
-                    OnPropertyChanged("Lines");
                 }
             }
         }
@@ -48,8 +47,6 @@ namespace SmithChartTool.Model
                 if (Lines.Count > MaxLogLines)
                     //Lines.Dequeue();
                     Lines.RemoveAt(0);
-
-               // OnPropertyChanged("Lines");
             }
         }
 
