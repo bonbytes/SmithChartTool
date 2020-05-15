@@ -267,7 +267,7 @@
 				<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" Background="Transparent" />
 
 				<GroupBox  Grid.Row="2" Header="Schematic">
-					<ListBox IsHitTestVisible="True" Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Model.Schematic.Elements }">
+					<ListBox IsHitTestVisible="True" Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Model.Schematic.Elements}">
 						<ListBox.Template>
 							<ControlTemplate TargetType="ListBox">
 								<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
