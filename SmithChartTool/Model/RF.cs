@@ -39,7 +39,7 @@ namespace SmithChartTool.Model
         {
             if (value == 0)
                 return Complex32.Zero;
-            return new Complex32(0, (float)(1 / (2 * Math.PI * frequency * value)));
+            return new Complex32(0, (float)(-1 / (2 * Math.PI * frequency * value)));
         }
 
         public static Complex32 CalculateSerialInductorReactance(double value, double frequency)

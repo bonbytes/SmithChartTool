@@ -45,6 +45,9 @@ namespace SmithChartTool.Model
             LogData = new Log();
             ProjectData = new Project();
 
+            InsertSchematicElement(-1, SchematicElementType.CapacitorParallel, 22e-12);
+            InsertSchematicElement(-1, SchematicElementType.ResistorParallel, 23);
+            InsertSchematicElement(-1, SchematicElementType.InductorParallel, 10e-9);
             InsertSchematicElement(-1, SchematicElementType.CapacitorSerial, 22e-12);
             InsertSchematicElement(-1, SchematicElementType.ResistorSerial, 23);
             InsertSchematicElement(-1, SchematicElementType.InductorSerial, 10e-9);
@@ -109,18 +112,18 @@ namespace SmithChartTool.Model
                         switch (Schematic.Elements[i].Type)
                         {
                             case SchematicElementType.ResistorSerial:
-                            case SchematicElementType.CapacitorParallel:
+                            case SchematicElementType.CapacitorSerial:
                             case SchematicElementType.InductorSerial:
                             case SchematicElementType.ImpedanceSerial:
                                 InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance + transformer));
                                 break;
                             case SchematicElementType.ResistorParallel:
-                            case SchematicElementType.CapacitorSerial:
+                            case SchematicElementType.CapacitorParallel:
                             case SchematicElementType.InductorParallel:
                             case SchematicElementType.ImpedanceParallel:
                             case SchematicElementType.OpenStub:
                             case SchematicElementType.ShortedStub:
-                                InputImpedances.Add(new InputImpedance(i, 1 / ((1 / InputImpedances.Last().Impedance) + (1 / transformer))));
+                                InputImpedances.Add(new InputImpedance(i, (1 / InputImpedances.Last().Impedance) + (1 / transformer)));
                                 break;
                             case SchematicElementType.TLine:
                                 InputImpedances.Add(new InputImpedance(i, 0));
