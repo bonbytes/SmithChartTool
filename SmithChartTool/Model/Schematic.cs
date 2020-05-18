@@ -12,10 +12,10 @@ namespace SmithChartTool.Model
 {
     public class Schematic
     {
-        public List<string> AvailableElements { get; private set; }
+        public List<string> AvailableElements { get; set; }
         
-        private ObservableCollection<SchematicElement> _elements;
-        public ObservableCollection<SchematicElement> Elements
+        private IList<SchematicElement> _elements;
+        public IList<SchematicElement> Elements
         {
             get { return _elements; }
             set 
@@ -43,7 +43,7 @@ namespace SmithChartTool.Model
             Elements.Add(new SchematicElement() { Type = SchematicElementType.Port, Designator = 2, Impedance = new Complex32(20, 20), Value = 0 });
         }
 
-        private void InvalidateDesignators()
+        private void UpdateDesignators()
         {
             int resistorDesignator = 1;
             int capacitorDesignator = 1;
@@ -106,10 +106,10 @@ namespace SmithChartTool.Model
             {
                 Type = schematicElementType,
                 Value = value,
-                Impedance = 0
+                Impedance = new Complex32(0,0)
             });
             IncreaseElementNumber(schematicElementType);
-            InvalidateDesignators();
+            UpdateDesignators();
         }
 
         public void InsertElement(int index, SchematicElementType schematicElementType, Complex32 impedance, double value = 0.0)
@@ -127,14 +127,14 @@ namespace SmithChartTool.Model
                 Impedance = impedance
             });
             IncreaseElementNumber(schematicElementType);
-            InvalidateDesignators();
+            UpdateDesignators();
         }
 
         public void RemoveElement(int index)
         {
             DecreaseElementNumber(Elements[index].Type);
             Elements.RemoveAt(index);
-            InvalidateDesignators();
+            UpdateDesignators();
         }
 
         private void IncreaseElementNumber(SchematicElementType schematicElementType)

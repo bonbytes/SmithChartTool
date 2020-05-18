@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,25 +21,10 @@ namespace SmithChartTool.View
 {
     public class SchematicElementControl : ListBoxItem
     {
-        static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));
-        static public readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnValueChanged));
-        static public DependencyProperty DesignatorProperty = DependencyProperty.Register("Designator", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty, OnTypeChanged));
-        static public DependencyProperty IsValidInputProperty = DependencyProperty.Register("IsValidInput", typeof(bool), typeof(SchematicElementControl), new PropertyMetadata(true, OnTypeChanged));
-
-        public static DependencyProperty UnitProperty = DependencyProperty.Register("Unit", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty));
-
-        public string Unit
-        {
-            get
-            {
-                return (string)GetValue(UnitProperty);
-            }
-            set
-            {
-                SetValue(UnitProperty, value);
-            }
-        }
-
+        static public readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty));
+        static public readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(SchematicElementControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        static public readonly DependencyProperty DesignatorProperty = DependencyProperty.Register("Designator", typeof(string), typeof(SchematicElementControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        
         public string Type
         {
             get { return (string)GetValue(TypeProperty); }
@@ -55,12 +41,6 @@ namespace SmithChartTool.View
         {
             get { return (string)GetValue(DesignatorProperty); }
             set { SetValue(DesignatorProperty, value); }
-        }
-
-        public bool IsValidInput
-        {
-            get { return (bool)GetValue(IsValidInputProperty); }
-            set { SetValue(IsValidInputProperty, value); }
         }
 
         static SchematicElementControl()
@@ -92,21 +72,11 @@ namespace SmithChartTool.View
             Designator = sei.Designator + ((SchematicElement)elementData).Designator.ToString();
         }
 
-        public static void OnTypeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        public override void OnApplyTemplate()
         {
-            (sender as SchematicElementControl).UpdateControl(sender, e);
+            base.OnApplyTemplate();
+            UpdateControl(this, new DependencyPropertyChangedEventArgs());
         }
-
-        public static void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            (sender as SchematicElementControl).UpdateControl(sender, e);
-        }
-
-        //public override void OnApplyTemplate()
-        //{
-        //    base.OnApplyTemplate();
-        //    UpdateControl();
-        //}
     }
 }
 

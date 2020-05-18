@@ -112,7 +112,7 @@ namespace SmithChartTool.ViewModel
         {
             get
             {
-                return Model.Schematic.Elements;
+                return (ObservableCollection < SchematicElement > )Model.Schematic.Elements;
             }
             set
             {
@@ -121,6 +121,20 @@ namespace SmithChartTool.ViewModel
                     Model.Schematic.Elements = value;
                     Model.UpdateInputImpedances();
                     OnPropertyChanged("SchematicElements");
+                }
+            }
+        }
+        public List<string> AvailableElements
+        {
+            get
+            {
+                return Model.Schematic.AvailableElements;
+            }
+            private set
+            {
+                if (value != Model.Schematic.AvailableElements)
+                {
+                    Model.Schematic.AvailableElements = value;
                 }
             }
         }

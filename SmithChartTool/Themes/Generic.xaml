@@ -65,7 +65,7 @@
 		<Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type v:SchematicElementSourceControl}">
-					<Grid ToolTipService.InitialShowDelay="1000">
+					<Grid ToolTipService.InitialShowDelay="500">
 						<Grid.ToolTip>
 							<Border Background="{DynamicResource RD_ColorBrushBlack}">
 								<TextBlock Text="{TemplateBinding Header}"/>
@@ -97,7 +97,7 @@
                 <ControlTemplate TargetType="{x:Type v:SchematicElementControl}">
                     <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" CornerRadius="5">
                         <Grid>
-                            <Grid ToolTipService.InitialShowDelay="1000">
+                            <Grid ToolTipService.InitialShowDelay="500">
                                 <Grid.ToolTip>
                                     <Border Background="{DynamicResource RD_ColorBrushBlack}">
                                         <TextBlock Text="{TemplateBinding Value}"/>
@@ -107,13 +107,15 @@
                                     <RowDefinition />
                                     <RowDefinition />
                                     <RowDefinition Height="4*"/>
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{TemplateBinding Designator}" />
-                                <TextBox Grid.Row="1" HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{Binding Path=Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
+                                <TextBlock Grid.Row="0"  HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{Binding Designator, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Grid.Row="1" HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=ElementSymbol}" Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
                                 <Viewbox Grid.Row="2" Stretch="Uniform" x:Name="ElementSymbol" Height="{DynamicResource RD_IconSizeSchematicElement}" Width="{DynamicResource RD_IconSizeSchematicElement}">
-                                    <ContentPresenter Content="{TemplateBinding Content}" />
+                                    <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
                                 </Viewbox>
+                                <TextBlock Grid.Row="3" Text=" " Height="5"/>
                             </Grid>
                             <Button x:Name="btnDelete" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
                                 <Button.Template>

@@ -68,34 +68,58 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New project">
                     <MenuItem.Icon>
-                        <Image Source="Images\Icons\NewFile_16x.png"/>
+                        <Image Source="pack://application:,,,/Images/Icons/NewFile_16x.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Open project" Command="vm:MainViewModel.CommandOpenProject" Icon="pack://application:,,,/Images/Icons/OpenFolder_16x.png"></MenuItem>
-                <MenuItem Header="_Save project" Command="vm:MainViewModel.CommandSaveProject" Icon="pack://application:,,,/Images/Icons/Save_16x.png"></MenuItem>
-                <MenuItem Header="Save project as..." Command="vm:MainViewModel.CommandSaveProjectAs"></MenuItem>
+                <MenuItem Header="_Open project" Command="vm:MainViewModel.CommandOpenProject">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Images/Icons/OpenFolder_16x.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save project" Command="vm:MainViewModel.CommandSaveProject">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Images/Icons/Save_16x.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save project as..." Command="vm:MainViewModel.CommandSaveProjectAs">
+
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="Project settings" Command="vm:MainViewModel.CommandShowPrjSettingsWindow" Icon="pack://application:,,,/Images/Icons/ApplicationBehaviorSettings_16x.png"></MenuItem>
+                <MenuItem Header="Project settings" Command="vm:MainViewModel.CommandShowPrjSettingsWindow">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Images/Icons/ApplicationBehaviorSettings_16x.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="Ex_port plot" Command="vm:MainViewModel.CommandExportSmithChartImage"></MenuItem>
+                <MenuItem Header="Ex_port plot" Command="vm:MainViewModel.CommandExportSmithChartImage">
+
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="_Exit" Command="vm:MainViewModel.CommandCloseApp"></MenuItem>
+                <MenuItem Header="_Exit" Command="vm:MainViewModel.CommandCloseApp">
+
+                </MenuItem>
             </MenuItem>
-            
-            <MenuItem Header="_Insert">
-                <MenuItem Header="Reference circle" />
-            </MenuItem>
-            
+
             <MenuItem Header="_View">
+                <MenuItem Header="Insert reference circle..." IsEnabled="False" />
+                <Separator/>
                 <MenuItem Header="Impedance Smith chart" IsCheckable="True" IsChecked="{Binding Path=IsImpedanceSmithChartShown}"/>
                 <MenuItem Header="Admittance Smith chart" IsCheckable="True" IsChecked="{Binding Path=IsAdmittanceSmithChartShown}"/>
             </MenuItem>
             
             <MenuItem Header="_Help">
-                <MenuItem Header="View Help" Command="vm:MainViewModel.CommandViewHelp" Icon="pack://application:,,,/Images/Icons/HelpApplication_16x.png"></MenuItem>
-                <MenuItem Header="Show _Log" Command="vm:MainViewModel.CommandShowLogWindow"></MenuItem>
+                <MenuItem Header="View Help" Command="vm:MainViewModel.CommandViewHelp" IsEnabled="False"></MenuItem>
+                <MenuItem Header="Show _Log" Command="vm:MainViewModel.CommandShowLogWindow">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Images/Icons/Console_16x.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="_About..." Command="vm:MainViewModel.CommandShowAboutWindow" Icon="pack://application:,,,/Images/Icons/Console_16x.png"></MenuItem>
+                <MenuItem Header="_About..." Command="vm:MainViewModel.CommandShowAboutWindow">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Images/Icons/HelpApplication_16x.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
 			</MenuItem>
 			
         </Menu>
@@ -162,7 +186,7 @@
                         <v:LabeledControl Header="Frequency [Hz]">
                             <TextBox x:Name="tbFrequency" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
                                 <TextBox.Text>
-                                    <Binding Path="Frequency"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                    <Binding Path="Frequency"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Delay="400" >
                                         <!--StringFormat="g8"-->
                                         <Binding.ValidationRules>
                                             <vm:DoubleValueRangeRule Min="1e3" Max="100e9" ValidationStep="RawProposedValue"/>
@@ -175,7 +199,7 @@
                             <!--<v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"></v:UnitTextBoxControl>-->
                             <TextBox x:Name="tbRefImpedance" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
                                 <TextBox.Text>
-                                    <Binding Path="ReferenceImpedance"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource StringToComplex32Converter}">
+                                    <Binding Path="ReferenceImpedance"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Delay="400" Converter="{StaticResource StringToComplex32Converter}">
                                         <Binding.ValidationRules >
                                         </Binding.ValidationRules>
                                     </Binding>
@@ -215,7 +239,7 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="2" Header="Circuit Elements">
-					<ListBox util:DragDropHelper.IsDragSource="True" ItemsSource="{Binding Model.Schematic.AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+					<ListBox util:DragDropHelper.IsDragSource="True" ItemsSource="{Binding AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
 						<ListBox.Template>
                             <ControlTemplate TargetType="ListBox">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
@@ -267,11 +291,11 @@
 				<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" Background="Transparent" />
 
 				<GroupBox  Grid.Row="2" Header="Schematic">
-					<ListBox IsHitTestVisible="True" Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding Model.Schematic.Elements}">
+                    <ListBox x:Name="lbSchematic"  IsHitTestVisible="True" Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElements}">
 						<ListBox.Template>
 							<ControlTemplate TargetType="ListBox">
 								<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
-									<StackPanel Orientation="Horizontal" IsItemsHost="True" />
+                                    <StackPanel Orientation="Horizontal" IsItemsHost="True" />
 								</ScrollViewer>
 							</ControlTemplate>
 						</ListBox.Template>
@@ -279,11 +303,9 @@
 							<Style TargetType="ListBoxItem">
                                 <Setter Property="Focusable" Value="True" ></Setter>
                                 <Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="ListBoxItem">
-                                            <!--<v:SchematicElementControl DataContext="{Binding}" />-->
-                                            <v:SchematicElementControl Type="{Binding Type}" Designator="{Binding Designator}" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                            
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <v:SchematicElementControl Value="{Binding Value}" Designator="{Binding Designator}"/>
                                         </ControlTemplate>
 									</Setter.Value>
 								</Setter>

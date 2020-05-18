@@ -92,7 +92,7 @@ namespace SmithChartTool.Utility
 				{
 					var type = typeof(SchematicElementType).FromName((string)(lbitem.Content));
 					DataObject dragData = new DataObject("SchematicElement", type);
-					DragDrop.DoDragDrop(lbitem, dragData, DragDropEffects.Copy | DragDropEffects.Move);
+					DragDrop.DoDragDrop(lbitem, dragData, DragDropEffects.Copy);
 				}
 			}
 		}
@@ -101,7 +101,7 @@ namespace SmithChartTool.Utility
 		{
 			if (!e.Data.GetDataPresent("SchematicElement") || sender == e.Source)
 			{
-				e.Effects = DragDropEffects.None;
+				e.Effects = DragDropEffects.Copy;
 			}
 		}
 
@@ -130,7 +130,7 @@ namespace SmithChartTool.Utility
 					var lbi = lb.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
 					if (lbi == null) continue;
 					
-					if (IsMouseOverTarget(lbi, e.GetPosition((IInputElement)lbi)))
+					if (IsMouseOverTarget(lbi, e.GetPosition(lbi)))
 					{
 						dropDestIndex = i;
 						break;
