@@ -1,60 +1,302 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="SmithChartTool.Model.ImpedanceElement">
-    <Position X="3" Y="0.5" Width="1.5" />
+  <Class Name="SmithChartTool.Model.ImpedanceElement" Collapsed="true">
+    <Position X="14.75" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAIIAEAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAIAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\ImpedanceElement.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SmithChartTool.Model.Schematic">
-    <Position X="5.25" Y="0.5" Width="1.5" />
+  <Class Name="SmithChartTool.Model.Schematic" Collapsed="true">
+    <Position X="12.75" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAABABBAAAAIAgQAAABgAACAAAAAAAAAAAAQAg=</HashCode>
+      <HashCode>CAAACAAAFAABAAAAAAAQMQIAAAACAAAAAAAAAABAAAA=</HashCode>
       <FileName>Model\Schematic.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SmithChartTool.Model.SmithChart">
-    <Position X="7.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AQAAAAAEAAAAAAAAMQFAABAAgIAAAAYAgAAGACABAAA=</HashCode>
-      <FileName>Model\SmithChart.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="SmithChartTool.ViewModel.MainWindowViewModel">
-    <Position X="11.25" Y="0.5" Width="2.25" />
+  <Class Name="SmithChartTool.Model.SmithChart" Collapsed="true">
+    <Position X="12.75" Y="1.75" Width="1.5" />
     <NestedTypes>
-      <Enum Name="SmithChartTool.ViewModel.MainWindowViewModel.StatusType" Collapsed="true">
+      <Enum Name="SmithChartTool.Model.SmithChart.SmithChartType" Collapsed="true">
         <TypeIdentifier>
-          <NewMemberFileName>ViewModel\MainWindowViewModel.cs</NewMemberFileName>
+          <NewMemberFileName>Model\SmithChart.cs</NewMemberFileName>
         </TypeIdentifier>
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AICEhAABEnUglABACEAAAABAkEQAEIAACABSCACBAQA=</HashCode>
-      <FileName>ViewModel\MainWindowViewModel.cs</FileName>
+      <HashCode>JAEBAACEAFAgBgBQAAAiSQAiEIQgAAIEggAHAChEAAA=</HashCode>
+      <FileName>Model\SmithChart.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="SmithChartTool.Model.SchematicElement">
-    <Position X="3" Y="3.75" Width="1.5" />
+  <Class Name="SmithChartTool.Model.SchematicElement" Collapsed="true">
+    <Position X="14.75" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AJAAAAAAAIAAAAQAAAAAAAAAAAAAAAAAQQAgAAAAAAA=</HashCode>
       <FileName>Model\SchematicElement.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SmithChartTool.View.LabeledControl">
-    <Position X="13.75" Y="3.75" Width="2.25" />
+  <Class Name="SmithChartTool.View.LabeledControl" Collapsed="true">
+    <Position X="3.25" Y="6" Width="2.25" />
     <TypeIdentifier>
       <HashCode>JAAAAAAAAQAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>View\LabeledControl.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="SmithChartTool.Model.SchematicElementType">
-    <Position X="0.75" Y="0.5" Width="1.5" />
+  <Class Name="SmithChartTool.Model.SCT">
+    <Position X="10.75" Y="1" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="SmithChartTool.Model.SCT.StatusType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Model\SCT.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAFACAAkCAABAAFAAAAAmQAAEAABAAAAABAQAA=</HashCode>
+      <FileName>Model\SCT.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Model.InputImpedance" Collapsed="true">
+    <Position X="16.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\InputImpedance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Model.FileIO" Collapsed="true">
+    <Position X="18.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAEAAAEIAAAABQAAAAAAA=</HashCode>
+      <FileName>Model\FileIO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Model.Project" Collapsed="true">
+    <Position X="12.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAiAAIEAAEAAAQAAAAAAAAAAoACAAAAAAA=</HashCode>
+      <FileName>Model\Project.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Model.Log" Collapsed="true">
+    <Position X="12.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAgAAAAAAAAAAAAAIAABAAAAgAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Log.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Model.RF" Collapsed="true">
+    <Position X="18.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIIAAAAAAAAAAAAAAAAAAAEDAAAgAKAAAAAAAAAECQ=</HashCode>
+      <FileName>Model\RF.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.ViewModel.MainViewModel" Collapsed="true">
+    <Position X="7.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIMEggAAAxQBAQBSoEgBAAQAgMAAIEAgmCgACCAAQSA=</HashCode>
+      <FileName>ViewModel\MainViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmithChartTool.View.MainWindow" Collapsed="true">
+    <Position X="4" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmithChartTool.View.PrjSettingsWindow" Collapsed="true">
+    <Position X="4" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\PrjSettingsWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmithChartTool.View.LogWindow" Collapsed="true">
+    <Position X="4" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\LogWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmithChartTool.View.SchematicElementControl" Collapsed="true">
+    <Position X="3.25" Y="6.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAABAgEAAAAAQAAAAAAAAAAAAQQAgAAAAAAA=</HashCode>
+      <FileName>View\SchematicElementControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.View.SchematicElementSourceControl" Collapsed="true">
+    <Position X="3.25" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAgEBAAAAQAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>View\SchematicElementSourceControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.View.UnitTextBoxControl" Collapsed="true">
+    <Position X="3.25" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAEAAABAAAAAAAAIAAAAAAQAAAAAAAAAAAQoEQAAAI=</HashCode>
+      <FileName>View\UnitTextBoxControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.View.AboutWindow" Collapsed="true">
+    <Position X="4" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\AboutWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmithChartTool.View.SettingsWindow" Collapsed="true">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\SettingsWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmithChartTool.Utility.SchematicElementInfo" Collapsed="true">
+    <Position X="9" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAQAAAAAEAAAA=</HashCode>
+      <FileName>Utility\Attributes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Utility.HideInList" Collapsed="true">
+    <Position X="11.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Attributes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Utility.TextBoxValueConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Converters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmithChartTool.Utility.StringToComplex32Converter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Converters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmithChartTool.Utility.BooleanInvertConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Converters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmithChartTool.Utility.BooleanToVisibilityConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Converters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmithChartTool.Utility.BooleanToVisibilityInvertedConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Converters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmithChartTool.Utility.YesNoToBooleanConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Converters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmithChartTool.Utility.PlotSizeConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Converters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmithChartTool.Utility.Extensions">
+    <Position X="9" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAgBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Utility.DragDropHelper" Collapsed="true">
+    <Position X="11.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJEAAAAgAAAAAAAAIAABQRAABAAAAAAAAEQggAQQAA=</HashCode>
+      <FileName>Utility\DragDropHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Utility.Lists" Collapsed="true">
+    <Position X="14" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Lists.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.Utility.SCTLineSeries" Collapsed="true">
+    <Position X="4" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\SCTLineSeries.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.ViewModel.AboutViewModel" Collapsed="true">
+    <Position X="7.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAACAAAACAAAAAA=</HashCode>
+      <FileName>ViewModel\AboutViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmithChartTool.ViewModel.LogViewModel" Collapsed="true">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAIAAAEAAAgAAAAAACAAAACAAAAAA=</HashCode>
+      <FileName>ViewModel\LogViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmithChartTool.ViewModel.PrjSettingsViewModel" Collapsed="true">
+    <Position X="7.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAEEAAAgAAAAAACAAAACAAAAAA=</HashCode>
+      <FileName>ViewModel\PrjSettingsViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmithChartTool.ViewModel.SettingsViewModel" Collapsed="true">
+    <Position X="7.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAACAAAACAAAAAA=</HashCode>
+      <FileName>ViewModel\SettingsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="SmithChartTool.Utility.IDragDrop" Collapsed="true">
+    <Position X="11.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Utility\DragDropHelper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="SmithChartTool.Model.SchematicElementType" Collapsed="true">
+    <Position X="14.75" Y="3" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAMAAAAAAABAAAAABACAAOAAACAAAKAAAACAAAAA=</HashCode>
       <FileName>Model\SchematicElement.cs</FileName>
