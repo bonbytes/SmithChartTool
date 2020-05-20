@@ -19,13 +19,13 @@
 
         <StackPanel Margin="5,5,5,5">
             <v:LabeledControl Header="Project Name" Orientation="Vertical">
-                <TextBox x:Name="tbName" Text="{Binding Path=ProjectName, Mode=TwoWay}"></TextBox>
+                <TextBox x:Name="tbName" Text="{Binding Path=ProjectData.Name, Mode=TwoWay}"></TextBox>
             </v:LabeledControl>
             <v:LabeledControl Header="Path" Orientation="Horizontal">
-                <TextBlock x:Name="tblPath" Text="{Binding Path=ProjectPath, Mode=TwoWay}" ></TextBlock>
+                <TextBlock x:Name="tblPath" Text="{Binding Path=ProjectData.Path, Mode=TwoWay}" ></TextBlock>
             </v:LabeledControl>
             <v:LabeledControl Header="Description" Orientation="Vertical">
-                <TextBox x:Name="tbDescription" Text="{Binding Path=ProjectDescription, Mode=TwoWay}" Height="Auto" MinHeight="100" AcceptsReturn="True" AcceptsTab="True"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" SpellCheck.IsEnabled="True"/>
+                <TextBox x:Name="tbDescription" Text="{Binding Path=ProjectData.Description, Mode=TwoWay}" Height="Auto" MinHeight="100" AcceptsReturn="True" AcceptsTab="True"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" SpellCheck.IsEnabled="True"/>
             </v:LabeledControl>
         </StackPanel>
 

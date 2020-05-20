@@ -32,7 +32,7 @@ namespace SmithChartTool.Model
         public Schematic Schematic { get; private set; }
         public ObservableCollection<InputImpedance> InputImpedances { get; set; }
         public Log LogData { get; private set; }
-        public Project ProjectData { get; set; }
+        public Project ProjectData { get; private set; }
 
         public StatusType Status { get; private set; }
         public static event Action<StatusType> StatusChanged;

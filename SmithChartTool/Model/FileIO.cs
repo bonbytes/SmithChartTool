@@ -19,6 +19,7 @@ namespace SmithChartTool.Model
 
         public static void SaveProjectToFile(string path, string projectName, string description, double frequency, Complex32 refImpedance, bool isNormalized, IList<SchematicElement> elements)
         {
+            char[] charsToTrim = { '(', ')' };
             using (StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8))
             {
                 sw.WriteLine(HeaderMarker + DateTime.Today.ToString(" MMMM dd, yyyy") + " " + DateTime.Now.ToLongTimeString());
@@ -43,7 +44,7 @@ namespace SmithChartTool.Model
                 sw.WriteLine(HeaderMarker + " Settings");
                 sw.WriteLine(DataMarker + "projectName " + projectName);
                 sw.WriteLine(DataMarker + "frequency " + frequency);
-                sw.WriteLine(DataMarker + "refImpedance " + refImpedance);
+                sw.WriteLine(DataMarker + "refImpedance " + refImpedance.ToString().Trim(charsToTrim));
                 sw.WriteLine(DataMarker + "isNormalized " + isNormalized);
                 sw.WriteLine(DataMarker + "numElements " + elements.Count());
 
@@ -60,11 +61,11 @@ namespace SmithChartTool.Model
         public static IList<SchematicElement> ReadProjectFromFile(string path, out string projectName, out string projectDescription, out double frequency, out Complex32 refImpedance, out bool isNormalized)
         {
             IList<SchematicElement> list = new List<SchematicElement>();
-            projectName = "";
-            frequency = 0.0;
-            refImpedance = new Complex32();
+            projectName = "Default";
+            frequency = 1e9;
+            refImpedance = new Complex32(50,0);
             isNormalized = false;
-            int numElements = 0;
+            int numElements = 2;
 
             using (StreamReader sr = File.OpenText(path))
             {
@@ -82,21 +83,35 @@ namespace SmithChartTool.Model
                         string argument = data[1];
                         switch (data[0])
                         {
-                            case ("!projectName"): projectName = argument; break;
+                            case ("!projectName"): 
+                                projectName = argument; 
+                                break;
 
-                            case "!frequency": frequency = double.Parse(argument); break;
+                            case "!frequency": 
+                                if (!(double.TryParse(argument, out frequency)))
+                                    throw new ArgumentException("Invalid double value representation in project file", "Frequency");
+                                break;
 
-                            case "!refImpedance": refImpedance = Complex32.Parse(argument); break;
+                            case "!refImpedance":
+                                if (!(Complex32.TryParse(argument, out refImpedance)))
+                                    throw new ArgumentException("Invalid complex value representation in project file", "ReferenceImpedance");
+                                break;
 
-                            case "!isNormalized": isNormalized = bool.Parse(argument); break;
+                            case "!isNormalized":
+                                if (!(bool.TryParse(argument, out isNormalized)))
+                                    throw new ArgumentException("Invalid boolean value representation in project file", "IsNormalized");
+                                break;
 
-                            case "!numElements": numElements = int.Parse(argument); break;
+                            case "!numElements":
+                                if (!(int.TryParse(argument, out numElements)))
+                                    throw new ArgumentException("Invalid integer value representation in project file", "numElements");
+                                break;
                         }
                     }
                     else
                     {
                         list.Add(ElementFromLine(ref data));
-                        numElements++;
+                        //numElements++;
                     }
                 }
                 projectDescription = ReadDescriptionFromFile(path);
@@ -135,7 +150,6 @@ namespace SmithChartTool.Model
                     }
                 }
             }
-
             return ret;
         }
 

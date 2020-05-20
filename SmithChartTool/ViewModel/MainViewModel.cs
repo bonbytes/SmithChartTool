@@ -23,43 +23,27 @@ using System.Windows.Media;
 
 namespace SmithChartTool.ViewModel
 {
-    public class MainViewModel : IDragDrop, INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged, IDragDrop
     {
         private MainWindow Window { get; set; }
+        List<string> Themes { get; set; }
         public SCT Model { get; set; }
 
-
         private static readonly string TitlebarPrefixString = "SmithChartTool - ";
-        private string _title;
-        public string Title
+        private string _windowTitle;
+        public string WindowTitle
         {
             get
             {
-                return _title;
+                return _windowTitle;
             }
             set
             {
-                _title = value;
-                OnPropertyChanged("Title");
+                _windowTitle = value;
+                OnPropertyChanged("WindowTitle");
             } 
         }
-
-        public Project ProjectData
-        {
-            get
-            {
-                return Model.ProjectData;
-            }
-            set
-            {
-                if(Model.ProjectData != value)
-                {
-                    Model.ProjectData = value;
-                    OnPropertyChanged("ProjectData");
-                }
-            }
-        }
-       public double Frequency
+        public double Frequency
         {
             get
             {
@@ -112,7 +96,7 @@ namespace SmithChartTool.ViewModel
         {
             get
             {
-                return (ObservableCollection < SchematicElement > )Model.Schematic.Elements;
+                return (ObservableCollection <SchematicElement>)Model.Schematic.Elements;
             }
             set
             {
@@ -213,7 +197,7 @@ namespace SmithChartTool.ViewModel
         public static RoutedUICommand CommandOpenProject = new RoutedUICommand("Open project file", "PO", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.O, ModifierKeys.Control) });
         public static RoutedUICommand CommandExportSmithChartImage = new RoutedUICommand("Export Smith Chart image", "ESCI", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.P, ModifierKeys.Control) });
         public static RoutedUICommand CommandCloseApp = new RoutedUICommand("CloseApplication", "EXIT", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F4, ModifierKeys.Alt) });
-        public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.F5, ModifierKeys.Control) });
+        public static RoutedUICommand CommandXYAsync = new RoutedUICommand("Run XY Async", "RXYA", typeof(MainWindow), new InputGestureCollection() { new KeyGesture(Key.F5), new KeyGesture(Key.F5, ModifierKeys.Control) });        
 
         public MainViewModel()
         {
@@ -236,10 +220,20 @@ namespace SmithChartTool.ViewModel
             Window.oxySmithChart.ActualController.BindMouseEnter(OxyPlot.PlotCommands.HoverPointsOnlyTrack);
 
             Directory.CreateDirectory((Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\");
-            ProjectData.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData))+"\\SCT\\"+ProjectData.Name+".sctprj";
-            Title = TitlebarPrefixString + ProjectData.Path;
+            Model.ProjectData.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\" + Model.ProjectData.Name + ".sctprj";
+            WindowTitle = TitlebarPrefixString + Model.ProjectData.Path;
             
             Window.Show();
+
+            Themes = new List<string>();
+            Themes.Add("LightTheme");
+            Themes.Add("DarkTheme");
+            Window.cmbThemes.SelectionChanged += (_s, _e) =>
+            {
+                Application.Current.Resources.MergedDictionaries.Clear();
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Themes/" + Window.cmbThemes.SelectedItem + ".xaml") });
+            };
+            Window.cmbThemes.SelectedIndex = 0;
         }
 
         public void DropSchematicElement(int index, DragEventArgs e)
@@ -253,14 +247,14 @@ namespace SmithChartTool.ViewModel
 
         public async void RunTestFeature()
         {
-            await Task.Run(() => MessageBox.Show(Model.SC.ReferenceImpedance.Impedance.ToString()));
+            await Task.Run(() => MessageBox.Show(Model.Schematic.Elements[5].Value.ToString()));
         }
 
         public void RunNewProject()
         {
             Model.NewProject();
-            ProjectData.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\" + ProjectData.Name + ".sctprj";
-            Title = TitlebarPrefixString + ProjectData.Path;
+            Model.ProjectData.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\" + Model.ProjectData.Name + ".sctprj";
+            WindowTitle = TitlebarPrefixString + Model.ProjectData.Path;
         }
 
         public void RunSaveProjectAs()
@@ -275,16 +269,16 @@ namespace SmithChartTool.ViewModel
             {
                 string fileExt = Path.GetExtension(fd.FileName);
                 Model.SaveProjectAs(fd.FileName, fileExt);
-                ProjectData.Path = fd.FileName;
-                Title = TitlebarPrefixString + ProjectData.Path;
+                Model.ProjectData.Path = fd.FileName;
+                WindowTitle = TitlebarPrefixString + Model.ProjectData.Path;
             }
         }
 
         public void RunSaveProject()
         {
-            if (ProjectData.Path != string.Empty)
+            if (Model.ProjectData.Path != string.Empty)
             {
-                Model.SaveProjectAs(ProjectData.Path);
+                Model.SaveProjectAs(Model.ProjectData.Path);
             }
             else
             {
@@ -305,8 +299,8 @@ namespace SmithChartTool.ViewModel
             {
                 string fileExt = Path.GetExtension(fd.FileName);
                 Model.OpenProject(fd.FileName, fileExt);
-                ProjectData.Path = fd.FileName;
-                Title = TitlebarPrefixString + ProjectData.Path;
+                Model.ProjectData.Path = fd.FileName;
+                WindowTitle = TitlebarPrefixString + Model.ProjectData.Path;
             }
         }
 
