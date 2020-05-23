@@ -202,6 +202,7 @@ namespace SmithChartTool.ViewModel
         public MainViewModel()
         {
             Model = new SCT();
+            SchematicElement.SchematicElementChanged += UpdateSchematic;
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandXYAsync, (s, e) => { RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
@@ -243,6 +244,11 @@ namespace SmithChartTool.ViewModel
                 SchematicElementType type = (SchematicElementType)e.Data.GetData("SchematicElement");
                 Model.InsertSchematicElement(index, type);
             }
+        }
+
+        private void UpdateSchematic(object sender, EventArgs e)
+        {
+            Model.UpdateInputImpedances();
         }
 
         public async void RunTestFeature()

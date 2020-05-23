@@ -46,7 +46,9 @@ namespace SmithChartTool.Model
                 if (_value != value)
                 {
                     if (!(double.TryParse(value.ToString(), out _value)))
-                        throw new ArgumentException("Invalid value", "Value");    
+                        throw new ArgumentException("Invalid value", "Value");
+                    OnSchematicElementChanged("Value");
+
                 }
             }
         }
@@ -99,6 +101,13 @@ namespace SmithChartTool.Model
         {
             return (Type.ToString() + " " + Designator.ToString() + " " + Value.ToString());
         }
+         
+        public static event PropertyChangedEventHandler SchematicElementChanged;
+        protected void OnSchematicElementChanged(string propertyName)
+        {
+            SchematicElementChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
         
     }
 }
