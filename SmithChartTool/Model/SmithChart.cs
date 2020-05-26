@@ -330,7 +330,7 @@ namespace SmithChartTool.Model
             IntermediateCurveSeries.Add(series);
         }
 
-        public void UpdateMarkers(ObservableCollection<InputImpedance> inputImpedances)
+        public void UpdateMarkers(IList<InputImpedance> inputImpedances)
         {
             ClearMarkers();
             ClearIntermediateCurves();

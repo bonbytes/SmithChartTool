@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SmithChartTool.Utility;
+using System.Windows.Input;
 
 namespace SmithChartTool.Model
 {
@@ -48,7 +49,6 @@ namespace SmithChartTool.Model
                     if (!(double.TryParse(value.ToString(), out _value)))
                         throw new ArgumentException("Invalid value", "Value");
                     OnSchematicElementChanged("Value");
-
                 }
             }
         }
@@ -87,6 +87,8 @@ namespace SmithChartTool.Model
             }
         }
 
+        public ICommand RemoveSchematicElementCommand { get; set; }
+
         public SchematicElement(SchematicElementType type, int designator, double value )
         {
             Type = type;
@@ -102,7 +104,7 @@ namespace SmithChartTool.Model
             return (Type.ToString() + " " + Designator.ToString() + " " + Value.ToString());
         }
          
-        public static event PropertyChangedEventHandler SchematicElementChanged;
+        public event PropertyChangedEventHandler SchematicElementChanged;
         protected void OnSchematicElementChanged(string propertyName)
         {
             SchematicElementChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

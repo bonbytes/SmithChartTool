@@ -143,7 +143,7 @@
             <Button x:Name="btnSettings" Command="vm:MainViewModel.CommandShowSettingsWindow">
                 <Image Source="pack://application:,,,/Images/Icons/Settings_16x.png"></Image>
             </Button>
-            <ComboBox x:Name="cmbThemes" ItemsSource="{Binding Themes}"></ComboBox>
+            <ComboBox x:Name="cmbThemes" ItemsSource="{Binding}"></ComboBox>
 		</ToolBar>
 
         <StatusBar DockPanel.Dock="Bottom">
@@ -305,7 +305,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <v:SchematicElementControl Value="{Binding Value}" Designator="{Binding Designator}" Type="{Binding Type}"/>
+                                            <v:SchematicElementControl Value="{Binding Value}" Designator="{Binding Designator}" Type="{Binding Type}" Command="{Binding SomeCommand}"/>
                                         </ControlTemplate>
 									</Setter.Value>
 								</Setter>

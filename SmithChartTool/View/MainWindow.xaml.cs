@@ -31,17 +31,17 @@ namespace SmithChartTool.View
 
             this.Loaded += (s, e) => 
             {
-                //List<string> Themes = new List<string>();
-                //Themes.Add("LightTheme");
-                //Themes.Add("DarkTheme");
-                //cmbThemes.DataContext = Themes;
+                List<string> Themes = new List<string>();
+                Themes.Add("LightTheme");
+                Themes.Add("DarkTheme");
+                cmbThemes.DataContext = Themes;
 
-                //cmbThemes.SelectionChanged += (_s, _e) =>
-                //{
-                //    Application.Current.Resources.MergedDictionaries.Clear();
-                //    Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Themes/" + cmbThemes.SelectedItem + ".xaml") });
-                //};
-                //cmbThemes.SelectedIndex = 0;
+                cmbThemes.SelectionChanged += (_s, _e) =>
+                {
+                    Application.Current.Resources.MergedDictionaries.Clear();
+                    Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Themes/" + cmbThemes.SelectedItem + ".xaml") });
+                };
+                cmbThemes.SelectedIndex = 0;
             };
         }
     }

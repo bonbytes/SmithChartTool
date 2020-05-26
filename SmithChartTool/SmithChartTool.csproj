@@ -91,12 +91,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\ObservableSchematicList.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\RF.cs" />
     <Compile Include="Model\SCT.cs" />
     <Compile Include="Utility\Attributes.cs" />
     <Compile Include="Utility\Extensions.cs" />
     <Compile Include="Model\InputImpedance.cs" />
+    <Compile Include="Utility\Formatters.cs" />
     <Compile Include="Utility\Lists.cs" />
     <Compile Include="Utility\SCTLineSeries.cs" />
     <Compile Include="ViewModel\ObservableStack.cs" />

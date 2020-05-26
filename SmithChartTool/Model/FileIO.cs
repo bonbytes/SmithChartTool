@@ -58,9 +58,9 @@ namespace SmithChartTool.Model
             }
         }
 
-        public static IList<SchematicElement> ReadProjectFromFile(string path, out string projectName, out string projectDescription, out double frequency, out Complex32 refImpedance, out bool isNormalized)
+        public static ObservableSchematicList ReadProjectFromFile(string path, out string projectName, out string projectDescription, out double frequency, out Complex32 refImpedance, out bool isNormalized)
         {
-            IList<SchematicElement> list = new List<SchematicElement>();
+            ObservableSchematicList list = new ObservableSchematicList();
             projectName = "Default";
             frequency = 1e9;
             refImpedance = new Complex32(50,0);

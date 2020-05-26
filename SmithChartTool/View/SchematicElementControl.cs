@@ -24,7 +24,8 @@ namespace SmithChartTool.View
         static public readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(SchematicElementControl), new PropertyMetadata(string.Empty));
         static public readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string), typeof(SchematicElementControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         static public readonly DependencyProperty DesignatorProperty = DependencyProperty.Register("Designator", typeof(string), typeof(SchematicElementControl), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        
+        static public readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(SchematicElementControl), new PropertyMetadata(null, OnCommandPropertyChanged));
+
         public string Type
         {
             get { return (string)GetValue(TypeProperty); }
@@ -41,6 +42,12 @@ namespace SmithChartTool.View
         {
             get { return (string)GetValue(DesignatorProperty); }
             set { SetValue(DesignatorProperty, value); }
+        }
+
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
         }
 
         static SchematicElementControl()
@@ -70,6 +77,26 @@ namespace SmithChartTool.View
             }
             
             Designator = sei.Designator + ((SchematicElement)elementData).Designator.ToString();
+        }
+
+        private static void OnCommandPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SchematicElementControl control = d as SchematicElementControl;
+            if (control == null) return;
+
+            control.MouseLeftButtonDown -= OnControlLeftClick;
+            control.MouseLeftButtonDown += OnControlLeftClick;
+        }
+
+        private static void OnControlLeftClick(object sender, MouseButtonEventArgs e)
+        {
+            SchematicElementControl control = sender as SchematicElementControl;
+            if (control == null || control.Command == null) return;
+
+            ICommand command = control.Command;
+
+            if (command.CanExecute(null))
+                command.Execute(null);
         }
 
         public override void OnApplyTemplate()

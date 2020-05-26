@@ -92,11 +92,11 @@ namespace SmithChartTool.ViewModel
                 }
             }
         }
-        public ObservableCollection<SchematicElement> SchematicElements
+        public ObservableSchematicList SchematicElements
         {
             get
             {
-                return (ObservableCollection <SchematicElement>)Model.Schematic.Elements;
+                return Model.Schematic.Elements;
             }
             set
             {
@@ -202,7 +202,8 @@ namespace SmithChartTool.ViewModel
         public MainViewModel()
         {
             Model = new SCT();
-            SchematicElement.SchematicElementChanged += UpdateSchematic;
+            Model.Schematic.Elements.SchematicElementChanged += UpdateSchematic;
+            
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandXYAsync, (s, e) => { RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
@@ -225,16 +226,6 @@ namespace SmithChartTool.ViewModel
             WindowTitle = TitlebarPrefixString + Model.ProjectData.Path;
             
             Window.Show();
-
-            Themes = new List<string>();
-            Themes.Add("LightTheme");
-            Themes.Add("DarkTheme");
-            Window.cmbThemes.SelectionChanged += (_s, _e) =>
-            {
-                Application.Current.Resources.MergedDictionaries.Clear();
-                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Themes/" + Window.cmbThemes.SelectedItem + ".xaml") });
-            };
-            Window.cmbThemes.SelectedIndex = 0;
         }
 
         public void DropSchematicElement(int index, DragEventArgs e)

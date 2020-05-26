@@ -4,10 +4,8 @@
         xmlns:v="clr-namespace:SmithChartTool.View"
         xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
         Title="Project settings" 
-        Height="300" 
-        Width="300" 
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner"
+        Height="350" 
+        Width="400"
         Icon="pack://application:,,,/Images/Icons/ApplicationBehaviorSettings_16x.png"
         >
 
@@ -22,10 +20,10 @@
                 <TextBox x:Name="tbName" Text="{Binding Path=ProjectData.Name, Mode=TwoWay}"></TextBox>
             </v:LabeledControl>
             <v:LabeledControl Header="Path" Orientation="Horizontal">
-                <TextBlock x:Name="tblPath" Text="{Binding Path=ProjectData.Path, Mode=TwoWay}" ></TextBlock>
+                <TextBlock x:Name="tblPath" Text="{Binding Path=ProjectData.Path, Mode=TwoWay}" TextWrapping="Wrap" ></TextBlock>
             </v:LabeledControl>
             <v:LabeledControl Header="Description" Orientation="Vertical">
-                <TextBox x:Name="tbDescription" Text="{Binding Path=ProjectData.Description, Mode=TwoWay}" Height="Auto" MinHeight="100" AcceptsReturn="True" AcceptsTab="True"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" SpellCheck.IsEnabled="True"/>
+                <TextBox x:Name="tbDescription" Text="{Binding Path=ProjectData.Description, Mode=TwoWay}" Height="Auto" MinHeight="150" AcceptsReturn="True" AcceptsTab="True"  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" SpellCheck.IsEnabled="True"/>
             </v:LabeledControl>
         </StackPanel>
 

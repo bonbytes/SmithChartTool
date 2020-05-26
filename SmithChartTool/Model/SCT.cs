@@ -3,6 +3,7 @@ using SmithChartTool.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -166,6 +167,16 @@ namespace SmithChartTool.Model
         {
             LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(Schematic.Elements[index].Type) + " removed from schematic.");
             Schematic.RemoveElement(index);
+            UpdateInputImpedances();
+        }
+
+        public void RemoveSchematicElement(object param)
+        {
+            //LogData.AddLine("[schematic] " + GetSchematicElementTypeDescription(Schematic.Elements[index].Type) + " removed from schematic.");
+            //Schematic.RemoveElement(index);
+            Debug.Assert(param is SchematicElement);
+            if (Schematic.Elements.Contains(param as SchematicElement))
+                Schematic.Elements.Remove(param as SchematicElement);
             UpdateInputImpedances();
         }
 

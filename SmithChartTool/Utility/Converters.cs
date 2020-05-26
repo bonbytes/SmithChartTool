@@ -113,19 +113,14 @@ namespace SmithChartTool.Utility
 
     public class StringToComplex32Converter : IValueConverter
     {
-        // Backend -> UI
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if(value is Complex32)
             {
-                char[] charsToTrim = { '(', ')' };
-                var val = (Complex32)value;
-                string compstring = val.ToString();
-                return compstring.Trim(charsToTrim);
+                return Formatters.Complex32ToString((Complex32)value); 
             }
             return null;
         }
-        // UI -> Backend
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is string)
