@@ -186,7 +186,7 @@
                         <v:LabeledControl Header="Frequency [Hz]">
                             <TextBox x:Name="tbFrequency" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
                                 <TextBox.Text>
-                                    <Binding Path="Frequency"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Delay="400" >
+                                    <Binding Path="Frequency"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Delay="750" Converter="{StaticResource TextBoxValueConverter}" >
                                         <!--StringFormat="g8"-->
                                         <Binding.ValidationRules>
                                             <vm:DoubleValueRangeRule Min="1e3" Max="100e9" ValidationStep="RawProposedValue"/>
@@ -199,7 +199,7 @@
                             <!--<v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"></v:UnitTextBoxControl>-->
                             <TextBox x:Name="tbRefImpedance" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
                                 <TextBox.Text>
-                                    <Binding Path="ReferenceImpedance"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Delay="400" Converter="{StaticResource StringToComplex32Converter}">
+                                    <Binding Path="ReferenceImpedance"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Delay="750" Converter="{StaticResource StringToComplex32Converter}">
                                         <Binding.ValidationRules >
                                         </Binding.ValidationRules>
                                     </Binding>
