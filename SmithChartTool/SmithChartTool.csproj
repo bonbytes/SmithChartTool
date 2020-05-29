@@ -96,7 +96,7 @@
     <Compile Include="Model\RF.cs" />
     <Compile Include="Model\SCT.cs" />
     <Compile Include="Utility\Attributes.cs" />
-    <Compile Include="Utility\ValueWithPrefix.cs" />
+    <Compile Include="Utility\SIPrefix.cs" />
     <Compile Include="Utility\Extensions.cs" />
     <Compile Include="Model\InputImpedance.cs" />
     <Compile Include="Utility\Formatters.cs" />

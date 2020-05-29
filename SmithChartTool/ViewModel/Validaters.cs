@@ -1,4 +1,5 @@
 ﻿using MathNet.Numerics;
+using SmithChartTool.Utility;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,14 +10,17 @@ using System.Windows.Controls;
 
 namespace SmithChartTool.ViewModel
 {
-    public class ImpedanceRule : ValidationRule
+    /// <summary>
+    /// Validater for Textbox <-> Complex32 (e.g. Impedance) bindings
+    /// </summary>
+    public class Complex32ValueRangeRule : ValidationRule
     {
         public float RealMax { get; set; }
         public float RealMin { get; set; }
         public float ImaginaryMax { get; set; }
         public float ImaginaryMin { get; set; }
 
-        public ImpedanceRule()
+        public Complex32ValueRangeRule()
         {
         }
 
@@ -42,6 +46,9 @@ namespace SmithChartTool.ViewModel
         }
     }
 
+    /// <summary>
+    /// Validater for generic Textbox <-> double bindings
+    /// </summary>
     public class DoubleValueRangeRule : ValidationRule
     {
         public double Min { get; set; }
@@ -58,7 +65,48 @@ namespace SmithChartTool.ViewModel
             try
             {
                 if (((string)value).Length > 0)
+                {
                     val = double.Parse((string)value);
+                }
+
+            }
+            catch (Exception e)
+            {
+                return new ValidationResult(false, $"Illegal characters or {e.Message}");
+            }
+
+            if ((val < Min) || (val > Max))
+            {
+                return new ValidationResult(false,
+                  $"Please enter a value in the range: {Min}-{Max}.");
+            }
+            return ValidationResult.ValidResult;
+        }
+    }
+
+    /// <summary>
+    /// Validater for special Textbox <-> double bindings with prefix support
+    /// </summary>
+    public class DoubleValueRangeRuleWithPrefix : ValidationRule
+    {
+        public double Min { get; set; }
+        public double Max { get; set; }
+
+        public DoubleValueRangeRuleWithPrefix()
+        {
+        }
+
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            double val = 0;
+
+            try
+            {
+                if (((string)value).Length > 0)
+                {
+                    val = SIPrefix.GetValue((string)value);
+                }
+                    
             }
             catch (Exception e)
             {

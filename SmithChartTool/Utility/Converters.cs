@@ -26,37 +26,28 @@ using System.Windows.Data;
 
 namespace SmithChartTool.Utility
 {
-    public class TextBoxValueConverter : IValueConverter
+    public class DoubleToStringConverter : IValueConverter
     {
-        // Backend -> Frontend
-        // attributes here?
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value != null)
+            if((value is double) && (value != null))
             {
-                string s = value.ToString();
-                s = s.Replace(",", ".");
-                return s;
+                var amount = SIPrefix.GetInfo((double)value, 2);
+                return amount.AmountWithPrefix;
             }
             return null;
         }
 
-        // Frontend -> Backend
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string)
+            if ((value is string) && (value != null))
             {
-                string str = value as string;
                 try
                 {
-                    
-                    return Formatters.StringPrefixToDouble(num, prefix);
+                    return SIPrefix.GetValue((string)value);
                 }
                 catch (FormatException)
                 {
-                    if (str.IndexOf('E') >= 1 && char.IsNumber(str[str.IndexOf('E') - 1]))
-                        return null;
-
                     return null;
                 }
             }
@@ -65,7 +56,37 @@ namespace SmithChartTool.Utility
         }
     }
 
-    public class StringToComplex32Converter : IValueConverter
+    public class StringValueToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((value is string) && (value != null))
+            {
+                var amount = SIPrefix.GetInfo((double)value, 2);
+                return amount.AmountWithPrefix;
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((value is string) && (value != null))
+            {
+                try
+                {
+                    return SIPrefix.GetValue((string)value);
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+            else
+                return null;
+        }
+    }
+
+    public class Complex32ToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

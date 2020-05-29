@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,11 +10,13 @@ using SmithChartTool.View;
 
 namespace SmithChartTool.ViewModel
 {
-    public class SettingsViewModel
+    public class SettingsViewModel: INotifyPropertyChanged
     {
         private SettingsWindow Window { get; set; }
 
         public static RoutedUICommand CommandClose = new RoutedUICommand("Close", "Close", typeof(SettingsWindow));
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public SettingsViewModel()
         {
