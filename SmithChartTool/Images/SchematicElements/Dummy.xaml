@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="frame" Width="100" Height="100">
+	<Rectangle Fill="Transparent" Width="100" Height="100" Name="rectPort" StrokeThickness="{DynamicResource RD_LineThicknessSchematicElements}" Stroke="#FF000000"/>
+</Canvas>
+

@@ -8,24 +8,24 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-//	already implemented converters:
-//    Derived from IValueConverter
-
+// Derived from IValueConverter
 //System.Windows.Controls.AlternationConverter
-//System.Windows.Controls.BooleanToVisibilityConverter
 //System.Windows.Documents.ZoomPercentageConverter
 //System.Windows.Navigation.JournalEntryListConverter
 
-//  Derived from IMultiValueConverter
+// Derived from IMultiValueConverter
 //System.Windows.Controls.BorderGapMaskConverter
 //System.Windows.Navigation.JournalEntryUnifiedViewConverter
 //System.Windows.Controls.MenuScrollingVisibilityConverter
-
 //Microsoft.Windows.Themes.ProgressBarBrushConverter
 //Microsoft.Windows.Themes.ProgressBarHighlightConverter
 
 namespace SmithChartTool.Utility
 {
+    /// <summary>
+    /// DoubleToStringConverter
+    /// Used for Binding double values to TextBox.Text
+    /// </summary>
     public class DoubleToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -37,7 +37,6 @@ namespace SmithChartTool.Utility
             }
             return null;
         }
-
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((value is string) && (value != null))
@@ -56,25 +55,30 @@ namespace SmithChartTool.Utility
         }
     }
 
-    public class StringValueToStringConverter : IValueConverter
+    /// <summary>
+    /// SchematicElementValueToStringConverter
+    /// Used for binding SchematicElement.Values to TextBox.Text
+    /// </summary>
+    public class SchematicElementValueToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            // Test for Port -> use Complex32ToStringConverter
             if ((value is string) && (value != null))
             {
-                var amount = SIPrefix.GetInfo((double)value, 2);
+                var amount = SIPrefix.GetInfo(SIPrefix.GetValue((string)value), 2);
                 return amount.AmountWithPrefix;
             }
             return null;
         }
-
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((value is string) && (value != null))
             {
                 try
                 {
-                    return SIPrefix.GetValue((string)value);
+                    var amount = SIPrefix.GetInfo(SIPrefix.GetValue((string)value), 2);
+                    return amount.AmountWithPrefix;
                 }
                 catch (FormatException)
                 {
@@ -86,6 +90,10 @@ namespace SmithChartTool.Utility
         }
     }
 
+    /// <summary>
+    /// Complex32ToStringConverter
+    /// Used for binding Complex32 values to TextBox.Text
+    /// </summary>
     public class Complex32ToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -109,22 +117,28 @@ namespace SmithChartTool.Utility
         }
     }
 
+    /// <summary>
+    /// BooleanInvertConverter
+    /// Used for inversion of binded boolean values
+    /// </summary>
     public class BooleanInvertConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return !(bool)value;
         }
-
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return !(bool)value;
         }
     }
 
+    /// <summary>
+    /// BooleanToVisibilityConverter
+    /// Used for binding of boolean values to Visibility properties
+    /// </summary>
     public class BooleanToVisibilityConverter : IValueConverter
     {
-
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if ((bool)value == true)
@@ -132,7 +146,6 @@ namespace SmithChartTool.Utility
             else
                 return Visibility.Collapsed;
         }
-
         public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             // return value == Visibility.Visible;
@@ -140,14 +153,16 @@ namespace SmithChartTool.Utility
         }
     }
 
+    /// <summary>
+    /// BooleanToVisibilityInvertedConverter
+    /// Used for binding of boolean values to inverted Visibility properties
+    /// </summary>
     public class BooleanToVisibilityInvertedConverter : IValueConverter
     {
-
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return (bool)value ? Visibility.Collapsed : Visibility.Visible;
         }
-
         public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             //return value == Visibility.Visible ? false : true;
@@ -155,6 +170,10 @@ namespace SmithChartTool.Utility
         }
     }
 
+    /// <summary>
+    /// YesNoToBooleanConverter
+    /// Used for binding of "yes", "no" choices to boolean values
+    /// </summary>
     public class YesNoToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -181,6 +200,10 @@ namespace SmithChartTool.Utility
         }
     }
 
+    /// <summary>
+    /// PlotSizeConverter
+    /// Used for square SmithChart plot size
+    /// </summary>
     public class PlotSizeConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -198,7 +221,6 @@ namespace SmithChartTool.Utility
                 return (double)values[0];
             }
         }
-
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

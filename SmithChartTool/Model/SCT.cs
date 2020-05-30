@@ -251,13 +251,12 @@ namespace SmithChartTool.Model
 
         public void ExportSmithChart(string fileName)
         {
-            var stream = File.Create(fileName);
+            //var stream = File.Create(fileName);
 
             ChangeStatus(StatusType.Busy);
             LogData.AddLine("[image] Exporting Smith Chart to image \'(" + fileName + ")\'...");
-            //OxyPlot.Wpf.PngExporter.Export(SC.Plot, fileName, 1000, 1000, OxyPlot.OxyColors.White, 300);
-            OxyPlot.SvgExporter.Export(SC.Plot, stream, 1000, 1000, true);
-            //SvgExporter.Export()
+            OxyPlot.Wpf.PngExporter.Export(SC.Plot, fileName, 1000, 1000, OxyPlot.OxyColors.White, 300);
+            //OxyPlot.SvgExporter.Export(SC.Plot, stream, 1000, 1000, true);
             LogData.AddLine("[image] Done.");
             ChangeStatus(StatusType.Ready);
         }

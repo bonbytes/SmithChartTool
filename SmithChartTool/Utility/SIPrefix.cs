@@ -83,6 +83,13 @@ namespace SmithChartTool.Utility
             SIPrefixInfo siPrefixInfo = null;
             decimal amountToTest = Math.Abs(amount);
 
+            if(amountToTest == 0)
+            {
+                siPrefixInfo = _SIPrefixInfoList.Find(i => i.ZeroLength == 0).Clone() as SIPrefixInfo;
+                siPrefixInfo.AmountWithPrefix = Math.Round(amount, decimals).ToString();
+                return siPrefixInfo;
+            }
+
             //var amountLength = amountToTest.ToString("{0}").Length;
             var amountLength = Math.Abs(Math.Floor(Math.Log10((double)amountToTest) + 1));
             if (amountLength < 3)

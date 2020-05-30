@@ -31,7 +31,7 @@
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Center" Foreground="Blue" TextDecorations="Underline" Cursor="Hand">
-                <Hyperlink x:Name="hplURL" NavigateUri="https://github.com/bonbytes/SmithChartTool">
+                <Hyperlink x:Name="hplURL" NavigateUri="https://github.com/bonbytes/SmithChartTool" RequestNavigate="Hyperlink_RequestNavigate">
                     [ Contribute on Github ]
                 </Hyperlink>
 			</TextBlock>

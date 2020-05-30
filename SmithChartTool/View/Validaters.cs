@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace SmithChartTool.ViewModel
+namespace SmithChartTool.View
 {
     /// <summary>
     /// Validater for Textbox <-> Complex32 (e.g. Impedance) bindings
