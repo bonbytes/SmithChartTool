@@ -18,14 +18,14 @@ In this project, I tried my best using MVVM (Model-View-ViewModel) approach in c
 - Projects can be stored and opened from disc.
 - Smith-Chart itself may be exported to an image to use it in your documentation.
 
-## Usage#
+## Releases
 
 [github-release-link]: https://github.com/bonbytes/SmithChartTool/releases/
 
-### Build status
+## Build status
 
 
-### Documentation
+## Documentation
 
 As starting point, enter target frequency and reference impedance, drag & change elements and you directly may observe the resulting Smith-Chart transformation to match your circuit as you like.
 
