@@ -304,9 +304,9 @@ namespace SmithChartTool.Model
             Invalidate();
         }
 
-        private void AddMarker(Complex32 impedance, bool refMarker)
+        private void AddMarker(Complex32 inputVal, SmithChartType type, bool refMarker)
         {
-            Complex32 gamma = GetConformalGammaValue(impedance, SmithChartType.Impedance, IsNormalized);
+            Complex32 gamma = GetConformalGammaValue(inputVal, type, IsNormalized);
             DataPoint dataPoint = new DataPoint(gamma.Real, gamma.Imaginary);
             if (refMarker)
                 RefMarkerSeries.Points.Add(dataPoint);
@@ -314,17 +314,17 @@ namespace SmithChartTool.Model
                 MarkerSeries.Points.Add(dataPoint);
         }
 
-        private void AddIntermediateCurves(Complex32 impedanceNew, Complex32 impedanceOld, int numberOfPoints = 1000)
+        private void AddIntermediateCurve(Complex32 inputValNew, Complex32 inputValOld, SmithChartType type, int numberOfPoints = 1000)
         {
             SCTLineSeries series = new SCTLineSeries { LineStyle = LineStyle.Solid, Color = OxyColor.FromRgb(50, 50, 50), StrokeThickness = 4 };
 
             Complex32 gamma = new Complex32();
-            List <double> listReal= Lists.GetLinRange(impedanceOld.Real, impedanceNew.Real, numberOfPoints);
-            List <double> listImaginary = Lists.GetLinRange(impedanceOld.Imaginary, impedanceNew.Imaginary, numberOfPoints);
+            List <double> listReal= Lists.GetLinRange(inputValOld.Real, inputValNew.Real, numberOfPoints);
+            List <double> listImaginary = Lists.GetLinRange(inputValOld.Imaginary, inputValNew.Imaginary, numberOfPoints);
 
             for ( int i = 0; i < numberOfPoints; i++)
             {
-                gamma = GetConformalGammaValue(new Complex32((float)listReal[i], (float)listImaginary[i]), SmithChartType.Impedance, IsNormalized);
+                gamma = GetConformalGammaValue(new Complex32((float)listReal[i], (float)listImaginary[i]), type, IsNormalized);
                 series.Points.Add(new DataPoint(gamma.Real, gamma.Imaginary));
             }
             IntermediateCurveSeries.Add(series);
@@ -337,11 +337,10 @@ namespace SmithChartTool.Model
             for (int i = 0; i<inputImpedances.Count-1; i++)
             {
                 if (i > 0)
-                    AddIntermediateCurves(inputImpedances[i].Impedance, inputImpedances[i - 1].Impedance);
-                AddMarker(inputImpedances[i].Impedance, false);  
+                    AddIntermediateCurve(inputImpedances[i].Impedance, inputImpedances[i - 1].Impedance, SmithChartType.Impedance);
+                AddMarker(inputImpedances[i].Impedance, SmithChartType.Impedance, false);  
             }
-            AddMarker(inputImpedances.Last().Impedance, true);
-
+            AddMarker(inputImpedances.Last().Impedance, SmithChartType.Impedance, true);
 
             foreach (var series in IntermediateCurveSeries)
             {
