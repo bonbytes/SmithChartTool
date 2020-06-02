@@ -24,7 +24,6 @@ In this project, I tried my best using MVVM (Model-View-ViewModel) approach in c
 
 ### Build status
 
-[![Build Status]
 
 ### Documentation
 
