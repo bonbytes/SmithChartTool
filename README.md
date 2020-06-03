@@ -1,5 +1,7 @@
 
-# <img src="./SmithChartTool/Images/Logo/sct.png"/> Overview
+# Overview
+
+<img src="./SmithChartTool/Images/Logo/sct_hr.png"/>
 
 SmithChartTool is used to observe transformational effects of different microwave elements (such as lumped elements, stubs, transmission lines, etc.) on impedance elements (from load to source).
 <br>
