@@ -20,6 +20,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Windows.Media;
+using OxyPlot.Annotations;
 
 namespace SmithChartTool.ViewModel
 {
@@ -28,6 +29,7 @@ namespace SmithChartTool.ViewModel
         private MainWindow Window { get; set; }
         List<string> Themes { get; set; }
         public SCT Model { get; set; }
+        public PlotModel SCPlot { get; private set; }
 
         private static readonly string TitlebarPrefixString = "SmithChartTool - ";
         private string _windowTitle;
@@ -150,11 +152,11 @@ namespace SmithChartTool.ViewModel
                 {
                     if(value == true)
                     {
-                        Model.SC.Draw(SmithChart.SmithChartType.Impedance);
+                        Model.SC.Draw(SmithChartType.Impedance);
                     }
                     else if(value == false)
                     {
-                        Model.SC.Clear(SmithChart.SmithChartType.Impedance);
+                        Model.SC.Clear(SmithChartType.Impedance);
                     }
                     Model.SC.IsImpedanceSmithChart = value;
                     OnPropertyChanged("IsImpedanceSmithChartShown");
@@ -173,11 +175,11 @@ namespace SmithChartTool.ViewModel
                 {
                     if (value == true)
                     {
-                        Model.SC.Draw(SmithChart.SmithChartType.Admittance);
+                        Model.SC.Draw(SmithChartType.Admittance);
                     }
                     else if (value == false)
                     {
-                        Model.SC.Clear(SmithChart.SmithChartType.Admittance);
+                        Model.SC.Clear(SmithChartType.Admittance);
                     }
                     Model.SC.IsAdmittanceSmithChart = value;
                     OnPropertyChanged("IsAdmittanceSmithChartShown");
@@ -203,7 +205,52 @@ namespace SmithChartTool.ViewModel
         {
             Model = new SCT();
             Model.Schematic.Elements.SchematicElementChanged += UpdateSchematic;
-            
+            Model.SC.SmithChartChanged += UpdateSmithChart;
+            Model.SC.SmithChartCurvesChanged += UpdateSmithChartCurves;
+
+            SCPlot = new PlotModel();
+            SCPlot.IsLegendVisible = false;
+            SCPlot.DefaultColors = new List<OxyColor> { (OxyColors.Black) };
+            SCPlot.Axes.Add(new OxyPlot.Axes.LinearAxis
+            {
+                Position = OxyPlot.Axes.AxisPosition.Left,
+                Minimum = -1,
+                Maximum = 1,
+                AbsoluteMaximum = 1,
+                AbsoluteMinimum = -1,
+                IsZoomEnabled = true,
+                Title = "Gamma (Imaginary)",
+                IsPanEnabled = true
+            });
+            SCPlot.Axes.Add(new OxyPlot.Axes.LinearAxis
+            {
+                Position = OxyPlot.Axes.AxisPosition.Bottom,
+                Minimum = -1,
+                Maximum = 1,
+                AbsoluteMaximum = 1,
+                AbsoluteMinimum = -1,
+                IsZoomEnabled = true,
+                Title = "Gamma (Real)",
+                IsPanEnabled = true
+            });
+            Model.SC.MarkerSeries.StrokeThickness = 0;
+            Model.SC.MarkerSeries.MarkerType = MarkerType.Diamond;
+            Model.SC.MarkerSeries.MarkerStroke = OxyColors.BlueViolet;
+            Model.SC.MarkerSeries.MarkerFill = OxyColors.Beige;
+            Model.SC.MarkerSeries.MarkerStrokeThickness = 3;
+            Model.SC.MarkerSeries.MarkerSize = 5;
+
+            Model.SC.RefMarkerSeries.StrokeThickness = 0;
+            Model.SC.RefMarkerSeries.MarkerType = MarkerType.Star;
+            Model.SC.RefMarkerSeries.MarkerStroke = OxyColors.Blue;
+            Model.SC.RefMarkerSeries.MarkerFill = OxyColors.Beige;
+            Model.SC.RefMarkerSeries.MarkerStrokeThickness = 3;
+            Model.SC.RefMarkerSeries.MarkerSize = 5;
+
+            SCPlot.Series.Add(Model.SC.MarkerSeries);
+            SCPlot.Series.Add(Model.SC.RefMarkerSeries);
+            SCPlot.InvalidatePlot(true);
+
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandXYAsync, (s, e) => { RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
@@ -315,6 +362,41 @@ namespace SmithChartTool.ViewModel
                 string ImExt = Path.GetExtension(fd.FileName);
                 Model.ExportSmithChart(fd.FileName);
             }
+        }
+
+        private void ClearSmithChart()
+        {
+
+        }
+
+        private void DrawSmithChartLegend()
+        {
+            SCPlot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
+            SCPlot.InvalidatePlot(true);
+        }
+
+        private void UpdateSmithChart(object sender, EventArgs e)
+        {
+            foreach (var series in IntermediateCurveSeries)
+            {
+                SCPlot.Series.Add(series);
+            }
+            SCPlot.Series.Add(MarkerSeries);
+            SCPlot.Series.Add(RefMarkerSeries);
+
+            SCPlot.InvalidatePlot(true);
+        }
+
+        private void UpdateSmithChartCurves(object sender, EventArgs e)
+        {
+            foreach (var series in IntermediateCurveSeries)
+            {
+                SCPlot.Series.Add(series);
+            }
+            SCPlot.Series.Add(MarkerSeries);
+            SCPlot.Series.Add(RefMarkerSeries);
+
+            SCPlot.InvalidatePlot(true);
         }
 
         public void RunViewHelp()

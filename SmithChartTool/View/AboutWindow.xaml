@@ -21,7 +21,7 @@
                 SmithChartTool
 			</TextBlock>
 			<TextBlock TextAlignment="Center">
-                bonbytes<LineBreak/>christianzech<LineBreak />
+                bonbytes<LineBreak/><LineBreak/>Acknowledgments:<LineBreak/>christianzech<LineBreak />
 			</TextBlock>
             <TextBlock Margin="5,0,5,0" TextAlignment="Center" TextWrapping="Wrap">
                 This software is intended to create a better understanding of transformational effects in the Smith-Chart. 

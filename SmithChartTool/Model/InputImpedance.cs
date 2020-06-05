@@ -27,11 +27,31 @@ namespace SmithChartTool.Model
 			}
 		}
 
-		public InputImpedance(int id, Complex32 impedance)
+		private SmithChartType _type;
+		public SmithChartType Type
+		{
+			get
+			{
+				return _type;
+			}
+			set
+			{
+				if (value != _type)
+				{
+					_type = value;
+				}
+
+			}
+		}
+
+		public InputImpedance(int id, Complex32 impedance, SmithChartType type = SmithChartType.Impedance)
 		{
 			Id = id;
 			Impedance = impedance;
+			Type = type;
 		}
+
+
 
 
 	}

@@ -124,7 +124,7 @@ namespace SmithChartTool.Model
                             case SchematicElementType.ImpedanceParallel:
                             case SchematicElementType.OpenStub:
                             case SchematicElementType.ShortedStub:
-                                InputImpedances.Add(new InputImpedance(i, (1 / InputImpedances.Last().Impedance) + (1 / transformer)));
+                                InputImpedances.Add(new InputImpedance(i, (1/(1 / InputImpedances.Last().Impedance) + (1 / transformer)), SmithChartType.Admittance));
                                 break;
                             case SchematicElementType.TLine:
                                 InputImpedances.Add(new InputImpedance(i, 0));
@@ -139,7 +139,7 @@ namespace SmithChartTool.Model
                     }
                 }
             }
-            SC.UpdateMarkers(InputImpedances);
+            SC.UpdateCurves(InputImpedances);
         }
 
         public void InsertSchematicElement(int index, SchematicElementType type)
