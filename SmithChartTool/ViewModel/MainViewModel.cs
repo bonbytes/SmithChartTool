@@ -251,6 +251,8 @@ namespace SmithChartTool.ViewModel
             SCPlot.Series.Add(Model.SC.RefMarkerSeries);
             SCPlot.InvalidatePlot(true);
 
+            Model.SC.Draw(SmithChartType.Impedance);
+
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandXYAsync, (s, e) => { RunXYAsync(); }, (s, e) => { Debug.Print("Blab"); })); //e.CanExecute = bli; }));
@@ -360,13 +362,9 @@ namespace SmithChartTool.ViewModel
             if (fd.FileName != string.Empty)
             {
                 string ImExt = Path.GetExtension(fd.FileName);
-                Model.ExportSmithChart(fd.FileName);
+                OxyPlot.Wpf.PngExporter.Export(SCPlot, fd.FileName, 1000, 1000, OxyPlot.OxyColors.White, 300);
+                //Model.ExportSmithChart(fd.FileName);
             }
-        }
-
-        private void ClearSmithChart()
-        {
-
         }
 
         private void DrawSmithChartLegend()
@@ -377,24 +375,63 @@ namespace SmithChartTool.ViewModel
 
         private void UpdateSmithChart(object sender, EventArgs e)
         {
-            foreach (var series in IntermediateCurveSeries)
+            foreach (var ser in Model.SC.ConstRealImpedanceCircleSeries)
             {
-                SCPlot.Series.Add(series);
+                SCPlot.Series.Remove(ser);
             }
-            SCPlot.Series.Add(MarkerSeries);
-            SCPlot.Series.Add(RefMarkerSeries);
+            foreach (var ser in Model.SC.ConstImaginaryImpedanceCircleSeries)
+            {
+                SCPlot.Series.Remove(ser);
+            }
+            foreach (var ser in Model.SC.ConstRealAdmittanceCircleSeries)
+            {
+                SCPlot.Series.Remove(ser);
+            }
+            foreach (var ser in Model.SC.ConstImaginaryAdmittanceCircleSeries)
+            {
+                SCPlot.Series.Remove(ser);
+            }
 
+            if (Model.SC.IsImpedanceSmithChart)
+            {
+                foreach (var ser in Model.SC.ConstRealImpedanceCircleSeries)
+                {
+                    SCPlot.Series.Add(ser);
+                }
+                foreach (var ser in Model.SC.ConstImaginaryImpedanceCircleSeries)
+                {
+                    SCPlot.Series.Add(ser);
+                }
+            }
+            if (Model.SC.IsAdmittanceSmithChart)
+            {
+                foreach (var ser in Model.SC.ConstRealAdmittanceCircleSeries)
+                {
+                    SCPlot.Series.Add(ser);
+                }
+                foreach (var ser in Model.SC.ConstImaginaryAdmittanceCircleSeries)
+                {
+                    SCPlot.Series.Add(ser);
+                }
+            }
             SCPlot.InvalidatePlot(true);
         }
 
         private void UpdateSmithChartCurves(object sender, EventArgs e)
         {
-            foreach (var series in IntermediateCurveSeries)
+            SCPlot.Series.Remove(Model.SC.MarkerSeries);
+            SCPlot.Series.Remove(Model.SC.RefMarkerSeries);
+            foreach (var series in Model.SC.IntermediateCurveSeries)
+            {
+                SCPlot.Series.Remove(series);
+            }
+
+            foreach (var series in Model.SC.IntermediateCurveSeries)
             {
                 SCPlot.Series.Add(series);
             }
-            SCPlot.Series.Add(MarkerSeries);
-            SCPlot.Series.Add(RefMarkerSeries);
+            SCPlot.Series.Add(Model.SC.MarkerSeries);
+            SCPlot.Series.Add(Model.SC.RefMarkerSeries);
 
             SCPlot.InvalidatePlot(true);
         }

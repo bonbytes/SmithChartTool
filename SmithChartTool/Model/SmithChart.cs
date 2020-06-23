@@ -219,86 +219,20 @@ namespace SmithChartTool.Model
                 return;
 
             OnSmithChartChanged();
-
-            if(type == SmithChartType.Impedance)
-            {
-                foreach (var ser in ConstRealImpedanceCircleSeries)
-                {
-                    Plot.Series.Add(ser);
-                }
-                foreach (var ser in ConstImaginaryImpedanceCircleSeries)
-                {
-                    Plot.Series.Add(ser);
-                }
-            }
-            else if(type == SmithChartType.Admittance)
-            {
-                foreach (var ser in ConstRealAdmittanceCircleSeries)
-                {
-                    Plot.Series.Add(ser);
-                }
-                foreach (var ser in ConstImaginaryAdmittanceCircleSeries)
-                {
-                    Plot.Series.Add(ser);
-                }
-            }
-            OnSmithChartChanged();
         }
 
         public void Clear(SmithChartType type)
         {
-            if (type == SmithChartType.Impedance && (IsImpedanceSmithChart == true))
+            if (type == SmithChartType.Impedance && IsImpedanceSmithChart)
             {
                 IsImpedanceSmithChart = false;
             }
-            else if (type == SmithChartType.Admittance && (IsAdmittanceSmithChart == true))
+            else if (type == SmithChartType.Admittance && IsAdmittanceSmithChart)
             {
                 IsAdmittanceSmithChart = false;
             }
             else
                 return;
-
-            if (type == SmithChartType.Impedance)
-            {
-                foreach (var ser in ConstRealImpedanceCircleSeries)
-                {
-                    Plot.Series.Remove(ser);
-                }
-                foreach (var ser in ConstImaginaryImpedanceCircleSeries)
-                {
-                    Plot.Series.Remove(ser);
-                }
-            }
-            else if (type == SmithChartType.Admittance)
-            {
-                foreach (var ser in ConstRealAdmittanceCircleSeries)
-                {
-                    Plot.Series.Remove(ser);
-                }
-                foreach (var ser in ConstImaginaryAdmittanceCircleSeries)
-                {
-                    Plot.Series.Remove(ser);
-                }
-            }
-            OnSmithChartChanged();
-        }
-
-        private void ClearMarkers()
-        {
-            Plot.Series.Remove(MarkerSeries);
-            Plot.Series.Remove(RefMarkerSeries);
-            MarkerSeries.Points.Clear();
-            RefMarkerSeries.Points.Clear();
-            OnSmithChartChanged();
-        }
-
-        private void ClearIntermediateCurves()
-        {
-            foreach (var series in IntermediateCurveSeries)
-            {
-                Plot.Series.Remove(series);
-            }
-            IntermediateCurveSeries.Clear();
 
             OnSmithChartChanged();
         }
@@ -331,8 +265,9 @@ namespace SmithChartTool.Model
 
         public void UpdateCurves(IList<InputImpedance> inputImpedances)
         {
-            ClearMarkers();
-            ClearIntermediateCurves();
+            MarkerSeries.Points.Clear();
+            RefMarkerSeries.Points.Clear();
+            IntermediateCurveSeries.Clear();
             for (int i = 0; i<inputImpedances.Count-1; i++)
             {
                 if (i > 0)
@@ -343,15 +278,9 @@ namespace SmithChartTool.Model
             }
             CalculateMarker(inputImpedances.Last().Impedance, inputImpedances.Last().Type, true);
 
-            OnSmithChartChanged();
+            OnSmithChartCurvesChanged();
         }
 
-        private void Init()
-        {
-            CalculateCircles(SmithChartType.Impedance);
-            CalculateCircles(SmithChartType.Admittance);
-            Draw(SmithChartType.Impedance);
-        }
 
         public SmithChart()
         {
@@ -365,8 +294,10 @@ namespace SmithChartTool.Model
             MarkerSeries = new SCTLineSeries();
             RefMarkerSeries = new SCTLineSeries();
             IntermediateCurveSeries = new List<SCTLineSeries>();
-
-            Init();
+            IsImpedanceSmithChart = false;
+            IsAdmittanceSmithChart = false;
+            CalculateCircles(SmithChartType.Impedance);
+            CalculateCircles(SmithChartType.Admittance);
         }
 
         public event EventHandler SmithChartChanged;

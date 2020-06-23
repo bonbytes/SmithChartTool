@@ -259,7 +259,7 @@
 				</Grid.RowDefinitions>
 				<GroupBox Grid.Row="0" Header="Smith Chart" x:Name="gbSmithChartPlot" >
 					<Grid x:Name="grSmithChartPlot">
-                        <oxy:PlotView x:Name="oxySmithChart" Style="{StaticResource oxySmithChartStyle}" Model="{Binding Model.SC.Plot}" Background="Transparent"  Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                        <oxy:PlotView x:Name="oxySmithChart" Style="{StaticResource oxySmithChartStyle}" Model="{Binding SCPlot}" Background="Transparent"  Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                             <oxy:PlotView.Height>
 								<MultiBinding>
 									<MultiBinding.Bindings>
