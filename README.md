@@ -8,9 +8,9 @@ SmithChartTool is used to observe transformational effects of different microwav
 
 ## Trivia
 
-Since a proprietary Smith-Chart tool included in some high-end software-package literally saved me during Master's thesis I searched for standalone (open-source) Smith-Chart tools for not being reliant upon licenses. I found out, that several tools on the internet are either not "pretty", yet complicated to use, or just not modern enough. 
+Since a proprietary Smith-Chart tool included in some high-end software-package literally saved me during a recent project I searched for standalone (open-source) Smith-Chart tools for not being reliant upon licenses. I found out, that several tools on the internet are either not "pretty", yet complicated to use, or just not modern enough. 
 <br>
-In this project, I tried my best using MVVM (Model-View-ViewModel) approach in combination with CustomControls, Bindings, Validaters, Converters, Drag&Drop functionality and other WPF magic based on modern C# approaches (async, lambda, out parameters, auto properties). Impedance / admittance Smith-Charts are generated using the fantastic [oxyplot](https://github.com/oxyplot/oxyplot) library.
+In this project, I tried my best using MVVM (Model-View-ViewModel) approach in combination with CustomControls, Bindings, Validaters, Converters, Drag&Drop functionality and other WPF magic based on modern C# approaches (async, lambda, out parameters, auto properties). Impedance / admittance Smith-Charts and all transformational curves are generated using the fantastic [oxyplot](https://github.com/oxyplot/oxyplot) library.
 
 ## Current features (some...)
 
@@ -35,7 +35,7 @@ As starting point, enter target frequency and reference impedance, drag & change
 
 ## Contributing
 
-This project welcomes contributions of all types. Help spec'ing, design, documentation, finding bugs are ways everyone can help on top of coding features / bug fixes. I am excited to work with the community to build a tool for every (RF-) engineer around.
+This project welcomes contributions of all types. Help spec'ing, design, documentation, finding bugs are ways everyone can help on top of coding features / bug fixes. I am excited to work with the community to build a neat tool for every (RF-) engineer around.
 
 ### State of code 
 
@@ -44,6 +44,7 @@ SmithChartTool is still a very fluidic project and I am actively working out of 
 ### License Info
 
 This program is free software; you can redistribute it and/or modify it under terms of the MIT license.
+
 Copyright (c) 2020 bonbytes
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
