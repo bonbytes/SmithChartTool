@@ -21,19 +21,12 @@ namespace SmithChartTool.Model
 
     public class SmithChart
     {
-        //public List<SCTLineSeries> ConstRealImpedanceCircleSeries { get; set; }
-        //public List<SCTLineSeries> ConstImaginaryImpedanceCircleSeries { get; set; }
-        //public List<SCTLineSeries> ConstRealAdmittanceCircleSeries { get; set; }
-        //public List<SCTLineSeries> ConstImaginaryAdmittanceCircleSeries { get; set; }
         public List<List<Complex32>> ConstRealImpedanceCircles { get; set; }
         public List<List<Complex32>> ConstImaginaryImpedanceCircles { get; set; }
         public List<List<Complex32>> ConstRealAdmittanceCircles { get; set; }
         public List<List<Complex32>> ConstImaginaryAdmittanceCircles { get; set; }
-        //public SCTLineSeries RefMarkerSeries { get; set; }
-        //public SCTLineSeries MarkerSeries { get; set; }
         public List<Complex32> RefMarkers { get; set; }
         public List<Complex32> Markers { get; set; }
-        //public List <SCTLineSeries> IntermediateCurveSeries { get; set; }
         public List<List<Complex32>> IntermediateCurves { get; set; }
 
 
@@ -124,7 +117,6 @@ namespace SmithChartTool.Model
 
         private void CalculateConstRealCircles(SmithChartType type)
         {
-            //List<SCTLineSeries> series = new List<SCTLineSeries>();
             List<Complex32> plotList = new List<Complex32>();
             List<double> reRangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10, 50};
             List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 500); // imaginary value of every circle
@@ -133,12 +125,10 @@ namespace SmithChartTool.Model
             temp2.Reverse();
             temp.AddRange(temp2);
             values = temp;
-            //int i = 0;
 
             foreach (var re in reRangeFull) // for every real const circle
             {
                 plotList.Clear();
-                //series.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
                 foreach (var im in values) // plot every single circle through conformal mapping
                 {
                     Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type, true);
@@ -187,10 +177,23 @@ namespace SmithChartTool.Model
             }
         }
 
-        private void CalculateCircles(SmithChartType type)
+        public void Create(SmithChartType type)
         {
             CalculateConstRealCircles(type);
             CalculateConstImaginaryCircles(type);
+
+            //if (type == SmithChartType.Impedance && (IsImpedanceSmithChart == false))
+            //{
+            //    IsImpedanceSmithChart = true;
+            //}
+            //else if (type == SmithChartType.Admittance && (IsAdmittanceSmithChart == false))
+            //{
+            //    IsAdmittanceSmithChart = true;
+            //}
+            //else
+            //    return;
+
+            OnSmithChartChanged();
         }
 
         public Complex32 GetConformalGammaValue(Complex32 input, SmithChartType inputType, bool isNormalized)
@@ -212,28 +215,6 @@ namespace SmithChartTool.Model
             return impedance;
         }
 
-        private void DrawAxisText()
-        {
-            //Plot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
-        }
-
-        public void Draw(SmithChartType type)
-        {
-            if (type == SmithChartType.Impedance && (IsImpedanceSmithChart == false))
-            {
-                IsImpedanceSmithChart = true;
-            }
-            else if (type == SmithChartType.Admittance && (IsAdmittanceSmithChart == false))
-            {
-                IsAdmittanceSmithChart = true;
-            }
-            else
-                return;
-
-            DrawAxisText();
-
-            OnSmithChartChanged();
-        }
 
         public void Clear(SmithChartType type)
         {
@@ -327,8 +308,8 @@ namespace SmithChartTool.Model
             IsImpedanceSmithChart = false;
             IsAdmittanceSmithChart = false;
 
-            CalculateCircles(SmithChartType.Impedance);
-            CalculateCircles(SmithChartType.Admittance);
+            Create(SmithChartType.Impedance);
+            Create(SmithChartType.Admittance);
         }
 
         public event EventHandler SmithChartChanged;

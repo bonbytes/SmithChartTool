@@ -161,7 +161,7 @@ namespace SmithChartTool.ViewModel
                 {
                     if(value == true)
                     {
-                        Model.SC.Draw(SmithChartType.Impedance);
+                        Model.SC.Create(SmithChartType.Impedance);
                     }
                     else if(value == false)
                     {
@@ -184,7 +184,7 @@ namespace SmithChartTool.ViewModel
                 {
                     if (value == true)
                     {
-                        Model.SC.Draw(SmithChartType.Admittance);
+                        Model.SC.Create(SmithChartType.Admittance);
                     }
                     else if (value == false)
                     {
@@ -242,6 +242,17 @@ namespace SmithChartTool.ViewModel
                 Title = "Gamma (Real)",
                 IsPanEnabled = true
             });
+
+
+            // TODO: Fill with content from Model
+            ConstRealImpedanceCircleSeries = new List<SCTLineSeries>();
+            ConstImaginaryImpedanceCircleSeries = new List<SCTLineSeries>();
+            ConstRealAdmittanceCircleSeries = new List<SCTLineSeries>();
+            ConstImaginaryAdmittanceCircleSeries = new List<SCTLineSeries>();
+
+            MarkerSeries = new SCTLineSeries();
+            RefMarkerSeries = new SCTLineSeries();
+
             MarkerSeries.StrokeThickness = 0;
             MarkerSeries.MarkerType = MarkerType.Diamond;
             MarkerSeries.MarkerStroke = OxyColors.BlueViolet;
@@ -258,9 +269,9 @@ namespace SmithChartTool.ViewModel
 
             SCPlot.Series.Add(MarkerSeries);
             SCPlot.Series.Add(RefMarkerSeries);
-            SCPlot.InvalidatePlot(true);
 
             DrawSmithChart(SmithChartType.Impedance);
+            SCPlot.InvalidatePlot(true);
 
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
@@ -371,14 +382,32 @@ namespace SmithChartTool.ViewModel
             if (fd.FileName != string.Empty)
             {
                 string ImExt = Path.GetExtension(fd.FileName);
-                OxyPlot.Wpf.PngExporter.Export(SCPlot, fd.FileName, 1000, 1000, OxyPlot.OxyColors.White, 300);
+                //OxyPlot.Wpf.PngExporter.Export(SCPlot, fd.FileName, 1000, 1000, OxyPlot.OxyColors.White, 300);
                 //Model.ExportSmithChart(fd.FileName);
             }
+        }
+        private void DrawSmithChartAxisText()
+        {
+            //Plot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
         }
 
         private void DrawSmithChart(SmithChartType type)
         {
-            Model.SC.Draw(type);
+            Model.SC.Create(type);
+            //foreach (var series in Model.SC.ConstImaginaryImpedanceCircles)
+            //    foreach (var point in series)
+            //        SCPlot.Series.Add(series);
+            //series[i].Points.Add(new DataPoint(r.Real, r.Imaginary));
+
+                    //choose type?
+
+                    //ConstRealImpedanceCircleSeries.Add(series[i]);
+
+                    //foreach (var circles in Model.SC.ConstRealImpedanceCircles) // plot every single circle
+                    //    ConstRealImpedanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
+
+            SCPlot.InvalidatePlot(true);
+
         }
 
         private void DrawSmithChartLegend()
@@ -433,19 +462,19 @@ namespace SmithChartTool.ViewModel
 
         private void UpdateSmithChartCurves(object sender, EventArgs e)
         {
-            SCPlot.Series.Remove(Model.SC.MarkerSeries);
-            SCPlot.Series.Remove(Model.SC.RefMarkerSeries);
-            foreach (var series in Model.SC.IntermediateCurveSeries)
+            SCPlot.Series.Remove(MarkerSeries);
+            SCPlot.Series.Remove(RefMarkerSeries);
+            foreach (var series in IntermediateCurveSeries)
             {
                 SCPlot.Series.Remove(series);
             }
 
-            foreach (var series in Model.SC.IntermediateCurveSeries)
+            foreach (var series in IntermediateCurveSeries)
             {
                 SCPlot.Series.Add(series);
             }
-            SCPlot.Series.Add(Model.SC.MarkerSeries);
-            SCPlot.Series.Add(Model.SC.RefMarkerSeries);
+            SCPlot.Series.Add(MarkerSeries);
+            SCPlot.Series.Add(RefMarkerSeries);
 
             SCPlot.InvalidatePlot(true);
         }

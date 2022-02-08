@@ -6,7 +6,8 @@
         xmlns:vm="clr-namespace:SmithChartTool.ViewModel"
         xmlns:util="clr-namespace:SmithChartTool.Utility"
         xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
-        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
+        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib" 
+        xmlns:oxyWeb="http://oxyplot.org/wpf"
         Title="{Binding WindowTitle}" 
         Width="1024"
         Height="768" 
@@ -40,7 +41,7 @@
             <Setter Property="DefaultTrackerTemplate">
                 <Setter.Value>
                     <ControlTemplate>
-                        <oxy:TrackerControl Background="White" LineExtents="{Binding PlotModel.PlotArea}" LineStroke="Black" Position="{Binding Position}">
+                        <oxyWeb:TrackerControl Background="White" LineExtents="{Binding PlotModel.PlotArea}" LineStroke="Black" Position="{Binding Position}">
                             <Border Margin="2" BorderBrush="Gray">
                                 <Grid Margin="5">
                                     <Grid.ColumnDefinitions>
@@ -49,14 +50,14 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <!--Style="{StaticResource NormalTextStyle}"-->
+                                    Style="{StaticResource NormalTextStyle}"
                                     <TextBlock Grid.Column="0" Margin="1" Text="{Binding DataPoint.X, StringFormat={}{0:0.###}}" />
                                     <TextBlock Grid.Column="1" Margin="1" Text=" + " />
                                     <TextBlock Grid.Column="2" Margin="1" Text="{Binding DataPoint.Y, StringFormat={}{0:0.###}}" />
                                     <TextBlock Grid.Column="3" Margin="1" Text=" j" />
                                 </Grid>
                             </Border>
-                        </oxy:TrackerControl>
+                        </oxyWeb:TrackerControl>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -258,7 +259,7 @@
 					<RowDefinition Height="*" MinHeight="150"/>
 				</Grid.RowDefinitions>
 				<GroupBox Grid.Row="0" Header="Smith Chart" x:Name="gbSmithChartPlot" >
-					<Grid x:Name="grSmithChartPlot">
+                    <Grid x:Name="grSmithChartPlot">
                         <oxy:PlotView x:Name="oxySmithChart" Style="{StaticResource oxySmithChartStyle}" Model="{Binding SCPlot}" Background="Transparent"  Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
                             <oxy:PlotView.Height>
 								<MultiBinding>
