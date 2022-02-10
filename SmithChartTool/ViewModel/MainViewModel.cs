@@ -243,8 +243,6 @@ namespace SmithChartTool.ViewModel
                 IsPanEnabled = true
             });
 
-
-            // TODO: Fill with content from Model
             ConstRealImpedanceCircleSeries = new List<SCTLineSeries>();
             ConstImaginaryImpedanceCircleSeries = new List<SCTLineSeries>();
             ConstRealAdmittanceCircleSeries = new List<SCTLineSeries>();
@@ -270,8 +268,7 @@ namespace SmithChartTool.ViewModel
             SCPlot.Series.Add(MarkerSeries);
             SCPlot.Series.Add(RefMarkerSeries);
 
-            DrawSmithChart(SmithChartType.Impedance);
-            SCPlot.InvalidatePlot(true);
+            CreateSmithChart(SmithChartType.Impedance);
 
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
@@ -391,23 +388,62 @@ namespace SmithChartTool.ViewModel
             //Plot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
         }
 
-        private void DrawSmithChart(SmithChartType type)
+        private void CreateSmithChart(SmithChartType type)
         {
             Model.SC.Create(type);
-            //foreach (var series in Model.SC.ConstImaginaryImpedanceCircles)
-            //    foreach (var point in series)
-            //        SCPlot.Series.Add(series);
-            //series[i].Points.Add(new DataPoint(r.Real, r.Imaginary));
+            int i = 0;
 
-                    //choose type?
+            if (type == SmithChartType.Impedance)
+            {
+                foreach (var series in Model.SC.ConstRealImpedanceCircles)
+                {
+                    ConstRealImpedanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
+                    foreach (var point in series)
+                    {
+                        ConstRealImpedanceCircleSeries[i].Points.Add(new DataPoint(point.Real, point.Imaginary));
+                    }
+                    i++;
+                }
+                i = 0;
+                foreach (var series in Model.SC.ConstImaginaryImpedanceCircles)
+                {
+                    ConstImaginaryImpedanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
+                    foreach (var point in series)
+                    {
+                        ConstImaginaryImpedanceCircleSeries[i].Points.Add(new DataPoint(point.Real, point.Imaginary));
+                    }
+                    i++;
+                }
+                i = 0;
 
-                    //ConstRealImpedanceCircleSeries.Add(series[i]);
+            }
 
-                    //foreach (var circles in Model.SC.ConstRealImpedanceCircles) // plot every single circle
-                    //    ConstRealImpedanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
-
-            SCPlot.InvalidatePlot(true);
-
+            else if (type == SmithChartType.Admittance)
+            {
+                foreach (var series in Model.SC.ConstRealAdmittanceCircles)
+                {
+                    ConstRealAdmittanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
+                    foreach (var point in series)
+                    {
+                        ConstRealAdmittanceCircleSeries[i].Points.Add(new DataPoint(point.Real, point.Imaginary));
+                    }
+                    i++;
+                }
+                i = 0;
+                foreach (var series in Model.SC.ConstImaginaryAdmittanceCircles)
+                {
+                    ConstImaginaryAdmittanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
+                    foreach (var point in series)
+                    {
+                        ConstImaginaryAdmittanceCircleSeries[i].Points.Add(new DataPoint(point.Real, point.Imaginary));
+                    }
+                    i++;
+                }
+                i = 0;
+            }
+                
+            else
+                throw new ArgumentException("Wrong SmithChart Type", "type");            
         }
 
         private void DrawSmithChartLegend()

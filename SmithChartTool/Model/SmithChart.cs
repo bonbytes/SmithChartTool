@@ -132,14 +132,11 @@ namespace SmithChartTool.Model
                 foreach (var im in values) // plot every single circle through conformal mapping
                 {
                     Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type, true);
-                    //series[i].Points.Add(new DataPoint(r.Real, r.Imaginary));
                     plotList.Add(r);
                 }
                 if (type == SmithChartType.Impedance)
-                    //ConstRealImpedanceCircleSeries.Add(series[i]);
                     ConstRealImpedanceCircles.Add(plotList);
                 else if (type == SmithChartType.Admittance)
-                    //ConstRealAdmittanceCircleSeries.Add(series[i]);
                     ConstRealAdmittanceCircles.Add(plotList);
                 else
                     throw new ArgumentException("Wrong SmithChart Type", "type");
@@ -160,11 +157,9 @@ namespace SmithChartTool.Model
             foreach (var im in imRangeFull)
             {
                 plotList.Clear();
-                //series.Add(new SCTLineSeries { LineStyle = LineStyle.Dash, StrokeThickness = 0.75 });
                 foreach (var re in values) // plot every single circle through conformal mapping
                 {
                     Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type, true);
-                    //series[i].Points.Add(new DataPoint(r.Real, r.Imaginary));
                     plotList.Add(r);
                 }
                 if (type == SmithChartType.Impedance)
@@ -182,16 +177,16 @@ namespace SmithChartTool.Model
             CalculateConstRealCircles(type);
             CalculateConstImaginaryCircles(type);
 
-            //if (type == SmithChartType.Impedance && (IsImpedanceSmithChart == false))
-            //{
-            //    IsImpedanceSmithChart = true;
-            //}
-            //else if (type == SmithChartType.Admittance && (IsAdmittanceSmithChart == false))
-            //{
-            //    IsAdmittanceSmithChart = true;
-            //}
-            //else
-            //    return;
+            if (type == SmithChartType.Impedance && (IsImpedanceSmithChart == false))
+            {
+                IsImpedanceSmithChart = true;
+            }
+            else if (type == SmithChartType.Admittance && (IsAdmittanceSmithChart == false))
+            {
+                IsAdmittanceSmithChart = true;
+            }
+            else
+                return;
 
             OnSmithChartChanged();
         }
@@ -291,13 +286,6 @@ namespace SmithChartTool.Model
             Frequency = 1.0e9;
             ReferenceImpedance = new ImpedanceElement(new Complex32(50, 0));
             IsNormalized = false;
-            //ConstRealImpedanceCircleSeries = new List<SCTLineSeries>();
-            //ConstImaginaryImpedanceCircleSeries = new List<SCTLineSeries>();
-            //ConstRealAdmittanceCircleSeries = new List<SCTLineSeries>();
-            //ConstImaginaryAdmittanceCircleSeries = new List<SCTLineSeries>();
-            //MarkerSeries = new SCTLineSeries();
-            //RefMarkerSeries = new SCTLineSeries();
-            //IntermediateCurveSeries = new List<SCTLineSeries>();
             ConstRealImpedanceCircles = new List<List<Complex32>>();
             ConstImaginaryImpedanceCircles = new List<List<Complex32>>();
             ConstRealAdmittanceCircles = new List<List<Complex32>>();
@@ -306,10 +294,7 @@ namespace SmithChartTool.Model
             RefMarkers = new List<Complex32>();
             IntermediateCurves = new List<List<Complex32>>();
             IsImpedanceSmithChart = false;
-            IsAdmittanceSmithChart = false;
-
-            Create(SmithChartType.Impedance);
-            Create(SmithChartType.Admittance);
+            IsAdmittanceSmithChart = false;            
         }
 
         public event EventHandler SmithChartChanged;
