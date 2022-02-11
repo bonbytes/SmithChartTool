@@ -35,6 +35,9 @@ namespace SmithChartTool.Model
         /// Capacitor: Value defines capacitance in Farads.
         /// Inductor: Value defines inductance in Henries.
         /// Transmission Line: Value defines phase in degree.
+        /// Open stub: Value defines phase in degree.
+        /// Shorted stub: Value defines phase in degree.
+        /// Generic Impedance (serial / parallel): No use.
         /// </summary>
         public double Value
         {

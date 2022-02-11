@@ -30,11 +30,7 @@ namespace SmithChartTool.ViewModel
         List<string> Themes { get; set; }
         public SCT Model { get; set; }
         public PlotModel SCPlot { get; private set; }
-
-        public List<SCTLineSeries> ConstRealImpedanceCircleSeries { get; set; }
-        public List<SCTLineSeries> ConstImaginaryImpedanceCircleSeries { get; set; }
-        public List<SCTLineSeries> ConstRealAdmittanceCircleSeries { get; set; }
-        public List<SCTLineSeries> ConstImaginaryAdmittanceCircleSeries { get; set; }
+        public SCTLineSeries SmithChartSeries { get; set; }
         public SCTLineSeries RefMarkerSeries { get; set; }
         public SCTLineSeries MarkerSeries { get; set; }
         public List<SCTLineSeries> IntermediateCurveSeries { get; set; }
@@ -213,9 +209,9 @@ namespace SmithChartTool.ViewModel
         public MainViewModel()
         {
             Model = new SCT();
-            Model.Schematic.Elements.SchematicElementChanged += UpdateSchematic;
             Model.SC.SmithChartChanged += UpdateSmithChart;
             Model.SC.SmithChartCurvesChanged += UpdateSmithChartCurves;
+            Model.Schematic.Elements.SchematicElementChanged += UpdateSchematic;
 
             SCPlot = new PlotModel();
             SCPlot.IsLegendVisible = false;
@@ -243,32 +239,29 @@ namespace SmithChartTool.ViewModel
                 IsPanEnabled = true
             });
 
-            ConstRealImpedanceCircleSeries = new List<SCTLineSeries>();
-            ConstImaginaryImpedanceCircleSeries = new List<SCTLineSeries>();
-            ConstRealAdmittanceCircleSeries = new List<SCTLineSeries>();
-            ConstImaginaryAdmittanceCircleSeries = new List<SCTLineSeries>();
+            SmithChartSeries = new SCTLineSeries();
+            SmithChartSeries.StrokeThickness = 0.75;
+            SmithChartSeries.LineStyle = LineStyle.Solid;
 
-            MarkerSeries = new SCTLineSeries();
             RefMarkerSeries = new SCTLineSeries();
-
-            MarkerSeries.StrokeThickness = 0;
-            MarkerSeries.MarkerType = MarkerType.Diamond;
-            MarkerSeries.MarkerStroke = OxyColors.BlueViolet;
-            MarkerSeries.MarkerFill = OxyColors.Beige;
-            MarkerSeries.MarkerStrokeThickness = 3;
-            MarkerSeries.MarkerSize = 5;
-
             RefMarkerSeries.StrokeThickness = 0;
-            RefMarkerSeries.MarkerType = MarkerType.Star;
+            RefMarkerSeries.MarkerType = OxyPlot.MarkerType.Star;
             RefMarkerSeries.MarkerStroke = OxyColors.Blue;
             RefMarkerSeries.MarkerFill = OxyColors.Beige;
             RefMarkerSeries.MarkerStrokeThickness = 3;
             RefMarkerSeries.MarkerSize = 5;
 
+            MarkerSeries = new SCTLineSeries();
+            MarkerSeries.StrokeThickness = 0;
+            MarkerSeries.MarkerType = OxyPlot.MarkerType.Diamond;
+            MarkerSeries.MarkerStroke = OxyColors.BlueViolet;
+            MarkerSeries.MarkerFill = OxyColors.Beige;
+            MarkerSeries.MarkerStrokeThickness = 3;
+            MarkerSeries.MarkerSize = 5;
+
+            SCPlot.Series.Add(SmithChartSeries);
             SCPlot.Series.Add(MarkerSeries);
             SCPlot.Series.Add(RefMarkerSeries);
-
-            CreateSmithChart(SmithChartType.Impedance);
 
             Window = new MainWindow(this);
             Window.CommandBindings.Add(new CommandBinding(CommandTestFeature, (s, e) => { RunTestFeature(); }));
@@ -288,9 +281,11 @@ namespace SmithChartTool.ViewModel
             Window.oxySmithChart.ActualController.BindMouseEnter(OxyPlot.PlotCommands.HoverPointsOnlyTrack);
 
             Directory.CreateDirectory((Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\");
-            Model.ProjectData.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\" + Model.ProjectData.Name + ".sctprj";
-            WindowTitle = TitlebarPrefixString + Model.ProjectData.Path;
-            
+            Model.Project.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\" + Model.Project.Name + ".sctprj";
+            WindowTitle = TitlebarPrefixString + Model.Project.Path;
+
+            DrawSmithChart(SmithChartType.Impedance);
+
             Window.Show();
         }
 
@@ -316,8 +311,8 @@ namespace SmithChartTool.ViewModel
         public void RunNewProject()
         {
             Model.NewProject();
-            Model.ProjectData.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\" + Model.ProjectData.Name + ".sctprj";
-            WindowTitle = TitlebarPrefixString + Model.ProjectData.Path;
+            Model.Project.Path = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\" + Model.Project.Name + ".sctprj";
+            WindowTitle = TitlebarPrefixString + Model.Project.Path;
         }
 
         public void RunSaveProjectAs()
@@ -332,16 +327,16 @@ namespace SmithChartTool.ViewModel
             {
                 string fileExt = Path.GetExtension(fd.FileName);
                 Model.SaveProjectAs(fd.FileName, fileExt);
-                Model.ProjectData.Path = fd.FileName;
-                WindowTitle = TitlebarPrefixString + Model.ProjectData.Path;
+                Model.Project.Path = fd.FileName;
+                WindowTitle = TitlebarPrefixString + Model.Project.Path;
             }
         }
 
         public void RunSaveProject()
         {
-            if (Model.ProjectData.Path != string.Empty)
+            if (Model.Project.Path != string.Empty)
             {
-                Model.SaveProjectAs(Model.ProjectData.Path);
+                Model.SaveProjectAs(Model.Project.Path);
             }
             else
             {
@@ -362,8 +357,8 @@ namespace SmithChartTool.ViewModel
             {
                 string fileExt = Path.GetExtension(fd.FileName);
                 Model.OpenProject(fd.FileName, fileExt);
-                Model.ProjectData.Path = fd.FileName;
-                WindowTitle = TitlebarPrefixString + Model.ProjectData.Path;
+                Model.Project.Path = fd.FileName;
+                WindowTitle = TitlebarPrefixString + Model.Project.Path;
             }
         }
 
@@ -388,62 +383,58 @@ namespace SmithChartTool.ViewModel
             //Plot.Annotations.Add(new TextAnnotation() { Text = "Blub", TextPosition = new DataPoint(0.2, -0.5) });
         }
 
-        private void CreateSmithChart(SmithChartType type)
+        private void DrawSmithChart(SmithChartType type)
         {
             Model.SC.Create(type);
             int i = 0;
+
+            SmithChartSeries.Points.Clear();
+
+            SCTLineSeries lineSeries = new SCTLineSeries();
 
             if (type == SmithChartType.Impedance)
             {
                 foreach (var series in Model.SC.ConstRealImpedanceCircles)
                 {
-                    ConstRealImpedanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
                     foreach (var point in series)
                     {
-                        ConstRealImpedanceCircleSeries[i].Points.Add(new DataPoint(point.Real, point.Imaginary));
+                        lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
                     }
-                    i++;
                 }
-                i = 0;
+                SmithChartSeries.Points.AddRange(lineSeries.Points);
                 foreach (var series in Model.SC.ConstImaginaryImpedanceCircles)
                 {
-                    ConstImaginaryImpedanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
                     foreach (var point in series)
                     {
-                        ConstImaginaryImpedanceCircleSeries[i].Points.Add(new DataPoint(point.Real, point.Imaginary));
+                        lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
                     }
-                    i++;
+                    SmithChartSeries.Points.AddRange(lineSeries.Points);
                 }
-                i = 0;
-
             }
 
             else if (type == SmithChartType.Admittance)
             {
                 foreach (var series in Model.SC.ConstRealAdmittanceCircles)
                 {
-                    ConstRealAdmittanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
                     foreach (var point in series)
                     {
-                        ConstRealAdmittanceCircleSeries[i].Points.Add(new DataPoint(point.Real, point.Imaginary));
+                        lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
                     }
-                    i++;
+                    SmithChartSeries.Points.AddRange(lineSeries.Points);
                 }
-                i = 0;
+
                 foreach (var series in Model.SC.ConstImaginaryAdmittanceCircles)
                 {
-                    ConstImaginaryAdmittanceCircleSeries.Add(new SCTLineSeries { LineStyle = LineStyle.Solid, StrokeThickness = 0.75 });
                     foreach (var point in series)
                     {
-                        ConstImaginaryAdmittanceCircleSeries[i].Points.Add(new DataPoint(point.Real, point.Imaginary));
+                        lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
                     }
-                    i++;
+                    SmithChartSeries.Points.AddRange(lineSeries.Points);
                 }
-                i = 0;
             }
                 
             else
-                throw new ArgumentException("Wrong SmithChart Type", "type");            
+                throw new ArgumentException("Wrong SmithChart Type", "type");
         }
 
         private void DrawSmithChartLegend()
@@ -454,50 +445,28 @@ namespace SmithChartTool.ViewModel
 
         private void UpdateSmithChart(object sender, EventArgs e)
         {
-            foreach (var ser in ConstRealImpedanceCircleSeries)
-            {
-                SCPlot.Series.Remove(ser);
-            }
-            foreach (var ser in ConstImaginaryImpedanceCircleSeries)
-            {
-                SCPlot.Series.Remove(ser);
-            }
-            foreach (var ser in ConstRealAdmittanceCircleSeries)
-            {
-                SCPlot.Series.Remove(ser);
-            }
-            foreach (var ser in ConstImaginaryAdmittanceCircleSeries)
-            {
-                SCPlot.Series.Remove(ser);
-            }
+            SCPlot.Series.Remove(SmithChartSeries);
 
             if (Model.SC.IsImpedanceSmithChart)
             {
-                foreach (var ser in ConstRealImpedanceCircleSeries)
-                {
-                    SCPlot.Series.Add(ser);
-                }
-                foreach (var ser in ConstImaginaryImpedanceCircleSeries)
-                {
-                    SCPlot.Series.Add(ser);
-                }
+                DrawSmithChart(SmithChartType.Impedance);
             }
             if (Model.SC.IsAdmittanceSmithChart)
             {
-                foreach (var ser in ConstRealAdmittanceCircleSeries)
-                {
-                    SCPlot.Series.Add(ser);
-                }
-                foreach (var ser in ConstImaginaryAdmittanceCircleSeries)
-                {
-                    SCPlot.Series.Add(ser);
-                }
+                DrawSmithChart(SmithChartType.Admittance);
             }
+            SCPlot.Series.Add(SmithChartSeries);
+
             SCPlot.InvalidatePlot(true);
+
         }
 
         private void UpdateSmithChartCurves(object sender, EventArgs e)
         {
+            MarkerSeries.Points.Clear();
+            RefMarkerSeries.Points.Clear();
+            IntermediateCurveSeries.Clear();
+
             SCPlot.Series.Remove(MarkerSeries);
             SCPlot.Series.Remove(RefMarkerSeries);
             foreach (var series in IntermediateCurveSeries)
@@ -522,7 +491,7 @@ namespace SmithChartTool.ViewModel
 
         public void RunShowLogWindow()
         {
-            var logWindowViewModel = new LogViewModel(Model.LogData);
+            var logWindowViewModel = new LogViewModel(Model.Log);
         }
 
         public void RunShowAboutWindow()
@@ -537,7 +506,7 @@ namespace SmithChartTool.ViewModel
 
         public void RunShowPrjSettingsWindow()
         {
-            var prjSettingsWindowViewModel = new PrjSettingsViewModel(Model.ProjectData);
+            var prjSettingsWindowViewModel = new PrjSettingsViewModel(Model.Project);
         }
 
         public void RunCloseApp()
