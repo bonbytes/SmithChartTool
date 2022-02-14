@@ -30,6 +30,9 @@ namespace SmithChartTool.ViewModel
         List<string> Themes { get; set; }
         public SCT Model { get; set; }
         public PlotModel SCPlot { get; private set; }
+        public SCTLineSeries SmithChartImpedanceSeries { get; set; }
+        public SCTLineSeries SmithChartAdmittanceSeries { get; set; }
+
         public SCTLineSeries SmithChartRealImpedanceSeries { get; set; }
         public SCTLineSeries SmithChartImagImpedanceSeries { get; set; }
         public SCTLineSeries SmithChartRealAdmittanceSeries { get; set; }
@@ -242,25 +245,16 @@ namespace SmithChartTool.ViewModel
                 IsPanEnabled = true
             });
 
-            SmithChartRealImpedanceSeries = new SCTLineSeries();
-            SmithChartRealImpedanceSeries.StrokeThickness = 0.75;
-            SmithChartRealImpedanceSeries.LineStyle = LineStyle.Solid;
-            SmithChartRealImpedanceSeries.ItemsSource = Model.SC.ConstRealImpedanceCircles;
-            
-            SmithChartImagImpedanceSeries = new SCTLineSeries();
-            SmithChartImagImpedanceSeries.StrokeThickness = 0.75;
-            SmithChartImagImpedanceSeries.LineStyle = LineStyle.Solid;
-            SmithChartRealImpedanceSeries.ItemsSource = Model.SC.ConstImaginaryImpedanceCircles;
+            SmithChartImpedanceSeries = new SCTLineSeries();
+            SmithChartImpedanceSeries.StrokeThickness = 0.75;
+            SmithChartImpedanceSeries.LineStyle = LineStyle.Solid;
+            SmithChartImpedanceSeries.ItemsSource = Model.SC.ConstRealImpedanceCircles;
 
-            SmithChartRealAdmittanceSeries = new SCTLineSeries();
-            SmithChartRealAdmittanceSeries.StrokeThickness = 0.75;
-            SmithChartRealAdmittanceSeries.LineStyle = LineStyle.Solid;
-            SmithChartRealImpedanceSeries.ItemsSource = Model.SC.ConstRealAdmittanceCircles;
+            SmithChartAdmittanceSeries = new SCTLineSeries();
+            SmithChartAdmittanceSeries.StrokeThickness = 0.75;
+            SmithChartAdmittanceSeries.LineStyle = LineStyle.Solid;
 
-            SmithChartImagAdmittanceSeries = new SCTLineSeries();
-            SmithChartImagAdmittanceSeries.StrokeThickness = 0.75;
-            SmithChartImagAdmittanceSeries.LineStyle = LineStyle.Solid;
-            SmithChartRealImpedanceSeries.ItemsSource = Model.SC.ConstImaginaryAdmittanceCircles;
+            SCPlot.Series.Add(SmithChartImpedanceSeries);
 
             RefMarkerSeries = new SCTLineSeries();
             RefMarkerSeries.StrokeThickness = 0;
@@ -296,6 +290,7 @@ namespace SmithChartTool.ViewModel
             Window.CommandBindings.Add(new CommandBinding(CommandOpenProject, (s, e) => { RunOpenProject(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandCloseApp, (s, e) => { RunCloseApp(); }));
             Window.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
+            //Window.oxySmithChart.ActualController.BindMouseEnter(OxyPlot.PlotCommands.HoverPointsOnlyTrack);
             Window.oxySmithChart.ActualController.BindMouseEnter(OxyPlot.PlotCommands.HoverPointsOnlyTrack);
 
             Directory.CreateDirectory((Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\");
@@ -405,53 +400,49 @@ namespace SmithChartTool.ViewModel
         {
             Model.SC.Create(type);
 
-            SCTLineSeries lineSeries = new SCTLineSeries();
-
-            //lineSeries.ItemsSource = Model.SC.ConstRealImpedanceCircles;
-
             if (type == SmithChartType.Impedance)
             {
-                //SmithChartImpedanceSeries.Points.Clear();
+                SCTLineSeries lineSeries = new SCTLineSeries();
+
+                SmithChartImpedanceSeries.Points.Clear();
                 foreach (var series in Model.SC.ConstRealImpedanceCircles)
                 {
                     foreach (var point in series)
                     {
                         lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
                     }
-                   
-                    //SCPlot.Series.Add(lineSeries);
                 }
-                SmithChartRealImpedanceSeries.Points.AddRange(lineSeries.Points);
-                //    foreach (var series in Model.SC.ConstImaginaryImpedanceCircles)
-                //    {
-                //        foreach (var point in series)
-                //        {
-                //            lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
-                //        }
-                //        SmithChartImpedanceSeries.Points.AddRange(lineSeries.Points);
-                //    }
+                foreach (var series in Model.SC.ConstImaginaryImpedanceCircles)
+                {
+                    foreach (var point in series)
+                    {
+                        lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
+                    }
+                }
+                SmithChartImpedanceSeries.Points.AddRange(lineSeries.Points);
             }
 
             else if (type == SmithChartType.Admittance)
             {
-            //    SmithChartAdmittanceSeries.Points.Clear();
-            //    foreach (var series in Model.SC.ConstRealAdmittanceCircles)
-            //    {
-            //        foreach (var point in series)
-            //        {
-            //            lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
-            //        }
-            //        SmithChartAdmittanceSeries.Points.AddRange(lineSeries.Points);
-            //    }
+                SCTLineSeries lineSeries = new SCTLineSeries();
 
-            //    foreach (var series in Model.SC.ConstImaginaryAdmittanceCircles)
-            //    {
-            //        foreach (var point in series)
-            //        {
-            //            lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
-            //        }
-            //        SmithChartAdmittanceSeries.Points.AddRange(lineSeries.Points);
-            //    }
+                SmithChartAdmittanceSeries.Points.Clear();
+                foreach (var series in Model.SC.ConstRealAdmittanceCircles)
+                {
+                    foreach (var point in series)
+                    {
+                        lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
+                    }
+                }
+
+                foreach (var series in Model.SC.ConstImaginaryAdmittanceCircles)
+                {
+                    foreach (var point in series)
+                    {
+                        lineSeries.Points.Add(new DataPoint(point.Real, point.Imaginary));
+                    }
+                }
+                SmithChartAdmittanceSeries.Points.AddRange(lineSeries.Points);
             }
                 
             else
@@ -469,22 +460,22 @@ namespace SmithChartTool.ViewModel
 
         private void UpdateSmithChart(object sender, EventArgs e)
         {
-            SCPlot.Series.Remove(SmithChartRealImpedanceSeries);
-            SCPlot.Series.Remove(SmithChartImagImpedanceSeries);
-            SCPlot.Series.Remove(SmithChartRealAdmittanceSeries);
-            SCPlot.Series.Remove(SmithChartImagAdmittanceSeries);
+            //SCPlot.Series.Remove(SmithChartRealImpedanceSeries);
+            //SCPlot.Series.Remove(SmithChartImagImpedanceSeries);
+            //SCPlot.Series.Remove(SmithChartRealAdmittanceSeries);
+            //SCPlot.Series.Remove(SmithChartImagAdmittanceSeries);
 
 
-            if (Model.SC.IsImpedanceSmithChart)
-            {
-                SCPlot.Series.Add(SmithChartRealImpedanceSeries);
-                SCPlot.Series.Add(SmithChartImagImpedanceSeries);
-            }
-            if (Model.SC.IsAdmittanceSmithChart)
-            {
-                SCPlot.Series.Add(SmithChartRealAdmittanceSeries);
-                SCPlot.Series.Add(SmithChartImagAdmittanceSeries);
-            }
+            //if (Model.SC.IsImpedanceSmithChart)
+            //{
+            //    SCPlot.Series.Add(SmithChartRealImpedanceSeries);
+            //    SCPlot.Series.Add(SmithChartImagImpedanceSeries);
+            //}
+            //if (Model.SC.IsAdmittanceSmithChart)
+            //{
+            //    SCPlot.Series.Add(SmithChartRealAdmittanceSeries);
+            //    SCPlot.Series.Add(SmithChartImagAdmittanceSeries);
+            //}
 
             SCPlot.InvalidatePlot(true);
         }

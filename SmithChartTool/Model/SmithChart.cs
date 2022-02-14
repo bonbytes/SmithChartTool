@@ -27,7 +27,8 @@ namespace SmithChartTool.Model
 
     public class SmithChart
     {
-        public List<List<Complex32>> ConstRealImpedanceCircles { get; set; }
+        //public List<List<Complex32>> ConstRealImpedanceCircles { get; set; }
+        public ObservableCollection<List<Complex32>> ConstRealImpedanceCircles { get; set; }
         public List<List<Complex32>> ConstImaginaryImpedanceCircles { get; set; }
         public List<List<Complex32>> ConstRealAdmittanceCircles { get; set; }
         public List<List<Complex32>> ConstImaginaryAdmittanceCircles { get; set; }
@@ -284,7 +285,8 @@ namespace SmithChartTool.Model
             Frequency = 1.0e9;
             ReferenceImpedance = new ImpedanceElement(new Complex32(50, 0));
             IsNormalized = false;
-            ConstRealImpedanceCircles = new List<List<Complex32>>();
+            //ConstRealImpedanceCircles = new List<List<Complex32>>();
+            ConstRealImpedanceCircles = new ObservableCollection<List<Complex32>>();
             ConstImaginaryImpedanceCircles = new List<List<Complex32>>();
             ConstRealAdmittanceCircles = new List<List<Complex32>>();
             ConstImaginaryAdmittanceCircles = new List<List<Complex32>>();
