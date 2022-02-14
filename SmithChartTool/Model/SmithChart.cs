@@ -142,6 +142,8 @@ namespace SmithChartTool.Model
         }
         private void CalculateConstRealCircles(SmithChartType type)
         {
+            ConstRealImpedanceCircles.Clear();
+            ConstRealAdmittanceCircles.Clear();
             List<Complex32> plotList = new List<Complex32>();
             List<double> reRangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10, 50};
             List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 500); // imaginary value of every circle
@@ -160,9 +162,9 @@ namespace SmithChartTool.Model
                     plotList.Add(r);
                 }
                 if (type == SmithChartType.Impedance)
-                    ConstRealImpedanceCircles.Add(plotList);
+                    ConstRealImpedanceCircles.Add(new List<Complex32>(plotList));
                 else if (type == SmithChartType.Admittance)
-                    ConstRealAdmittanceCircles.Add(plotList);
+                    ConstRealAdmittanceCircles.Add(new List<Complex32>(plotList));
                 else
                     throw new ArgumentException("Wrong SmithChart Type", "type");
             }
@@ -170,13 +172,16 @@ namespace SmithChartTool.Model
 
         private void CalculateConstImaginaryCircles(SmithChartType type)
         {
+            ConstImaginaryImpedanceCircles.Clear();
+            ConstImaginaryAdmittanceCircles.Clear();
             List<Complex32> plotList = new List<Complex32>();
             List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 1000); // real value of every circle
             List<double> imRange = new List<double>() { 0.2, 0.5, 1, 2, 5, 10, 20, 50 };
             List<double> imRangeFull = new List<double>(imRange.Invert());
             imRangeFull.Add(1e-20);  // "zero" line
             imRangeFull.AddRange(imRange);
-            foreach (var im in imRangeFull)
+
+            foreach (var im in imRangeFull) // for every imaginary const circle
             {
                 plotList.Clear();
                 foreach (var re in values) // data point for every single circle through conformal mapping
@@ -185,9 +190,9 @@ namespace SmithChartTool.Model
                     plotList.Add(r);
                 }
                 if (type == SmithChartType.Impedance)
-                    ConstImaginaryImpedanceCircles.Add(plotList);
+                    ConstImaginaryImpedanceCircles.Add(new List<Complex32>(plotList));
                 else if (type == SmithChartType.Admittance)
-                    ConstImaginaryAdmittanceCircles.Add(plotList);
+                    ConstImaginaryAdmittanceCircles.Add(new List<Complex32>(plotList));
                 else
                     throw new ArgumentException("Wrong SmithChart Type", "type");
             }
@@ -209,7 +214,7 @@ namespace SmithChartTool.Model
             else
                 return;
 
-            OnSmithChartChanged();
+            //OnSmithChartChanged();
         }
 
 
@@ -226,7 +231,7 @@ namespace SmithChartTool.Model
             else
                 return;
 
-            OnSmithChartChanged();
+            //OnSmithChartChanged();
         }
 
         private void CalculateMarker(Complex32 inputVal, SmithChartType type, MarkerType mtype)
