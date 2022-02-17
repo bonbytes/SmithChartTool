@@ -99,8 +99,8 @@
             <MenuItem Header="_View">
                 <MenuItem Header="Insert reference circle..." IsEnabled="False" />
                 <Separator/>
-                <MenuItem Header="Impedance Smith chart" IsCheckable="True" IsChecked="{Binding IsImpedanceSmithChartShown}"/>
-                <MenuItem Header="Admittance Smith chart" IsCheckable="True" IsChecked="{Binding IsAdmittanceSmithChartShown}"/>
+                <MenuItem Header="Impedance Smith chart" IsCheckable="True" IsChecked="{Binding IsImpedanceSmithChartShown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <MenuItem Header="Admittance Smith chart" IsCheckable="True" IsChecked="{Binding IsAdmittanceSmithChartShown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </MenuItem>
 
             <MenuItem Header="_Help">
