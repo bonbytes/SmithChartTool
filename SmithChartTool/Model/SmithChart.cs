@@ -80,7 +80,8 @@ namespace SmithChartTool.Model
                 {
                     if (!(bool.TryParse(value.ToString(), out _isNormalized)))
                         throw new ArgumentException("Only true or false allowed", "IsNormalized");
-                    // add something to redraw smith chart
+                    _isNormalized = value;
+                    OnSmithChartChanged();
                 }
             }
         }
@@ -123,14 +124,17 @@ namespace SmithChartTool.Model
         public int NumSusceptanceCircles { get; private set; }
 
 
-        public Complex32 GetConformalGammaValue(Complex32 input, SmithChartType inputType, bool isNormalized)
+        public Complex32 GetConformalGammaValue(Complex32 input, SmithChartType inputType)
         {
-            Complex32 _input = ImpedanceNormalized(input);
-
             if (inputType == SmithChartType.Impedance)
-                return (input - 1) / (input + 1);
+            {
+                return (ImpedanceNormalized(input) - ImpedanceNormalized(ReferenceImpedance.Impedance)) / (ImpedanceNormalized(input) + ImpedanceNormalized(ReferenceImpedance.Impedance));
+            }
+                
             else if (inputType == SmithChartType.Admittance)
-                return -((input - 1) / (input + 1));
+            {
+                return (AdmittanceNormalized(ReferenceImpedance.Impedance) - AdmittanceNormalized(input)) / (AdmittanceNormalized(ReferenceImpedance.Impedance) + AdmittanceNormalized(input));
+            }
             else
                 return Complex32.NaN;
         }
@@ -141,15 +145,16 @@ namespace SmithChartTool.Model
                 return (impedance / ReferenceImpedance.Impedance);
             return impedance;
         }
+
+        public Complex32 AdmittanceNormalized(Complex32 admittance)
+        {
+            if (IsNormalized == true)
+                return (admittance * ReferenceImpedance.Impedance);
+            return admittance;
+        }
+
         private void CalculateConstRealCircles(SmithChartType type)
         {
-            if (type == SmithChartType.Impedance)
-                ImpedanceConstRealCircles.Clear();
-            else if (type == SmithChartType.Admittance)
-                AdmittanceConstRealCircles.Clear();
-            else
-                throw new ArgumentException("Wrong SmithChart Type", "type");
-            
             List<Complex32> plotList = new List<Complex32>();
             List<double> reRangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10, 50};
             List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 500); // imaginary value of every circle
@@ -164,7 +169,7 @@ namespace SmithChartTool.Model
                 plotList.Clear();
                 foreach (var im in values) // plot every single circle through conformal mapping
                 {
-                    Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type, IsNormalized);
+                    Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type);
                     plotList.Add(r);
                 }
                 if (type == SmithChartType.Impedance)
@@ -178,13 +183,6 @@ namespace SmithChartTool.Model
 
         private void CalculateConstImagCircles(SmithChartType type)
         {
-            if (type == SmithChartType.Impedance)
-                ImpedanceConstImagCircles.Clear();
-            else if (type == SmithChartType.Admittance)
-                AdmittanceConstImagCircles.Clear();
-            else
-                throw new ArgumentException("Wrong SmithChart Type", "type");
-
             List<Complex32> plotList = new List<Complex32>();
             List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 1000); // real value of every circle
             List<double> imRange = new List<double>() { 0.2, 0.5, 1, 2, 5, 10, 20, 50 };
@@ -199,7 +197,7 @@ namespace SmithChartTool.Model
                 plotList.Clear();
                 foreach (var re in values) // data point for every single circle through conformal mapping
                 {
-                    Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type, IsNormalized);
+                    Complex32 r = GetConformalGammaValue(new Complex32((float)re, (float)im), type);
                     plotList.Add(r);
                 }
                 if (type == SmithChartType.Impedance)
@@ -213,39 +211,30 @@ namespace SmithChartTool.Model
 
         public void Create(SmithChartType type)
         {
+            Clear(type);
             CalculateConstRealCircles(type);
             CalculateConstImagCircles(type);
-
-            if (type == SmithChartType.Impedance)
-            {
-                IsImpedanceSmithChart = true;
-            }
-            else if (type == SmithChartType.Admittance)
-            {
-                IsAdmittanceSmithChart = true;
-            }
-            else
-                return;
         }
-
 
         public void Clear(SmithChartType type)
         {
             if (type == SmithChartType.Impedance)
             {
-                IsImpedanceSmithChart = false;
+                ImpedanceConstRealCircles.Clear();
+                ImpedanceConstImagCircles.Clear();
             }
             else if (type == SmithChartType.Admittance)
             {
-                IsAdmittanceSmithChart = false;
+                AdmittanceConstRealCircles.Clear();
+                AdmittanceConstImagCircles.Clear();
             }
             else
-                return;
+                throw new ArgumentException("Wrong SmithChart Type", "type");
         }
 
         private void CalculateMarker(Complex32 inputVal, SmithChartType type, MarkerType mtype)
         {
-            Complex32 gamma = GetConformalGammaValue(inputVal, type, IsNormalized);
+            Complex32 gamma = GetConformalGammaValue(inputVal, type);
             if (mtype == MarkerType.Ref)
                 RefMarkers.Add(gamma);
             else if (mtype == MarkerType.Normal)
@@ -262,7 +251,7 @@ namespace SmithChartTool.Model
 
             for ( int i = 0; i < numberOfPoints; i++)
             {
-                gamma = GetConformalGammaValue(new Complex32((float)listReal[i], (float)listImaginary[i]), type, IsNormalized);
+                gamma = GetConformalGammaValue(new Complex32((float)listReal[i], (float)listImaginary[i]), type);
                 plotPoints.Add(gamma);
             }
             IntermediateCurves.Add(plotPoints);
@@ -292,7 +281,7 @@ namespace SmithChartTool.Model
         {
             Frequency = 1.0e9;
             ReferenceImpedance = new ImpedanceElement(new Complex32(50, 0));
-            IsNormalized = true;
+            IsNormalized = false;
             ImpedanceConstRealCircles = new List<List<Complex32>>();
             ImpedanceConstImagCircles = new List<List<Complex32>>();
             AdmittanceConstRealCircles = new List<List<Complex32>>();

@@ -234,8 +234,6 @@ namespace SmithChartTool.ViewModel
             SCImpedanceConstRealSeries = new SCTLineSeries();
             SCImpedanceConstRealSeries.StrokeThickness = 0.75;
             SCImpedanceConstRealSeries.LineStyle = LineStyle.Solid;
-            SCImpedanceConstRealSeries.DataFieldX = "Real";
-            SCImpedanceConstRealSeries.DataFieldY = "Imag";
             SCImpedanceConstRealSeries.ItemsSource = SCImpedanceConstRealData;
 
             SCImpedanceConstImagData = new List<Collection<DataPoint>>();
@@ -245,8 +243,6 @@ namespace SmithChartTool.ViewModel
             SCAdmittanceConstRealSeries = new SCTLineSeries();
             SCAdmittanceConstRealSeries.StrokeThickness = 0.75;
             SCAdmittanceConstRealSeries.LineStyle = LineStyle.Solid;
-            SCAdmittanceConstRealSeries.DataFieldX = "Real";
-            SCAdmittanceConstRealSeries.DataFieldY = "Imag";
             SCAdmittanceConstRealSeries.ItemsSource = SCAdmittanceConstRealData;
 
             SCAdmittanceConstImagData = new List<Collection<DataPoint>>();
