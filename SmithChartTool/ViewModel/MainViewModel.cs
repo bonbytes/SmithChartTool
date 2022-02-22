@@ -38,6 +38,10 @@ namespace SmithChartTool.ViewModel
         public SCTLineSeries SCAdmittanceConstRealSeries { get; private set; }
         public List<SCTLineSeries> SCImpedanceConstImagSeries { get; private set; }
         public List<SCTLineSeries> SCAdmittanceConstImagSeries { get; private set; }
+
+        private Collection<DataPoint> RefMarkerSeriesData;
+        private Collection<DataPoint> MarkerSeriesData;
+        private List<Collection<DataPoint>> IntermediateCurveSeriesData;
         public SCTLineSeries RefMarkerSeries { get; private set; }
         public SCTLineSeries MarkerSeries { get; private set; }
         public List<SCTLineSeries> IntermediateCurveSeries { get; private set; }
@@ -67,7 +71,7 @@ namespace SmithChartTool.ViewModel
                 if (Model.SC.Frequency != value)
                 {
                     Model.SC.Frequency = value;
-                    Model.UpdateInputImpedances();
+                    //Model.UpdateInputImpedances();
                     OnPropertyChanged("Frequency");
                 }
 
@@ -84,7 +88,7 @@ namespace SmithChartTool.ViewModel
                 if (value != Model.SC.ReferenceImpedance.Impedance)
                 {
                     Model.SC.ReferenceImpedance.Impedance = value;
-                    Model.UpdateInputImpedances();
+                    //Model.UpdateInputImpedances();
                     OnPropertyChanged("ReferenceImpedance");
                 }
             }
@@ -100,7 +104,7 @@ namespace SmithChartTool.ViewModel
                 if (value != Model.SC.IsNormalized)
                 {
                     Model.SC.IsNormalized = value;
-                    Model.UpdateInputImpedances();
+                    //Model.UpdateInputImpedances();
                     OnPropertyChanged("IsNormalized");
                 }
             }
@@ -116,7 +120,7 @@ namespace SmithChartTool.ViewModel
                 if(value != Model.Schematic.Elements)
                 {
                     Model.Schematic.Elements = value;
-                    Model.UpdateInputImpedances();
+                    //Model.UpdateInputImpedances();
                     OnPropertyChanged("SchematicElements");
                 }
             }
@@ -201,8 +205,8 @@ namespace SmithChartTool.ViewModel
         {
             Model = new SCT();
             Model.SC.SmithChartChanged += UpdateSmithChart;
-            Model.SC.SmithChartCurvesChanged += UpdateSmithChartCurves;
-            Model.Schematic.Elements.SchematicElementChanged += UpdateSchematic;
+            //Model.SC.SmithChartCurvesChanged += UpdateSmithChartCurves;
+            //Model.Schematic.Elements.SchematicElementChanged += UpdateSchematic;
 
             SCPlot = new PlotModel();
             SCPlot.IsLegendVisible = false;
@@ -248,6 +252,7 @@ namespace SmithChartTool.ViewModel
             SCAdmittanceConstImagData = new List<Collection<DataPoint>>();
             SCAdmittanceConstImagSeries = new List<SCTLineSeries>();
 
+            RefMarkerSeriesData = new Collection<DataPoint>();
             RefMarkerSeries = new SCTLineSeries();
             RefMarkerSeries.StrokeThickness = 0;
             RefMarkerSeries.MarkerType = OxyPlot.MarkerType.Star;
@@ -255,7 +260,10 @@ namespace SmithChartTool.ViewModel
             RefMarkerSeries.MarkerFill = OxyColors.Beige;
             RefMarkerSeries.MarkerStrokeThickness = 3;
             RefMarkerSeries.MarkerSize = 5;
+            RefMarkerSeries.ItemsSource = RefMarkerSeriesData;
+            SCPlot.Series.Add(RefMarkerSeries);
 
+            MarkerSeriesData = new Collection<DataPoint>();
             MarkerSeries = new SCTLineSeries();
             MarkerSeries.StrokeThickness = 0;
             MarkerSeries.MarkerType = OxyPlot.MarkerType.Diamond;
@@ -263,7 +271,10 @@ namespace SmithChartTool.ViewModel
             MarkerSeries.MarkerFill = OxyColors.Beige;
             MarkerSeries.MarkerStrokeThickness = 3;
             MarkerSeries.MarkerSize = 5;
+            MarkerSeries.ItemsSource = MarkerSeriesData;
+            SCPlot.Series.Add(MarkerSeries);
 
+            IntermediateCurveSeriesData = new List<Collection<DataPoint>>();
             IntermediateCurveSeries = new List<SCTLineSeries>();
 
             Window = new MainWindow(this);
@@ -280,8 +291,8 @@ namespace SmithChartTool.ViewModel
             Window.CommandBindings.Add(new CommandBinding(CommandSaveProjectAs, (s, e) => { RunSaveProjectAs(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandOpenProject, (s, e) => { RunOpenProject(); }));
             Window.CommandBindings.Add(new CommandBinding(CommandCloseApp, (s, e) => { RunCloseApp(); }));
+            
             Window.oxySmithChart.ActualController.UnbindMouseDown(OxyMouseButton.Left);
-            //Window.oxySmithChart.ActualController.BindMouseEnter(OxyPlot.PlotCommands.HoverPointsOnlyTrack);
             Window.oxySmithChart.ActualController.BindMouseEnter(OxyPlot.PlotCommands.HoverPointsOnlyTrack);
 
             Directory.CreateDirectory((Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + "\\SCT\\");
@@ -290,6 +301,7 @@ namespace SmithChartTool.ViewModel
 
             DrawSmithChart(SmithChartType.Impedance);
             DrawSmithChart(SmithChartType.Admittance);
+            IsImpedanceSmithChartShown = true;
 
             Window.Show();
         }
@@ -303,10 +315,10 @@ namespace SmithChartTool.ViewModel
             }
         }
 
-        private void UpdateSchematic(object sender, EventArgs e)
-        {
-            Model.UpdateInputImpedances();
-        }
+        //private void UpdateSchematic(object sender, EventArgs e)
+        //{
+        //    Model.UpdateInputImpedances();
+        //}
 
         public async void RunTestFeature()
         {
@@ -473,23 +485,37 @@ namespace SmithChartTool.ViewModel
 
         private void UpdateSmithChartCurves(object sender, EventArgs e)
         {
-            MarkerSeries.Points.Clear();
-            RefMarkerSeries.Points.Clear();
-            IntermediateCurveSeries.Clear();
-
-            SCPlot.Series.Remove(MarkerSeries);
-            SCPlot.Series.Remove(RefMarkerSeries);
+            // Clear Ref / Marker / Intermediate Series
+            RefMarkerSeriesData.Clear();
+            MarkerSeriesData.Clear();
+            IntermediateCurveSeriesData.Clear();
             foreach (var series in IntermediateCurveSeries)
             {
                 SCPlot.Series.Remove(series);
             }
 
-            foreach (var series in IntermediateCurveSeries)
+            // Add Ref / Marker / Intermediate Series
+            foreach (var point in Model.SC.RefMarkers)
             {
-                SCPlot.Series.Add(series);
+                RefMarkerSeriesData.Add(new DataPoint(point.Real, point.Imaginary)); 
             }
-            SCPlot.Series.Add(MarkerSeries);
-            SCPlot.Series.Add(RefMarkerSeries);
+            foreach (var point in Model.SC.Markers)
+            {
+                MarkerSeriesData.Add(new DataPoint(point.Real, point.Imaginary));
+            }
+
+            int i = 0;
+            foreach (var series in Model.SC.IntermediateCurves)
+            {
+                IntermediateCurveSeriesData.Add(new Collection<DataPoint>());
+                foreach (var point in series)
+                {
+                    IntermediateCurveSeriesData[i].Add(new DataPoint(point.Real, point.Imaginary));
+                }
+                IntermediateCurveSeries.Add(new SCTLineSeries() { ItemsSource = IntermediateCurveSeriesData[i], LineStyle = LineStyle.Solid, StrokeThickness = 1.5, Color = OxyColors.BlueViolet, DataFieldX = "Real", DataFieldY = "Imag" });
+                SCPlot.Series.Add(IntermediateCurveSeries[i]);
+                i++;
+            }
 
             SCPlot.InvalidatePlot(true);
         }

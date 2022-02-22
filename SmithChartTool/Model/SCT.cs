@@ -46,6 +46,9 @@ namespace SmithChartTool.Model
             Log = new Log();
             Project = new Project();
 
+            SC.SmithChartParametersChanged += UpdateInputImpedances;
+            Schematic.SchematicChanged += UpdateInputImpedances;
+
             InsertSchematicElement(-1, SchematicElementType.CapacitorParallel, 22e-12);
             InsertSchematicElement(-1, SchematicElementType.ResistorParallel, 23);
             InsertSchematicElement(-1, SchematicElementType.InductorParallel, 10e-9);
@@ -54,7 +57,7 @@ namespace SmithChartTool.Model
             InsertSchematicElement(-1, SchematicElementType.InductorSerial, 10e-9);
         }
 
-        public void UpdateInputImpedances()
+        public void UpdateInputImpedances(object sender, EventArgs e)
         {
             InputImpedances.Clear();
             Complex32 transformer;
@@ -145,21 +148,18 @@ namespace SmithChartTool.Model
         public void InsertSchematicElement(int index, SchematicElementType type)
         {
             Schematic.InsertElement(index, type);
-            UpdateInputImpedances();
             Log.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }
 
         public void InsertSchematicElement(int index, SchematicElementType type, double value)
         {
             Schematic.InsertElement(index, type, value);
-            UpdateInputImpedances();
             Log.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }
 
         public void InsertSchematicElement(int index, SchematicElementType type, Complex32 impedance, double value = 0)
         {
             Schematic.InsertElement(index, type, impedance, value);
-            UpdateInputImpedances();
             Log.AddLine("[schematic] " + GetSchematicElementTypeDescription(type) + " added to schematic.");
         }
 
@@ -167,7 +167,6 @@ namespace SmithChartTool.Model
         {
             Log.AddLine("[schematic] " + GetSchematicElementTypeDescription(Schematic.Elements[index].Type) + " removed from schematic.");
             Schematic.RemoveElement(index);
-            UpdateInputImpedances();
         }
 
         public void RemoveSchematicElement(object param)
@@ -177,7 +176,6 @@ namespace SmithChartTool.Model
             Debug.Assert(param is SchematicElement);
             if (Schematic.Elements.Contains(param as SchematicElement))
                 Schematic.Elements.Remove(param as SchematicElement);
-            UpdateInputImpedances();
         }
 
         private string GetSchematicElementTypeDescription(SchematicElementType type)
@@ -204,7 +202,7 @@ namespace SmithChartTool.Model
         public void NewProject()
         {
             ChangeStatus(StatusType.Busy);
-            Schematic.Elements.Clear();
+            Schematic.Clear();
             Project.Init();
             ChangeStatus(StatusType.Ready);
         }
@@ -237,6 +235,7 @@ namespace SmithChartTool.Model
             bool isNormalized;
 
             Log.AddLine("[fio] Reading project file (\"" + fileName + "\", ...).");
+            //Schematic.LoadElements(...)
             Schematic.Elements = FileIO.ReadProjectFromFile(fileName, out projectName, out projectDescription, out frequency, out refImpedance, out isNormalized);
             Log.AddLine("[fio] " + this.Schematic.Elements.Count + " Schematic Elements loaded.");
             Log.AddLine("[fio] Done.");

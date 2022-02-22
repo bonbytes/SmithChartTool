@@ -23,6 +23,7 @@ namespace SmithChartTool.Model
                 if(value != _elements)
                 {
                     _elements = value;
+                    OnSchematicChanged();
                 }
             }
         }
@@ -111,6 +112,7 @@ namespace SmithChartTool.Model
             });
             IncreaseElementNumber(schematicElementType);
             UpdateDesignators();
+            OnSchematicChanged();
         }
 
         public void InsertElement(int index, SchematicElementType schematicElementType, Complex32 impedance, double value = 0.0)
@@ -129,6 +131,7 @@ namespace SmithChartTool.Model
             });
             IncreaseElementNumber(schematicElementType);
             UpdateDesignators();
+            OnSchematicChanged();
         }
 
         public void RemoveElement(int index)
@@ -136,6 +139,13 @@ namespace SmithChartTool.Model
             DecreaseElementNumber(Elements[index].Type);
             Elements.RemoveAt(index);
             UpdateDesignators();
+            OnSchematicChanged();
+        }
+
+        public void Clear()
+        {
+            Elements.Clear();
+            OnSchematicChanged();
         }
 
         private void IncreaseElementNumber(SchematicElementType schematicElementType)
@@ -197,6 +207,12 @@ namespace SmithChartTool.Model
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public event EventHandler SchematicChanged;
+        protected void OnSchematicChanged()
+        {
+            SchematicChanged?.Invoke(this, new EventArgs());
         }
     }
 }

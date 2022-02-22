@@ -49,13 +49,22 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
-                                        <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
                                     <!--Style="{StaticResource NormalTextStyle}"-->
-                                    <TextBlock Grid.Column="0" Margin="1" Text="{Binding DataPoint.X, StringFormat=\{0:0.###\}}" />
-                                    <TextBlock Grid.Column="1" Margin="1" Text=" + " />
-                                    <TextBlock Grid.Column="2" Margin="1" Text="{Binding DataPoint.Y, StringFormat=\{0:0.###\}}" />
-                                    <TextBlock Grid.Column="3" Margin="1" Text=" j" />
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="1" Text="{Binding DataPoint.X, StringFormat=\{0:0.###\}}" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="1" Text=" + j" />
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Margin="1" Text="{Binding DataPoint.Y, StringFormat=\{0:0.###\}}" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="1" Text="{Binding DataPoint.X, StringFormat=\{0:0.###\}}" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Margin="1" Text=" + j" />
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Margin="1" Text="{Binding DataPoint.Y, StringFormat=\{0:0.###\}}" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="1" Text="{Binding DataPoint.X, StringFormat=\{0:0.###\}}" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Margin="1" Text=" + j" />
+                                    <TextBlock Grid.Row="2" Grid.Column="2" Margin="1" Text="{Binding DataPoint.Y, StringFormat=\{0:0.###\}}" />
                                 </Grid>
                             </Border>
                         </oxyWeb:TrackerControl>

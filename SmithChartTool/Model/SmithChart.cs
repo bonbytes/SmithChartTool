@@ -49,6 +49,7 @@ namespace SmithChartTool.Model
                 {
                     if (!(double.TryParse(value.ToString(), out _frequency)))
                         throw new ArgumentException("Given frequency is invalid", "Frequency");
+                    OnSmithChartParametersChanged();
                 }
             }
         }
@@ -64,6 +65,7 @@ namespace SmithChartTool.Model
                 if (value != _referenceImpedance)
                 {
                     _referenceImpedance = value;
+                    OnSmithChartParametersChanged();
                 }
             }
         }
@@ -80,8 +82,7 @@ namespace SmithChartTool.Model
                 {
                     if (!(bool.TryParse(value.ToString(), out _isNormalized)))
                         throw new ArgumentException("Only true or false allowed", "IsNormalized");
-                    _isNormalized = value;
-                    OnSmithChartChanged();
+                    OnSmithChartParametersChanged();
                 }
             }
         }
@@ -157,7 +158,7 @@ namespace SmithChartTool.Model
         {
             List<Complex32> plotList = new List<Complex32>();
             List<double> reRangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10, 50};
-            List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 500); // imaginary value of every circle
+            List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 500); // imaginary value of every const circle
             var temp0 = new List<double>(values);
             temp0.Reverse();
             values = values.Invert();
@@ -184,7 +185,7 @@ namespace SmithChartTool.Model
         private void CalculateConstImagCircles(SmithChartType type)
         {
             List<Complex32> plotList = new List<Complex32>();
-            List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 1000); // real value of every circle
+            List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 1000); // real values of every const (quarter-)circle
             List<double> imRange = new List<double>() { 0.2, 0.5, 1, 2, 5, 10, 20, 50 };
             List<double> imRangeFull = new List<double>(imRange.Invert());
             
@@ -272,8 +273,6 @@ namespace SmithChartTool.Model
                 CalculateMarker(inputImpedances[i].Impedance, inputImpedances[i].Type, MarkerType.Normal);  
             }
             CalculateMarker(inputImpedances.Last().Impedance, inputImpedances.Last().Type, MarkerType.Ref);
-
-            OnSmithChartCurvesChanged();
         }
 
 
@@ -281,7 +280,6 @@ namespace SmithChartTool.Model
         {
             Frequency = 1.0e9;
             ReferenceImpedance = new ImpedanceElement(new Complex32(50, 0));
-            IsNormalized = false;
             ImpedanceConstRealCircles = new List<List<Complex32>>();
             ImpedanceConstImagCircles = new List<List<Complex32>>();
             AdmittanceConstRealCircles = new List<List<Complex32>>();
@@ -289,6 +287,7 @@ namespace SmithChartTool.Model
             Markers = new List<Complex32>();
             RefMarkers = new List<Complex32>();
             IntermediateCurves = new List<List<Complex32>>();
+            IsNormalized = true;
             IsImpedanceSmithChart = false;
             IsAdmittanceSmithChart = false;            
         }
@@ -299,10 +298,10 @@ namespace SmithChartTool.Model
             SmithChartChanged?.Invoke(this, new EventArgs());
         }
 
-        public event EventHandler SmithChartCurvesChanged;
-        protected void OnSmithChartCurvesChanged()
+        public event EventHandler SmithChartParametersChanged;
+        protected void OnSmithChartParametersChanged()
         {
-            SmithChartCurvesChanged?.Invoke(this, new EventArgs());
+            SmithChartParametersChanged?.Invoke(this, new EventArgs());
         }
     }
 }
