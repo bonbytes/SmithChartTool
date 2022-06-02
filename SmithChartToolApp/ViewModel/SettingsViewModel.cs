@@ -16,7 +16,7 @@ namespace SmithChartToolApp.ViewModel
 
         public static RoutedUICommand CommandClose = new RoutedUICommand("Close", "Close", typeof(SettingsWindow));
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public SettingsViewModel()
         {

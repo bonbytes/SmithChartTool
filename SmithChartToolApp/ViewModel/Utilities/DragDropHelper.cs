@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.ComponentModel;
 
-namespace SmithChartToolApp.ViewModel
+namespace SmithChartToolApp.ViewModel.Utilities
 {
     public interface IDragDrop
     {

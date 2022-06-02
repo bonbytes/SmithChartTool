@@ -16,14 +16,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SmithChartToolLibrary;
 
-namespace SmithChartToolApp.View
+namespace SmithChartToolApp.View.Controls
 {
     //[ContentProperty("OtherPropertyNameThanContent")]
     public class SchematicElementSourceControl : ContentControl
     {
         static public DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(SchematicElementSourceControl), new PropertyMetadata(string.Empty, OnTypeChanged));
         static public DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(SchematicElementSourceControl), new PropertyMetadata(string.Empty));
-        
+
         public string Type
         {
             get { return (string)GetValue(TypeProperty); }
@@ -44,18 +44,18 @@ namespace SmithChartToolApp.View
         private void UpdateControl()
         {
             var a = typeof(SchematicElementType).FromName(Type);
-            if(a != null)
-            { 
+            if (a != null)
+            {
                 Type t = a.GetType();
                 var b = t.GetMember(a.ToString());
-                
-                if(b.Count() > 0)
+
+                if (b.Count() > 0)
                 {
                     var c = b[0].GetCustomAttributes(typeof(SchematicElementInfo), false);
-                    if(c.Count() > 0)
+                    if (c.Count() > 0)
                     {
                         SchematicElementInfo sei = (SchematicElementInfo)c[0];
-                        if(sei != null)
+                        if (sei != null)
                         {
                             Header = sei.Name;
                             var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Images/SchematicElements/" + sei.Icon + ".xaml"));
@@ -75,14 +75,14 @@ namespace SmithChartToolApp.View
         //public override void OnApplyTemplate()
         //{
         //    base.OnApplyTemplate();
-            //DependencyObject b = GetTemplateChild("PART_MySchematicElementSourceImage"); // UI element out of template
-            //if(b != null && (b.GetType() == typeof(Image)))
-            //{
-            //    img = b as Image;
-            //    UpdateImage();
-            //}
+        //DependencyObject b = GetTemplateChild("PART_MySchematicElementSourceImage"); // UI element out of template
+        //if(b != null && (b.GetType() == typeof(Image)))
+        //{
+        //    img = b as Image;
+        //    UpdateImage();
+        //}
 
-            //UpdateControl();
+        //UpdateControl();
         //}
     }
 }

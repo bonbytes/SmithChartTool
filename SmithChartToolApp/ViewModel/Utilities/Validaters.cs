@@ -1,5 +1,4 @@
 ﻿using MathNet.Numerics;
-using SmithChartToolApp.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace SmithChartToolApp.View
+namespace SmithChartToolApp.ViewModel.Utilities
 {
     /// <summary>
     /// Validater for Textbox <-> Complex32 (e.g. Impedance) bindings
@@ -38,7 +37,7 @@ namespace SmithChartToolApp.View
                 return new ValidationResult(false, $"Illegal characters or {e.Message}");
             }
 
-            if ((cmplx.Real < RealMin) || (cmplx.Real > RealMax) || (cmplx.Imaginary < ImaginaryMin) || (cmplx.Imaginary > ImaginaryMax))
+            if (cmplx.Real < RealMin || cmplx.Real > RealMax || cmplx.Imaginary < ImaginaryMin || cmplx.Imaginary > ImaginaryMax)
             {
                 return new ValidationResult(false, $"Please enter a complex value in the range: {RealMin},{ImaginaryMin} to {RealMax},{ImaginaryMax}.");
             }
@@ -75,7 +74,7 @@ namespace SmithChartToolApp.View
                 return new ValidationResult(false, $"Illegal characters or {e.Message}");
             }
 
-            if ((val < Min) || (val > Max))
+            if (val < Min || val > Max)
             {
                 return new ValidationResult(false,
                   $"Please enter a value in the range: {Min}-{Max}.");
@@ -106,14 +105,14 @@ namespace SmithChartToolApp.View
                 {
                     val = SIPrefix.GetValue((string)value);
                 }
-                    
+
             }
             catch (Exception e)
             {
                 return new ValidationResult(false, $"Illegal characters or {e.Message}");
             }
 
-            if ((val < Min) || (val > Max))
+            if (val < Min || val > Max)
             {
                 return new ValidationResult(false,
                   $"Please enter a value in the range: {Min}-{Max}.");

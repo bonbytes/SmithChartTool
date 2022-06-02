@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Windows.Media;
 using OxyPlot.Annotations;
+using SmithChartToolApp.ViewModel.Utilities;
 
 namespace SmithChartToolApp.ViewModel
 {

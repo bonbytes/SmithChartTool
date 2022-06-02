@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SmithChartToolLibrary;
 
-namespace SmithChartToolApp.View
+namespace SmithChartToolApp.View.Controls
 {
     public class SchematicElementControl : ListBoxItem
     {
@@ -58,7 +58,7 @@ namespace SmithChartToolApp.View
         {
             var elementData = sender.GetValue(DataContextProperty);
             var t = ((SchematicElement)elementData).Type.GetType();
-            var attributeData = t.GetMember((((SchematicElement)elementData).Type).ToString());
+            var attributeData = t.GetMember(((SchematicElement)elementData).Type.ToString());
             var attributes = attributeData[0].GetCustomAttributes(typeof(SchematicElementInfo), false);
             SchematicElementInfo sei = (SchematicElementInfo)attributes[0];
 
@@ -66,15 +66,15 @@ namespace SmithChartToolApp.View
             var content = XamlReader.Load(sri.Stream);
             Content = content;
 
-            if( ((SchematicElement)elementData).Type == SchematicElementType.Port )
+            if (((SchematicElement)elementData).Type == SchematicElementType.Port)
             {
-                Value = (((SchematicElement)elementData).Impedance.ToString() + " Ohms");
+                Value = ((SchematicElement)elementData).Impedance.ToString() + " Ohms";
             }
             else
             {
                 Value = ((SchematicElement)elementData).Value.ToString();
             }
-            
+
             Designator = sei.Designator + ((SchematicElement)elementData).Designator.ToString();
         }
 

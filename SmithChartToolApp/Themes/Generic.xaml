@@ -3,10 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="clr-namespace:SmithChartToolApp.View"
     xmlns:vm="clr-namespace:SmithChartToolApp.ViewModel"
+    xmlns:ctrl="clr-namespace:SmithChartToolApp.View.Controls"
+    xmlns:util="clr-namespace:SmithChartToolApp.ViewModel.Utilities"
     xmlns:oxy="http://oxyplot.org/wpf"
     >
 
-    <vm:SchematicElementValueToStringConverter x:Key="SchematicElementValueToStringConverter"/>
+    <util:SchematicElementValueToStringConverter x:Key="SchematicElementValueToStringConverter"/>
     
     <ControlTemplate x:Key="ValidationTemplate">
         <StackPanel Orientation="Horizontal">
@@ -25,11 +27,11 @@
     </Style>
 
     <!-- This file is meant to be used to create frontends of "Custom Controls" in WPF -->
-    <Style TargetType="{x:Type v:LabeledControl}">
+    <Style TargetType="{x:Type ctrl:LabeledControl}">
         <Setter Property="Margin" Value="0,0,0,5"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type v:LabeledControl}">
+                <ControlTemplate TargetType="{x:Type ctrl:LabeledControl}">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="auto" SharedSizeGroup="HeaderColumn"/>
@@ -47,7 +49,7 @@
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="v:LabeledControl">
+                        <ControlTemplate TargetType="ctrl:LabeledControl">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -65,11 +67,11 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type v:UnitTextBoxControl}">
+    <Style TargetType="{x:Type ctrl:UnitTextBoxControl}">
         <Setter Property="Margin" Value="0,0,0,0"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type v:UnitTextBoxControl}">
+                <ControlTemplate TargetType="{x:Type ctrl:UnitTextBoxControl}">
                     <Grid>
                         <TextBox Margin="0,0,5,0" Text="{TemplateBinding Text}"></TextBox>
                     </Grid>
@@ -78,12 +80,12 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type v:SchematicElementSourceControl}">
+    <Style TargetType="{x:Type ctrl:SchematicElementSourceControl}">
         <Setter Property="Margin" Value="5,2,2,2"/>
 		<Setter Property="Foreground" Value="{DynamicResource SchematicElementSourceHeaderForeground}" />
 		<Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type v:SchematicElementSourceControl}">
+                <ControlTemplate TargetType="{x:Type ctrl:SchematicElementSourceControl}">
 					<Grid ToolTipService.InitialShowDelay="500">
 						<Grid.ToolTip>
 							<Border Background="{DynamicResource RD_ColorBrushBlack}">
@@ -106,13 +108,13 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type v:SchematicElementControl}">
+    <Style TargetType="{x:Type ctrl:SchematicElementControl}">
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type v:SchematicElementControl}">
+                <ControlTemplate TargetType="{x:Type ctrl:SchematicElementControl}">
                     <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" CornerRadius="5">
                         <Grid>
                             <Grid ToolTipService.InitialShowDelay="500">
@@ -133,7 +135,7 @@
                                     <TextBox.Text>
                                         <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}" UpdateSourceTrigger="PropertyChanged" Delay="750" Converter="{StaticResource SchematicElementValueToStringConverter}">
                                             <Binding.ValidationRules>
-                                                <v:DoubleValueRangeRuleWithPrefix Min="1e-12" Max="1e12" ValidationStep="RawProposedValue"/>
+                                                <util:DoubleValueRangeRuleWithPrefix Min="1e-12" Max="1e12" ValidationStep="RawProposedValue"/>
                                             </Binding.ValidationRules>
                                         </Binding>
                                     </TextBox.Text>

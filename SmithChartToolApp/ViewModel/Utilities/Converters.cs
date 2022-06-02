@@ -20,7 +20,7 @@ using System.Windows.Data;
 //Microsoft.Windows.Themes.ProgressBarBrushConverter
 //Microsoft.Windows.Themes.ProgressBarHighlightConverter
 
-namespace SmithChartToolApp.ViewModel
+namespace SmithChartToolApp.ViewModel.Utilities
 {
     /// <summary>
     /// DoubleToStringConverter
@@ -178,7 +178,7 @@ namespace SmithChartToolApp.ViewModel
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            switch (value.ToString().ToLower())
+            switch (value.ToString()?.ToLower())
             {
                 case "yes":
                     return true;

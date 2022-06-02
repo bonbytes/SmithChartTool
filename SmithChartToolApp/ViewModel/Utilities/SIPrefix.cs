@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SmithChartToolApp.ViewModel
+namespace SmithChartToolApp.ViewModel.Utilities
 {
     public class SIPrefixInfo : ICloneable
     {

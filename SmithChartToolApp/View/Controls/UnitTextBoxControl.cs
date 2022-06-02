@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SmithChartToolApp.View
+namespace SmithChartToolApp.View.Controls
 {
     public class UnitTextBoxControl : TextBox
     {
@@ -30,14 +30,14 @@ namespace SmithChartToolApp.View
             set { SetValue(UnitProperty, value); }
         }
 
-        public static DependencyProperty UnitPaddingProperty = DependencyProperty.Register( "UnitPadding", typeof(Thickness), typeof(UnitTextBoxControl), new FrameworkPropertyMetadata(new Thickness(5d, 0d, 0d, 0d), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender));
+        public static DependencyProperty UnitPaddingProperty = DependencyProperty.Register("UnitPadding", typeof(Thickness), typeof(UnitTextBoxControl), new FrameworkPropertyMetadata(new Thickness(5d, 0d, 0d, 0d), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender));
         public Thickness UnitPadding
         {
             get { return (Thickness)GetValue(UnitPaddingProperty); }
             set { SetValue(UnitPaddingProperty, value); }
         }
 
-        public static DependencyProperty TextBoxWidthProperty = DependencyProperty.Register("TextBoxWidth", typeof(double), typeof(UnitTextBoxControl), new FrameworkPropertyMetadata( double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static DependencyProperty TextBoxWidthProperty = DependencyProperty.Register("TextBoxWidth", typeof(double), typeof(UnitTextBoxControl), new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsMeasure));
         public double TextBoxWidth
         {
             get { return (double)GetValue(TextBoxWidthProperty); }
@@ -54,15 +54,15 @@ namespace SmithChartToolApp.View
 
         protected override Size MeasureOverride(Size constraint)
         {
-            var textBoxWidth = this.TextBoxWidth;
+            var textBoxWidth = TextBoxWidth;
             var unit = EnsureUnitText(invalidate: true);
-            var padding = this.UnitPadding;
+            var padding = UnitPadding;
 
             if (unit != null)
             {
                 var unitWidth = unit.Width + padding.Left + padding.Right;
                 var unitHeight = unit.Height + padding.Top + padding.Bottom;
-                constraint = new Size( constraint.Width - unitWidth, Math.Max(constraint.Height, unitHeight));
+                constraint = new Size(constraint.Width - unitWidth, Math.Max(constraint.Height, unitHeight));
             }
 
             var hasFixedTextBoxWidth = !double.IsNaN(textBoxWidth) && !double.IsInfinity(textBoxWidth);
@@ -78,7 +78,7 @@ namespace SmithChartToolApp.View
                 var unitWidth = unit.Width + padding.Left + padding.Right;
                 var unitHeight = unit.Height + padding.Top + padding.Bottom;
 
-                return new Size( baseWidth + unitWidth, Math.Max(baseSize.Height, unitHeight));
+                return new Size(baseWidth + unitWidth, Math.Max(baseSize.Height, unitHeight));
             }
 
             return new Size(baseWidth, baseSize.Height);
@@ -88,7 +88,7 @@ namespace SmithChartToolApp.View
         {
             var textSize = arrangeBounds;
             var unit = EnsureUnitText(invalidate: false);
-            var padding = this.UnitPadding;
+            var padding = UnitPadding;
 
             if (unit != null)
             {
@@ -106,7 +106,7 @@ namespace SmithChartToolApp.View
                 var unitWidth = unit.Width + padding.Left + padding.Right;
                 var unitHeight = unit.Height + padding.Top + padding.Bottom;
 
-                return new Size( baseSize.Width + unitWidth, Math.Max(baseSize.Height, unitHeight));
+                return new Size(baseSize.Width + unitWidth, Math.Max(baseSize.Height, unitHeight));
             }
             return baseSize;
         }
@@ -128,11 +128,11 @@ namespace SmithChartToolApp.View
             if (_unit != null)
                 return _unit;
 
-            var unit = this.Unit;
+            var unit = Unit;
 
             if (!string.IsNullOrEmpty(unit))
             {
-                _unit = new FormattedText(unit, CultureInfo.InvariantCulture, this.FlowDirection, new Typeface( this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch), this.FontSize, this.Foreground);
+                _unit = new FormattedText(unit, CultureInfo.InvariantCulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeight, FontStretch), FontSize, Foreground);
             }
 
             return _unit;

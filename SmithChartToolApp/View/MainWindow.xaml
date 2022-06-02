@@ -4,7 +4,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:system="clr-namespace:System;assembly=System"
         xmlns:v="clr-namespace:SmithChartToolApp.View"
+        xmlns:ctrl="clr-namespace:SmithChartToolApp.View.Controls"
         xmlns:vm="clr-namespace:SmithChartToolApp.ViewModel"
+        xmlns:util="clr-namespace:SmithChartToolApp.ViewModel.Utilities"
         xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib" 
         xmlns:oxyWeb="http://oxyplot.org/wpf"
@@ -20,9 +22,9 @@
         >
 
     <Window.Resources>
-        <vm:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
-        <vm:Complex32ToStringConverter x:Key="Complex32ToStringConverter"/>
-        <vm:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
+        <util:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
+        <util:Complex32ToStringConverter x:Key="Complex32ToStringConverter"/>
+        <util:BooleanInvertConverter x:Key="BooleanInvertConverter"/>
 
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel Orientation="Horizontal">
@@ -176,29 +178,29 @@
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Smith Chart settings">
                     <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
-                        <v:LabeledControl Header="Frequency [Hz]">
+                        <ctrl:LabeledControl Header="Frequency [Hz]">
                             <TextBox x:Name="tbFrequency" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
                                 <Binding Path="Frequency"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Delay="750" Converter="{StaticResource DoubleToStringConverter}">
                                     <!--StringFormat="g8"-->
                                     <Binding.ValidationRules>
-                                        <v:DoubleValueRangeRuleWithPrefix Min="1e3" Max="1e12" ValidationStep="RawProposedValue"/>
+                                        <util:DoubleValueRangeRuleWithPrefix Min="1e3" Max="1e12" ValidationStep="RawProposedValue"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox>
-                        </v:LabeledControl>
-                        <v:LabeledControl Header="Ref. Impedance [Ohm]">
+                        </ctrl:LabeledControl>
+                        <ctrl:LabeledControl Header="Ref. Impedance [Ohm]">
                             <!--<v:UnitTextBoxControl x:Name="tbRefImpedance" Unit="Ohm" Text="{Binding Path=SC.ReferenceImpedance.Impedance}"></v:UnitTextBoxControl>-->
                             <TextBox x:Name="tbRefImpedance" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
                                 <Binding Path="ReferenceImpedance"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Delay="750" Converter="{StaticResource Complex32ToStringConverter}">
                                     <Binding.ValidationRules >
-                                        <v:Complex32ValueRangeRule RealMin="0" RealMax="1e3" ImaginaryMin="-1e3" ImaginaryMax="1e3" ValidationStep="RawProposedValue"/>
+                                        <util:Complex32ValueRangeRule RealMin="0" RealMax="1e3" ImaginaryMin="-1e3" ImaginaryMax="1e3" ValidationStep="RawProposedValue"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox>
-                        </v:LabeledControl>
-                        <v:LabeledControl Header="Normalized">
+                        </ctrl:LabeledControl>
+                        <ctrl:LabeledControl Header="Normalized">
                             <CheckBox x:Name="chkIsNormalized" IsChecked="{Binding IsNormalized, UpdateSourceTrigger=PropertyChanged}"/>
-                        </v:LabeledControl>
+                        </ctrl:LabeledControl>
 
                         <Button x:Name="btnTestFeature" Content="Test feature" Command="vm:MainViewModel.CommandTestFeature"/>
                         <!--<Button x:Name="btnExecuteSync" Content="Normal Execute" IsEnabled="{Binding Path=bli, Converter={StaticResource BooleanInvertConverter}, ConverterParameter=21}"></Button>
@@ -229,13 +231,13 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements">
-                    <ListBox vm:DragDropHelper.IsDragSource="True" ItemsSource="{Binding AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" av:ItemsSource="{av:SampleData ItemCount=5}">
+                    <ListBox util:DragDropHelper.IsDragSource="True" ItemsSource="{Binding AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" av:ItemsSource="{av:SampleData ItemCount=5}">
                         <ListBox.Resources>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                            <v:SchematicElementSourceControl Type="{Binding}" />
+                                            <ctrl:SchematicElementSourceControl Type="{Binding}" />
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -266,7 +268,7 @@
                             <oxyWeb:PlotView.Height>
                                 <MultiBinding>
                                     <MultiBinding.Converter>
-                                        <vm:PlotSizeConverter/>
+                                        <util:PlotSizeConverter/>
                                     </MultiBinding.Converter>
                                     <Binding Path="ActualWidth" ElementName="grSmithChartPlot"/>
                                     <Binding Path="ActualHeight" ElementName="grSmithChartPlot"/>
@@ -279,14 +281,14 @@
                 <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" Background="Transparent" />
 
                 <GroupBox  Grid.Row="2" Header="Schematic">
-                    <ListBox x:Name="lbSchematic"  IsHitTestVisible="True" Width="auto" Background="White" AllowDrop="True" vm:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElements}">
+                    <ListBox x:Name="lbSchematic"  IsHitTestVisible="True" Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElements}">
                         <ListBox.Resources>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Focusable" Value="True" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                            <v:SchematicElementControl Value="{Binding Value}" Designator="{Binding Designator}" Type="{Binding Type}" Command="{Binding SomeCommand}"/>
+                                            <ctrl:SchematicElementControl Value="{Binding Value}" Designator="{Binding Designator}" Type="{Binding Type}" Command="{Binding SomeCommand}"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmithChartToolApp.ViewModel
+namespace SmithChartToolApp.ViewModel.Utilities
 {
     /// <summary>
     /// Custom Line series to expand existing Oxyplot series

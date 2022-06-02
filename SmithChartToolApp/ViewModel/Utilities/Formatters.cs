@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmithChartToolApp.ViewModel
+namespace SmithChartToolApp.ViewModel.Utilities
 {
     public static class Formatters
     {
