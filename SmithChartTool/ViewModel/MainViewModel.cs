@@ -88,7 +88,6 @@ namespace SmithChartTool.ViewModel
                 if (value != Model.SC.ReferenceImpedance.Impedance)
                 {
                     Model.SC.ReferenceImpedance.Impedance = value;
-                    //Model.UpdateInputImpedances();
                     OnPropertyChanged("ReferenceImpedance");
                 }
             }
@@ -205,7 +204,7 @@ namespace SmithChartTool.ViewModel
         {
             Model = new SCT();
             Model.SC.SmithChartChanged += UpdateSmithChart;
-            //Model.SC.SmithChartCurvesChanged += UpdateSmithChartCurves;
+            Model.SC.SmithChartCurvesChanged += UpdateSmithChartCurves;
             //Model.Schematic.Elements.SchematicElementChanged += UpdateSchematic;
 
             SCPlot = new PlotModel();
@@ -322,8 +321,14 @@ namespace SmithChartTool.ViewModel
 
         public async void RunTestFeature()
         {
-            await Task.Run(() => MessageBox.Show(Model.Schematic.Elements[5].Value.ToString()));
+            //await Task.Run(() =>
+            //{
+            //    //MessageBox.Show(Model.Schematic.Elements[5].Value.ToString());
+            //    Model.Test();
+            //});
+            Model.Test();
         }
+        
 
         public void RunNewProject()
         {

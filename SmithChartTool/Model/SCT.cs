@@ -48,13 +48,6 @@ namespace SmithChartTool.Model
 
             SC.SmithChartParametersChanged += UpdateInputImpedances;
             Schematic.SchematicChanged += UpdateInputImpedances;
-
-            InsertSchematicElement(-1, SchematicElementType.CapacitorParallel, 22e-12);
-            InsertSchematicElement(-1, SchematicElementType.ResistorParallel, 23);
-            InsertSchematicElement(-1, SchematicElementType.InductorParallel, 10e-9);
-            InsertSchematicElement(-1, SchematicElementType.CapacitorSerial, 22e-12);
-            InsertSchematicElement(-1, SchematicElementType.ResistorSerial, 23);
-            InsertSchematicElement(-1, SchematicElementType.InductorSerial, 10e-9);
         }
 
         public void UpdateInputImpedances(object sender, EventArgs e)
@@ -246,6 +239,16 @@ namespace SmithChartTool.Model
             SC.ReferenceImpedance.Impedance = refImpedance;
             SC.IsNormalized = isNormalized;
             ChangeStatus(StatusType.Ready);
+        }
+
+        public void Test()
+        {
+            //InsertSchematicElement(-1, SchematicElementType.CapacitorParallel, 22e-12);
+            //InsertSchematicElement(-1, SchematicElementType.ResistorParallel, 23);
+            //InsertSchematicElement(-1, SchematicElementType.InductorParallel, 10e-9);
+            //InsertSchematicElement(-1, SchematicElementType.CapacitorSerial, 22e-12);
+            InsertSchematicElement(-1, SchematicElementType.ResistorSerial, 80);
+            //InsertSchematicElement(-1, SchematicElementType.InductorSerial, 10e-9);
         }
     }
 }

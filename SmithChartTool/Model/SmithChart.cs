@@ -65,7 +65,7 @@ namespace SmithChartTool.Model
                 if (value != _referenceImpedance)
                 {
                     _referenceImpedance = value;
-                    OnSmithChartParametersChanged();
+                    OnSmithChartChanged();
                 }
             }
         }
@@ -129,12 +129,17 @@ namespace SmithChartTool.Model
         {
             if (inputType == SmithChartType.Impedance)
             {
-                return (ImpedanceNormalized(input) - ImpedanceNormalized(ReferenceImpedance.Impedance)) / (ImpedanceNormalized(input) + ImpedanceNormalized(ReferenceImpedance.Impedance));
-            }
-                
+                Complex32 refvalue = ImpedanceNormalized(ReferenceImpedance.Impedance);
+                input = ImpedanceNormalized(input);
+                Complex32 calc = (input - refvalue) / (input + refvalue);
+                return calc;
+                //return (input - refvalue) / (input + refvalue);
+            }   
             else if (inputType == SmithChartType.Admittance)
             {
-                return (AdmittanceNormalized(ReferenceImpedance.Impedance) - AdmittanceNormalized(input)) / (AdmittanceNormalized(ReferenceImpedance.Impedance) + AdmittanceNormalized(input));
+                Complex32 refvalue = AdmittanceNormalized(ReferenceImpedance.Impedance);
+                input = AdmittanceNormalized(input);
+                return (refvalue - input) / (refvalue + input);
             }
             else
                 return Complex32.NaN;
@@ -154,10 +159,37 @@ namespace SmithChartTool.Model
             return admittance;
         }
 
+        private List<double> GenerateSCRealPlotRangeValues(double start = 0.0, double stop = 0.0)
+        {
+            List<double> vals = new List<double> { 
+                0 * ReferenceImpedance.Impedance.Magnitude, 
+                0.2 * ReferenceImpedance.Impedance.Magnitude, 
+                0.5 * ReferenceImpedance.Impedance.Magnitude,
+                1 * ReferenceImpedance.Impedance.Magnitude,
+                2 * ReferenceImpedance.Impedance.Magnitude,
+                20 * ReferenceImpedance.Impedance.Magnitude,
+                100 * ReferenceImpedance.Impedance.Magnitude };
+
+            return vals;
+        }
+
+        private List<double> GenerateSCImagPlotRangeValues(double start = 0.0, double stop = 0.0)
+        {
+            List<double> vals = new List<double> {
+                0.2 * ReferenceImpedance.Impedance.Magnitude,
+                0.5 * ReferenceImpedance.Impedance.Magnitude,
+                1 * ReferenceImpedance.Impedance.Magnitude,
+                2 * ReferenceImpedance.Impedance.Magnitude,
+                20 * ReferenceImpedance.Impedance.Magnitude,
+                100 * ReferenceImpedance.Impedance.Magnitude };
+
+            return vals;
+        }
+
         private void CalculateConstRealCircles(SmithChartType type)
         {
             List<Complex32> plotList = new List<Complex32>();
-            List<double> reRangeFull = new List<double> { 0, 0.2, 0.5, 1, 2, 5, 10, 50};
+            List<double> reRangeFull = GenerateSCRealPlotRangeValues();
             List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 500); // imaginary value of every const circle
             var temp0 = new List<double>(values);
             temp0.Reverse();
@@ -186,7 +218,7 @@ namespace SmithChartTool.Model
         {
             List<Complex32> plotList = new List<Complex32>();
             List<double> values = Lists.GetLogRange(Math.Log(1e-6, 10), Math.Log(1e6, 10), 1000); // real values of every const (quarter-)circle
-            List<double> imRange = new List<double>() { 0.2, 0.5, 1, 2, 5, 10, 20, 50 };
+            List<double> imRange = GenerateSCImagPlotRangeValues();
             List<double> imRangeFull = new List<double>(imRange.Invert());
             
             imRangeFull.Reverse();
@@ -273,6 +305,7 @@ namespace SmithChartTool.Model
                 CalculateMarker(inputImpedances[i].Impedance, inputImpedances[i].Type, MarkerType.Normal);  
             }
             CalculateMarker(inputImpedances.Last().Impedance, inputImpedances.Last().Type, MarkerType.Ref);
+            OnSmithChartCurvesChanged();
         }
 
 
@@ -302,6 +335,12 @@ namespace SmithChartTool.Model
         protected void OnSmithChartParametersChanged()
         {
             SmithChartParametersChanged?.Invoke(this, new EventArgs());
+        }
+
+        public event EventHandler SmithChartCurvesChanged;
+        protected void OnSmithChartCurvesChanged()
+        {
+            SmithChartCurvesChanged?.Invoke(this, new EventArgs());
         }
     }
 }

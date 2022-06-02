@@ -42,7 +42,7 @@ namespace SmithChartTool.Model
 
             // create two Ports (initial setup)
             Elements.Add(new SchematicElement() { Type = SchematicElementType.Port, Designator = 1, Impedance = new Complex32(50, 0), Value = 0 });
-            Elements.Add(new SchematicElement() { Type = SchematicElementType.Port, Designator = 2, Impedance = new Complex32(20, 20), Value = 0 });
+            Elements.Add(new SchematicElement() { Type = SchematicElementType.Port, Designator = 2, Impedance = new Complex32(50, 0), Value = 0 });
         }
 
         private void UpdateDesignators()
