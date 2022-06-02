@@ -1,6 +1,0 @@
-﻿<Project>
-  <PropertyGroup>
-    <DefineConstants>$(DefineConstants);NET_FRAMEWORK</DefineConstants>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-</Project>
