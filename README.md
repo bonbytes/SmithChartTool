@@ -45,7 +45,7 @@ SmithChartTool is still a very fluidic project and I am actively working out of 
 
 This program is free software; you can redistribute it and/or modify it under terms of the MIT license.
 
-Copyright (c) 2020 bonbytes
+Copyright (c) 2022 bonbytes
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
