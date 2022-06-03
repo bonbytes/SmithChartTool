@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmithChartToolLibrary
+namespace SmithChartToolLibrary.Utilities
 {
     public static class RF
     {
@@ -22,7 +22,7 @@ namespace SmithChartToolLibrary
 
         public static double CalculatePropagationConstant(double wavelength)
         {
-            return (2 * Math.PI) / (wavelength);
+            return 2 * Math.PI / wavelength;
         }
 
         public static Complex32 CalculateSerialResistorResistance(double value)
@@ -61,7 +61,7 @@ namespace SmithChartToolLibrary
 
         public static double CalculateVSWR(Complex32 gamma)
         {
-            return ((1 + gamma.Magnitude) / (1 - gamma.Magnitude));
+            return (1 + gamma.Magnitude) / (1 - gamma.Magnitude);
         }
     }
 }

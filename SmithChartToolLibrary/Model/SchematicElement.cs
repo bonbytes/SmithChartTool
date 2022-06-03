@@ -9,6 +9,26 @@ using System.Windows.Input;
 
 namespace SmithChartToolLibrary
 {
+    public class SchematicElementInfo : Attribute
+    {
+        public string Name { get; }
+        public string Icon { get; }
+        public string Designator { get; }
+
+        public SchematicElementInfo(string name, string icon, string designator)
+        {
+            Name = name;
+            Icon = icon;
+            Designator = designator;
+        }
+    }
+
+    public class HideInList : Attribute
+    {
+        public HideInList()
+        { }
+    }
+
     public enum SchematicElementType
     {   
         [SchematicElementInfo("Port", "Port","P"), HideInList] Port,

@@ -1,4 +1,5 @@
 ﻿using MathNet.Numerics;
+using SmithChartToolLibrary.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -205,7 +206,7 @@ namespace SmithChartToolLibrary
             {
                 ChangeStatus(StatusType.Busy);
                 Log.AddLine("[fio] Saving project to file (\"" + fileName + "\")...");
-                FileIO.SaveProjectToFile(fileName, Project.Name, Project.Description, SC.Frequency, SC.ReferenceImpedance.Impedance, SC.IsNormalized, Schematic.Elements);
+                Project.SaveToFile(fileName, Project.Name, Project.Description, SC.Frequency, SC.ReferenceImpedance.Impedance, SC.IsNormalized, Schematic.Elements);
                 Log.AddLine("[fio] Done.");
                 ChangeStatus(StatusType.Ready);
             }
@@ -228,7 +229,7 @@ namespace SmithChartToolLibrary
 
             Log.AddLine("[fio] Reading project file (\"" + fileName + "\", ...).");
             //Schematic.LoadElements(...)
-            Schematic.Elements = FileIO.ReadProjectFromFile(fileName, out projectName, out projectDescription, out frequency, out refImpedance, out isNormalized);
+            Schematic.Elements = Project.ReadFromFile(fileName, out projectName, out projectDescription, out frequency, out refImpedance, out isNormalized);
             Log.AddLine("[fio] " + this.Schematic.Elements.Count + " Schematic Elements loaded.");
             Log.AddLine("[fio] Done.");
 
