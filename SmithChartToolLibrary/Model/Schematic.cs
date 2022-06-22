@@ -93,6 +93,7 @@ namespace SmithChartToolLibrary
         static int numInductors = 0;
         static int numTLines = 0;
         static int numImpedances = 0;
+        static int numPorts = 0;
 
         public Schematic()
         {
@@ -101,8 +102,8 @@ namespace SmithChartToolLibrary
             AvailableElements = typeof(SchematicElementType).ToNames();
 
             // create two Ports (initial setup)
-            Elements.Add(new SchematicElement() { Type = SchematicElementType.Port, Designator = 1, Impedance = new Complex32(50, 0), Value = 0 });
-            Elements.Add(new SchematicElement() { Type = SchematicElementType.Port, Designator = 2, Impedance = new Complex32(50, 0), Value = 0 });
+            this.InsertElement(0, SchematicElementType.Port, new Complex32(50,0), 0);
+            this.InsertElement(1, SchematicElementType.Port, new Complex32(50,0), 0);
         }
 
         private void UpdateDesignators()
@@ -112,6 +113,7 @@ namespace SmithChartToolLibrary
             int inductorDesignator = 1;
             int tLineDesignator = 1;
             int impedanceDesignator = 1;
+            int portDesignator = 1;
             
             foreach (var element in Elements)
             {
@@ -148,6 +150,11 @@ namespace SmithChartToolLibrary
                     case SchematicElementType.ImpedanceParallel:
                         element.Designator = impedanceDesignator;
                         impedanceDesignator++;
+                        break;
+
+                    case SchematicElementType.Port:
+                        element.Designator = portDesignator;
+                        portDesignator++;
                         break;
                     
                     default:
@@ -232,6 +239,10 @@ namespace SmithChartToolLibrary
                 case SchematicElementType.ImpedanceSerial:
                 case SchematicElementType.ImpedanceParallel:
                     numImpedances++;
+                    break;
+
+                case SchematicElementType.Port:
+                    numPorts++;
                     break;
 
                 default:

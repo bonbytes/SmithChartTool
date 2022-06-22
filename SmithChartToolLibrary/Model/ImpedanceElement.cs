@@ -12,6 +12,7 @@ namespace SmithChartToolLibrary
     public class ImpedanceElement
     {
         private Complex32 _impedance;
+        private Complex32 _admittance;
         public Complex32 Impedance
         {
             get 
@@ -27,6 +28,7 @@ namespace SmithChartToolLibrary
                         if (temp.Real >= 0)
                         {
                             _impedance = temp;
+                            this.Admittance = Complex32.Reciprocal(temp);
                         }
                         else
                             throw new ArgumentException("Impedance has negative real part.", "Impedance");
@@ -36,6 +38,33 @@ namespace SmithChartToolLibrary
                 }  
             }
         }
+
+        public Complex32 Admittance
+        {
+            get 
+            {
+                return (_admittance);
+            }
+            set
+            {
+                if(value != _admittance)
+                {
+                    if (Complex32.TryParse(value.ToString(), out Complex32 temp))
+                    {
+                        if (temp.Real >= 0)
+                        {
+                            _admittance = temp;
+                            this.Impedance = Complex32.Reciprocal(temp);
+                        }
+                        else
+                            throw new ArgumentException("Admittance has negative real part.", "Admittance");
+                    }
+                    else
+                        throw new ArgumentException("Invalid Complex value representation", "Admittance");
+                }  
+            }
+        }
+
         public ImpedanceElement()
         {
             Impedance = new Complex32(50,0);

@@ -10,51 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\Icons\ApplicationBehaviorSettings_16x.png" />
-    <None Remove="Images\Icons\Application_16x.png" />
-    <None Remove="Images\Icons\Close_16x.png" />
-    <None Remove="Images\Icons\Console_16x.png" />
-    <None Remove="Images\Icons\DragDropControl_16x.png" />
-    <None Remove="Images\Icons\ExportFile_16x.png" />
-    <None Remove="Images\Icons\HelpApplication_16x.png" />
-    <None Remove="Images\Icons\Image_16x.png" />
-    <None Remove="Images\Icons\NewFile_16x.png" />
-    <None Remove="Images\Icons\OpenFile_16x.png" />
-    <None Remove="Images\Icons\OpenFolder_16x.png" />
-    <None Remove="Images\Icons\Refresh_16x.png" />
-    <None Remove="Images\Icons\SaveAs_16x.png" />
-    <None Remove="Images\Icons\Save_16x.png" />
-    <None Remove="Images\Icons\Settings_16x.png" />
-    <None Remove="Images\Icons\Stop_16x.png" />
-    <None Remove="Images\Logo\sct.ico" />
-    <None Remove="Images\Logo\sct.png" />
-    <None Remove="Images\Logo\sct_64x64.svg" />
-    <None Remove="Images\Logo\sct_hr.png" />
-    <None Remove="Images\SchematicElements\SCSchematicPNG.PNG" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Remove="Images\SchematicElements\CapacitorParallel.xaml" />
-    <Page Remove="Images\SchematicElements\CapacitorSerial.xaml" />
-    <Page Remove="Images\SchematicElements\Dummy.xaml" />
-    <Page Remove="Images\SchematicElements\ImpedanceParallel.xaml" />
-    <Page Remove="Images\SchematicElements\ImpedanceSerial.xaml" />
-    <Page Remove="Images\SchematicElements\InductorParallel.xaml" />
-    <Page Remove="Images\SchematicElements\InductorSerial.xaml" />
-    <Page Remove="Images\SchematicElements\OpenStub.xaml" />
-    <Page Remove="Images\SchematicElements\Port.xaml" />
-    <Page Remove="Images\SchematicElements\ResistorParallel.xaml" />
-    <Page Remove="Images\SchematicElements\ResistorSerial.xaml" />
-    <Page Remove="Images\SchematicElements\ResistorSerial_ZE.xaml" />
-    <Page Remove="Images\SchematicElements\ShortedStub.xaml" />
-    <Page Remove="Images\SchematicElements\TLine.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Images\Logo\sct.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <PackageReference Include="OxyPlot.Core" Version="2.1.0" />
     <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />

@@ -53,7 +53,7 @@ namespace SmithChartToolLibrary
         public void UpdateInputImpedances(object sender, EventArgs e)
         {
             InputImpedances.Clear();
-            Complex32 transformer;
+            Complex32 transformer = new Complex32();
 
             for (int i = Schematic.Elements.Count - 1; i >= 0; i--)
             {
@@ -120,7 +120,7 @@ namespace SmithChartToolLibrary
                             case SchematicElementType.ImpedanceParallel:
                             case SchematicElementType.OpenStub:
                             case SchematicElementType.ShortedStub:
-                                InputImpedances.Add(new InputImpedance(i, (1/(1 / InputImpedances.Last().Impedance) + (1 / transformer)), SmithChartType.Admittance));
+                                InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Admittance + transformer));
                                 break;
                             case SchematicElementType.TLine:
                                 InputImpedances.Add(new InputImpedance(i, 0));
@@ -136,6 +136,16 @@ namespace SmithChartToolLibrary
                 }
             }
             SC.UpdateCurves(InputImpedances);
+        }
+
+        public void Test()
+        {
+            //InsertSchematicElement(-1, SchematicElementType.CapacitorParallel, 22e-12);
+            //InsertSchematicElement(-1, SchematicElementType.ResistorParallel, 23);
+            InsertSchematicElement(-1, SchematicElementType.InductorParallel, 10e-9);
+            //InsertSchematicElement(-1, SchematicElementType.CapacitorSerial, 22e-12);
+            //InsertSchematicElement(-1, SchematicElementType.ResistorSerial, 80);
+            //InsertSchematicElement(-1, SchematicElementType.InductorSerial, 10e-9);
         }
 
         public void InsertSchematicElement(int index, SchematicElementType type)
@@ -239,16 +249,6 @@ namespace SmithChartToolLibrary
             SC.ReferenceImpedance.Impedance = refImpedance;
             SC.IsNormalized = isNormalized;
             ChangeStatus(StatusType.Ready);
-        }
-
-        public void Test()
-        {
-            //InsertSchematicElement(-1, SchematicElementType.CapacitorParallel, 22e-12);
-            //InsertSchematicElement(-1, SchematicElementType.ResistorParallel, 23);
-            //InsertSchematicElement(-1, SchematicElementType.InductorParallel, 10e-9);
-            //InsertSchematicElement(-1, SchematicElementType.CapacitorSerial, 22e-12);
-            InsertSchematicElement(-1, SchematicElementType.ResistorSerial, 80);
-            //InsertSchematicElement(-1, SchematicElementType.InductorSerial, 10e-9);
         }
     }
 }

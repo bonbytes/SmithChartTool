@@ -27,28 +27,11 @@ namespace SmithChartToolLibrary
 			}
 		}
 
-		private SmithChartType _type;
-		public SmithChartType Type
-		{
-			get
-			{
-				return _type;
-			}
-			set
-			{
-				if (value != _type)
-				{
-					_type = value;
-				}
 
-			}
-		}
-
-		public InputImpedance(int id, Complex32 impedance, SmithChartType type = SmithChartType.Impedance)
+		public InputImpedance(int id, Complex32 impedance)
 		{
 			Id = id;
 			Impedance = impedance;
-			Type = type;
 		}
 
 
