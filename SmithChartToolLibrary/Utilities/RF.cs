@@ -59,6 +59,19 @@ namespace SmithChartToolLibrary.Utilities
             return new Complex32(0, (float)(1 / (2 * Math.PI * frequency * value)));
         }
 
+        public static Complex32 GetConformalGammaValue(Complex32 input, Complex32 refval)
+        { 
+            Complex32 calc = (input - refval) / (input + refval);
+            return calc;
+        }
+
+        public static Complex32 ImpedanceNormalized(Complex32 input, Complex32 refval, bool isNormalized = false)
+        {
+            if (isNormalized == true)
+                return (input / refval);
+            return input;
+        }
+
         public static double CalculateVSWR(Complex32 gamma)
         {
             return (1 + gamma.Magnitude) / (1 - gamma.Magnitude);

@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using SmithChartToolApp.View;
 using SmithChartToolLibrary;
+using SmithChartToolLibrary.Utilities;
 using MathNet.Numerics;
 using System.IO;
 using OxyPlot;
@@ -432,11 +433,12 @@ namespace SmithChartToolApp.ViewModel
             if (IsImpedanceSmithChartShown)
             {
                 SCImpedanceConstRealData.Clear();
-                foreach (var series in Model.SC.ImpedanceConstRealCircles)
+                foreach (var series in Model.SC.ConstRealCircles)
                 {
                     foreach (var point in series)
                     {
-                        SCImpedanceConstRealData.Add(new DataPoint(point.Real, point.Imaginary));
+                        Complex32 temp = RF.GetConformalGammaValue(point, Model.SC.ReferenceImpedance.Impedance);
+                        SCImpedanceConstRealData.Add(new DataPoint(temp.Real, temp.Imaginary));
                     }
                 }
                 SCPlot.Series.Add(SCImpedanceConstRealSeries);
@@ -444,12 +446,13 @@ namespace SmithChartToolApp.ViewModel
                 SCImpedanceConstImagSeries.Clear();
                 SCImpedanceConstImagData.Clear();
                 int i = 0;
-                foreach (var series in Model.SC.ImpedanceConstImagCircles)
+                foreach (var series in Model.SC.ConstImagCircles)
                 {
                     SCImpedanceConstImagData.Add(new Collection<DataPoint>());
                     foreach (var point in series)
                     {
-                        SCImpedanceConstImagData[i].Add(new DataPoint(point.Real, point.Imaginary));
+                        Complex32 temp = RF.GetConformalGammaValue(point, Model.SC.ReferenceImpedance.Impedance);
+                        SCImpedanceConstImagData[i].Add(new DataPoint(temp.Real, temp.Imaginary));
                     }
                     SCImpedanceConstImagSeries.Add(new SCTLineSeries() { ItemsSource = SCImpedanceConstImagData[i], LineStyle = LineStyle.Solid, StrokeThickness = 0.75, DataFieldX = "Real", DataFieldY = "Imag" });
                     SCPlot.Series.Add(SCImpedanceConstImagSeries[i]);
@@ -460,11 +463,13 @@ namespace SmithChartToolApp.ViewModel
             if (IsAdmittanceSmithChartShown)
             {
                 SCAdmittanceConstRealData.Clear();
-                foreach (var series in Model.SC.AdmittanceConstRealCircles)
+                foreach (var series in Model.SC.ConstRealCircles)
                 {
                     foreach (var point in series)
                     {
-                        SCAdmittanceConstRealData.Add(new DataPoint(point.Real, point.Imaginary));
+                        Complex32 temp = Complex32.Reciprocal(point);
+                        temp = RF.GetConformalGammaValue(temp, Model.SC.ReferenceImpedance.Admittance);
+                        SCAdmittanceConstRealData.Add(new DataPoint(temp.Real, temp.Imaginary));
                     }
                 }
                 SCPlot.Series.Add(SCAdmittanceConstRealSeries);
@@ -472,12 +477,14 @@ namespace SmithChartToolApp.ViewModel
                 SCAdmittanceConstImagSeries.Clear();
                 SCAdmittanceConstImagData.Clear();
                 int i = 0;
-                foreach (var series in Model.SC.ImpedanceConstImagCircles)
+                foreach (var series in Model.SC.ConstImagCircles)
                 {
                     SCAdmittanceConstImagData.Add(new Collection<DataPoint>());
                     foreach (var point in series)
                     {
-                        SCAdmittanceConstImagData[i].Add(new DataPoint(point.Real, point.Imaginary));
+                        Complex32 temp = Complex32.Reciprocal(point);
+                        temp = RF.GetConformalGammaValue(temp, Complex32.Reciprocal(Model.SC.ReferenceImpedance.Impedance));
+                        SCAdmittanceConstImagData[i].Add(new DataPoint(temp.Real, temp.Imaginary));
                     }
                     SCAdmittanceConstImagSeries.Add(new SCTLineSeries() { ItemsSource = SCAdmittanceConstImagData[i], LineStyle = LineStyle.Solid, StrokeThickness = 0.75, DataFieldX = "Real", DataFieldY = "Imag" });
                     SCPlot.Series.Add(SCAdmittanceConstImagSeries[i]);

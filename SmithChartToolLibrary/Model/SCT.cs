@@ -53,7 +53,7 @@ namespace SmithChartToolLibrary
         public void UpdateInputImpedances(object sender, EventArgs e)
         {
             InputImpedances.Clear();
-            Complex32 transformer = new Complex32();
+            ImpedanceElement transformer = new ImpedanceElement(Complex32.Zero);
 
             for (int i = Schematic.Elements.Count - 1; i >= 0; i--)
             {
@@ -64,43 +64,41 @@ namespace SmithChartToolLibrary
                     switch (Schematic.Elements[i].Type)
                     {
                         case SchematicElementType.ResistorSerial:
-                            transformer = RF.CalculateSerialResistorResistance(Schematic.Elements[i].Value);
+                            transformer.Impedance = RF.CalculateSerialResistorResistance(Schematic.Elements[i].Value);
                             break;
                         case SchematicElementType.CapacitorSerial:
-                            transformer = RF.CalculateSerialCapacitorReactance(Schematic.Elements[i].Value, SC.Frequency);
+                            transformer.Impedance = RF.CalculateSerialCapacitorReactance(Schematic.Elements[i].Value, SC.Frequency);
                             break;
                         case SchematicElementType.InductorSerial:
-                            transformer = RF.CalculateSerialInductorReactance(Schematic.Elements[i].Value, SC.Frequency);
+                            transformer.Impedance = RF.CalculateSerialInductorReactance(Schematic.Elements[i].Value, SC.Frequency);
                             break;
                         case SchematicElementType.ResistorParallel:
-                            transformer = RF.CalculateParallelResistorConductance(Schematic.Elements[i].Value);
+                            transformer.Admittance = RF.CalculateParallelResistorConductance(Schematic.Elements[i].Value);
                             break;
                         case SchematicElementType.CapacitorParallel:
-                            transformer = RF.CalculateParallelCapacitorSusceptance(Schematic.Elements[i].Value, SC.Frequency);
+                            transformer.Admittance = RF.CalculateParallelCapacitorSusceptance(Schematic.Elements[i].Value, SC.Frequency);
                             break;
                         case SchematicElementType.InductorParallel:
-                            transformer = RF.CalculateParallelInductorSusceptance(Schematic.Elements[i].Value, SC.Frequency);
+                            transformer.Admittance = RF.CalculateParallelInductorSusceptance(Schematic.Elements[i].Value, SC.Frequency);
                             break;
                         case SchematicElementType.TLine:
-                            transformer = Complex32.Zero;
+                            transformer.Impedance = Complex32.Zero;
                             break;
                         case SchematicElementType.OpenStub:
-                            transformer = new Complex32(0, -(Schematic.Elements[i].Impedance.Real * (float)Math.Tan(Schematic.Elements[i].Value)));
+                            transformer.Impedance = new Complex32(0, -(Schematic.Elements[i].Impedance.Real * (float)Math.Tan(Schematic.Elements[i].Value)));
                             break;
                         case SchematicElementType.ShortedStub:
-                            transformer = new Complex32(0, (Schematic.Elements[i].Impedance.Real * (float)Math.Tan(Schematic.Elements[i].Value)));
+                            transformer.Impedance = new Complex32(0, (Schematic.Elements[i].Impedance.Real * (float)Math.Tan(Schematic.Elements[i].Value)));
                             break;
                         case SchematicElementType.ImpedanceSerial:
-                            transformer = Schematic.Elements[i].Impedance;
-                            break;
                         case SchematicElementType.ImpedanceParallel:
-                            transformer = 1 / (Schematic.Elements[i].Impedance);
+                            transformer.Impedance = Schematic.Elements[i].Impedance;
                             break;
                         default:
-                            transformer = Complex32.Zero;
+                            transformer.Impedance = Complex32.Zero;
                             break;
                     }
-                    if (transformer == Complex32.Zero)
+                    if (transformer.Impedance == Complex32.Zero)
                     {
                         InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance));
                     }
@@ -112,7 +110,7 @@ namespace SmithChartToolLibrary
                             case SchematicElementType.CapacitorSerial:
                             case SchematicElementType.InductorSerial:
                             case SchematicElementType.ImpedanceSerial:
-                                InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance + transformer));
+                                InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Impedance + transformer.Impedance, SmithChartType.Impedance));
                                 break;
                             case SchematicElementType.ResistorParallel:
                             case SchematicElementType.CapacitorParallel:
@@ -120,7 +118,7 @@ namespace SmithChartToolLibrary
                             case SchematicElementType.ImpedanceParallel:
                             case SchematicElementType.OpenStub:
                             case SchematicElementType.ShortedStub:
-                                InputImpedances.Add(new InputImpedance(i, InputImpedances.Last().Admittance + transformer));
+                                InputImpedances.Add(new InputImpedance(i, Complex32.Reciprocal(InputImpedances.Last().Admittance + transformer.Admittance), SmithChartType.Admittance));
                                 break;
                             case SchematicElementType.TLine:
                                 InputImpedances.Add(new InputImpedance(i, 0));
