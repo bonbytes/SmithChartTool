@@ -204,6 +204,7 @@ namespace SmithChartToolLibrary
         {
             ChangeStatus(StatusType.Busy);
             Schematic.Clear();
+            Log.Clear();
             Project.Init();
             ChangeStatus(StatusType.Ready);
         }

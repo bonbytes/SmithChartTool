@@ -212,6 +212,9 @@ namespace SmithChartToolLibrary
         public void Clear()
         {
             Elements.Clear();
+            // create two Ports (initial setup)
+            this.InsertElement(0, SchematicElementType.Port, new Complex32(50, 0), 0);
+            this.InsertElement(1, SchematicElementType.Port, new Complex32(50, 0), 0);
             OnSchematicChanged();
         }
 

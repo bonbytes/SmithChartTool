@@ -25,7 +25,7 @@ namespace SmithChartToolLibrary
         Normal
     }
 
-    public class
+    public class SmithChart
     {
         public List<List<Complex32>> ConstRealCircles { get; private set; }
         public List<List<Complex32>> ConstImagCircles { get; private set; }
@@ -235,7 +235,8 @@ namespace SmithChartToolLibrary
                 }
                 else if(type == SmithChartType.Admittance)
                 {
-                    gamma = RF.GetConformalGammaValue(new Complex32((float)listReal[i], (float)listImaginary[i]), this.ReferenceImpedance.Admittance);
+                    Complex32 temp = Complex32.Reciprocal(new Complex32((float)listReal[i], (float)listImaginary[i]));
+                    gamma = RF.GetConformalGammaValue(temp, this.ReferenceImpedance.Admittance);
                     plotPoints.Add(gamma);
                 }  
             }

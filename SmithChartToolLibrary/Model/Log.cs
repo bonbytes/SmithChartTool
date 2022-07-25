@@ -49,5 +49,10 @@ namespace SmithChartToolLibrary
                     Lines.RemoveAt(0);
             }
         }
+
+        public void Clear()
+        {
+            Lines.Clear();
+        }
     }
 }
