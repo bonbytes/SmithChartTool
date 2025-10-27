@@ -167,7 +167,7 @@
 
         <Grid Margin="10" Background="{DynamicResource WindowBackground}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="240" MinWidth="210" />
+                <ColumnDefinition Width="210" MinWidth="210" />
                 <ColumnDefinition Width="5" MinWidth="5"/>
                 <ColumnDefinition Width="*" MinWidth="200"/>
             </Grid.ColumnDefinitions>
@@ -219,7 +219,7 @@
                             123
                         </Button>-->
 
-                        <ListView x:Name="InputImpedances" ItemsSource="{Binding InputImpedances}" av:ItemsSource="{av:SampleData ItemCount=5}" >
+                        <ListView x:Name="InputImpedances" ItemsSource="{Binding InputImpedances}" av:ItemsSource="{av:SampleData ItemCount=5}" Height="150" >
                             <ListView.View>
                                 <GridView ScrollViewer.VerticalScrollBarVisibility="Visible">
 
@@ -231,7 +231,7 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Circuit Elements">
-                    <ListBox util:DragDropHelper.IsDragSource="True" ItemsSource="{Binding AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" av:ItemsSource="{av:SampleData ItemCount=5}">
+                    <ListBox util:DragDropHelper.IsDragSource="True" ItemsSource="{Binding AvailableElements}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" av:ItemsSource="{av:SampleData ItemCount=10}">
                         <ListBox.Resources>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Template">
@@ -281,7 +281,7 @@
                 <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" Background="Transparent" />
 
                 <GroupBox  Grid.Row="2" Header="Schematic">
-                    <ListBox x:Name="lbSchematic"  IsHitTestVisible="True" Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True" ItemsSource="{Binding SchematicElements}">
+                    <ListBox x:Name="lbSchematic" ItemsSource="{Binding SchematicElements}" IsHitTestVisible="True" Width="auto" Background="White" AllowDrop="True" util:DragDropHelper.IsDropTarget ="True">
                         <ListBox.Resources>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Focusable" Value="True" />
